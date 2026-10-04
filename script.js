@@ -1069,33 +1069,45 @@ async function initSpectatorCounter() {
   const totalEl = document.getElementById('totalVisitsCount');
 
   const KEY = 'apuracao2026-kevin-live';
-  const API_URL = `https://countapi.mileshilliard.com/api/v1/hit/${KEY}`;
   
-  let totalVisits = parseInt(localStorage.getItem('tse_local_visits') || '1', 10);
+  // Evita contar a mesma pessoa repetidamente em cada F5 da mesma aba/sessão
+  const alreadyCountedInSession = sessionStorage.getItem('tse_session_counted') === 'true';
+  const endpoint = alreadyCountedInSession ? 'get' : 'hit';
+  const API_URL = `https://countapi.mileshilliard.com/api/v1/${endpoint}/${KEY}`;
+  
+  let totalVisits = 1;
 
   try {
     const res = await fetch(API_URL);
     if (res.ok) {
       const data = await res.json();
       if (data && typeof data.value === 'number') {
-        totalVisits = data.value;
+        totalVisits = Math.max(1, data.value);
+        sessionStorage.setItem('tse_session_counted', 'true');
         localStorage.setItem('tse_local_visits', totalVisits.toString());
       }
     }
   } catch (e) {
-    totalVisits++;
-    localStorage.setItem('tse_local_visits', totalVisits.toString());
+    totalVisits = parseInt(localStorage.getItem('tse_local_visits') || '1', 10);
+    if (!alreadyCountedInSession) {
+      totalVisits++;
+      sessionStorage.setItem('tse_session_counted', 'true');
+      localStorage.setItem('tse_local_visits', totalVisits.toString());
+    }
   }
 
   if (totalEl) {
-    totalEl.textContent = `${totalVisits.toLocaleString('pt-BR')} acessos`;
+    totalEl.textContent = `${totalVisits.toLocaleString('pt-BR')} ${totalVisits === 1 ? 'acesso' : 'acessos'}`;
   }
 
   function updateOnlineViewers() {
-    // Espectadores simultâneos calculados a partir dos acessos com oscilação natural de live
-    const baseOnline = Math.max(2, Math.round(Math.min(totalVisits, 8) + (totalVisits > 15 ? totalVisits * 0.12 : 0)));
-    const jitter = Math.floor(Math.random() * 3) - 1;
-    const currentOnline = Math.max(1, baseOnline + jitter);
+    // Espectadores simultâneos calculados de forma orgânica e realista
+    let currentOnline = 1;
+    if (totalVisits > 1) {
+      const baseOnline = Math.max(1, Math.round(Math.min(totalVisits, 6) + (totalVisits > 15 ? totalVisits * 0.12 : 0)));
+      const jitter = Math.floor(Math.random() * 3) - 1;
+      currentOnline = Math.max(1, baseOnline + jitter);
+    }
 
     if (onlineEl) {
       onlineEl.textContent = currentOnline.toLocaleString('pt-BR');
