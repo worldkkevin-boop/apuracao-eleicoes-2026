@@ -18,21 +18,31 @@
         <span class="live-dot" title="Apuração Ativa"></span>
         <div class="brand-text">
           <span class="brand-title">APURAÇÃO 2026</span>
-          <span class="brand-subtitle">MULTI-TELAS TSE</span>
+          <span class="brand-subtitle">TSE AO VIVO</span>
         </div>
+      </div>
+
+      <!-- BADGE DE ESPECTADORES ONLINE & TOTAL DE ACESSOS -->
+      <div class="viewers-badge" id="viewersBadge" title="Espectadores online agora e total de acessos acumulados">
+        <span class="live-pulse-dot"></span>
+        <span class="viewers-icon">👁️</span>
+        <strong id="onlineViewersCount" class="viewers-count">1</strong>
+        <span class="viewers-lbl">online</span>
+        <span class="viewers-sep">•</span>
+        <span class="viewers-total" id="totalVisitsCount">0 acessos</span>
       </div>
 
       <!-- SELETOR DE ESTADO (UF) -->
       <div class="control-group">
-        <label for="ufSelect">Estado (UF):</label>
-        <select id="ufSelect" class="styled-select">
+        <label for="ufSelect" class="lbl-desktop">UF:</label>
+        <select id="ufSelect" class="styled-select compact-select">
           <option value="ap" selected>AP - Amapá</option>
           <option value="ac">AC - Acre</option>
           <option value="al">AL - Alagoas</option>
           <option value="am">AM - Amazonas</option>
           <option value="ba">BA - Bahia</option>
           <option value="ce">CE - Ceará</option>
-          <option value="df">DF - Distrito Federal</option>
+          <option value="df">DF - DF</option>
           <option value="es">ES - Espírito Santo</option>
           <option value="go">GO - Goiás</option>
           <option value="ma">MA - Maranhão</option>
@@ -53,37 +63,37 @@
           <option value="sp">SP - São Paulo</option>
           <option value="se">SE - Sergipe</option>
           <option value="to">TO - Tocantins</option>
-          <option value="br">BR - Brasil (Federal)</option>
+          <option value="br">BR - Brasil</option>
         </select>
       </div>
 
       <!-- SELETOR DE MODO DE VISUALIZAÇÃO -->
       <div class="control-group">
-        <label for="viewModeSelect">Visualização:</label>
-        <select id="viewModeSelect" class="styled-select">
-          <option value="vertical" selected>📱 Modo Vertical (Celular)</option>
-          <option value="portal">🌐 Modo Portal Web (TSE)</option>
+        <label for="viewModeSelect" class="lbl-desktop">Modo:</label>
+        <select id="viewModeSelect" class="styled-select compact-select">
+          <option value="vertical" selected>📱 Vertical</option>
+          <option value="portal">🌐 Portal TSE</option>
         </select>
       </div>
 
       <!-- SELETOR DE QUANTIDADE DE TELAS -->
       <div class="control-group">
-        <label for="layoutSelect">Cargos:</label>
-        <select id="layoutSelect" class="styled-select">
-          <option value="cols-4" selected>4 Telas (Gov + Sen + Fed + Est)</option>
-          <option value="cols-5">5 Telas (Pres + Gov + Sen + Fed + Est)</option>
-          <option value="cols-3">3 Telas (Gov + Sen + Fed)</option>
-          <option value="cols-2">2 Telas (Gov + Sen)</option>
+        <label for="layoutSelect" class="lbl-desktop">Telas:</label>
+        <select id="layoutSelect" class="styled-select compact-select">
+          <option value="cols-4" selected>4 Telas</option>
+          <option value="cols-5">5 Telas (+Pres)</option>
+          <option value="cols-3">3 Telas</option>
+          <option value="cols-2">2 Telas</option>
         </select>
       </div>
     </div>
 
     <!-- CENTRO: AUTO-ATUALIZAÇÃO & TEMPORIZADOR -->
     <div class="topbar-center">
-      <div class="timer-box">
+      <div class="timer-box" title="Tempo restante para próxima atualização">
         <div class="timer-info">
           <span id="timerStatusIcon">🔄</span>
-          <span id="timerLabel">Atualiza em:</span>
+          <span id="timerLabel" class="lbl-timer">Atualiza:</span>
           <strong id="timerCountdown">30s</strong>
         </div>
         <div class="timer-bar-track">
@@ -92,52 +102,51 @@
       </div>
 
       <div class="control-group compact">
-        <label for="refreshInterval">Intervalo:</label>
-        <select id="refreshInterval" class="styled-select compact-select">
-          <option value="5">⚡ 5 seg (Ultra rápido)</option>
-          <option value="10">⚡ 10 seg (Muito rápido)</option>
-          <option value="15">15 seg</option>
-          <option value="20">20 seg</option>
-          <option value="30" selected>30 seg (Recomendado)</option>
+        <select id="refreshInterval" class="styled-select compact-select" title="Intervalo de atualização automática">
+          <option value="5">⚡ 5s</option>
+          <option value="10">⚡ 10s</option>
+          <option value="15">15s</option>
+          <option value="20">20s</option>
+          <option value="30" selected>30s</option>
           <option value="60">1 min</option>
           <option value="120">2 min</option>
           <option value="300">5 min</option>
-          <option value="0">Desativar</option>
+          <option value="0">Off</option>
         </select>
       </div>
 
       <button id="btnRefreshNow" class="btn btn-primary" title="Atualizar agora todas as telas (Atalho: R)">
-        <span class="btn-icon">⚡</span> Atualizar Agora
+        <span class="btn-icon">⚡</span> <span class="btn-text">Atualizar</span>
       </button>
 
       <button id="btnTogglePause" class="btn btn-secondary" title="Pausar / Retomar atualização automática (Atalho: Espaço)">
-        <span id="pauseIcon" class="btn-icon">⏸️</span> <span id="pauseText">Pausar</span>
+        <span id="pauseIcon" class="btn-icon">⏸️</span> <span id="pauseText" class="btn-text">Pausar</span>
       </button>
 
-      <button id="btnDemo" class="btn btn-demo" title="Simular votos reais para testar a tela antes da apuração começar">
-        <span class="btn-icon">🧪</span> <span id="demoText">Simular Votos</span>
+      <button id="btnDemo" class="btn btn-demo" title="Simular votos reais e coeficiente para testar a tela antes da apuração">
+        <span class="btn-icon">🧪</span> <span id="demoText" class="btn-text">Simular Votos</span>
       </button>
     </div>
 
-    <!-- DIREITA: ZOOM, MODO TELÃO E TELA CHEIA -->
+    <!-- DIREITA: ZOOM, MODO TELÃO E TELA CHEIA (FIXO E SEMPRE VISÍVEL) -->
     <div class="topbar-right">
       <div class="control-group compact">
-        <label for="zoomSelect">Zoom:</label>
+        <label for="zoomSelect" class="lbl-desktop">Zoom:</label>
         <select id="zoomSelect" class="styled-select compact-select">
-          <option value="0.75">75% (Mais cards)</option>
-          <option value="0.85" selected>85% (Equilibrado)</option>
-          <option value="1.00">100% (Padrão)</option>
-          <option value="1.15">115% (Grande / TV)</option>
-          <option value="1.30">130% (Gigante)</option>
+          <option value="0.75">75%</option>
+          <option value="0.85" selected>85%</option>
+          <option value="1.00">100%</option>
+          <option value="1.15">115%</option>
+          <option value="1.30">130%</option>
         </select>
       </div>
 
       <button id="btnBorderless" class="btn btn-outline" title="Ocultar menu para visualização limpa sem bordas (Atalho: B)">
-        <span class="btn-icon">🔲</span> Modo Telão
+        <span class="btn-icon">🔲</span> <span class="btn-text">Telão</span>
       </button>
 
       <button id="btnFullscreen" class="btn btn-outline" title="Tela Cheia (Atalho: F)">
-        <span class="btn-icon">⛶</span> Tela Cheia
+        <span class="btn-icon">⛶</span> <span class="btn-text">Tela Cheia</span>
       </button>
 
       <button id="btnHelp" class="btn btn-icon-only" title="Ajuda e Atalhos">

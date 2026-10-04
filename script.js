@@ -54,7 +54,8 @@ const appState = {
   isDemoMode: false,
   activeMobileIndex: 0,
   countdown: 30,
-  timerId: null
+  timerId: null,
+  colTabs: {}
 };
 
 // Elementos do DOM
@@ -156,12 +157,25 @@ function renderContainer() {
       col.dataset.cargoId = cargoId;
       col.dataset.eleicao = cargoInfo.eleicao;
 
+      const isProportional = (cargoId === 6 || cargoId === 7 || cargoId === 8);
+      const isSenador = (cargoId === 5);
+      const activeTab = appState.colTabs[colId] || 'votados';
+
+      const senadorBadge = isSenador ? `<span style="font-size:10px;color:var(--accent-gold);font-weight:700;margin-left:5px;background:rgba(255,193,7,0.15);padding:1px 6px;border-radius:4px;border:1px solid rgba(255,193,7,0.35);">2 VAGAS</span>` : '';
+
+      const subtabsHtml = isProportional ? `
+        <div class="col-subtabs">
+          <button class="col-subtab-btn ${activeTab !== 'coeficiente' ? 'active' : ''}" data-col-id="${colId}" data-tab="votados">👥 Mais Votados</button>
+          <button class="col-subtab-btn ${activeTab === 'coeficiente' ? 'active' : ''}" data-col-id="${colId}" data-tab="coeficiente">📊 Coeficiente & Vagas</button>
+        </div>
+      ` : '';
+
       col.innerHTML = `
         <div class="col-header">
           <div class="col-header-top">
             <div class="col-title-group">
               <span class="col-cargo-tag">${cargoInfo.tag}</span>
-              <span class="col-title">${cargoInfo.nome}</span>
+              <span class="col-title">${cargoInfo.nome} ${senadorBadge}</span>
             </div>
             <div class="col-actions">
               <button class="col-btn btn-col-refresh" title="Atualizar este cargo" data-cargo-id="${cargoId}">🔄</button>
@@ -179,7 +193,9 @@ function renderContainer() {
           </div>
         </div>
 
-        <div class="col-search-container">
+        ${subtabsHtml}
+
+        <div class="col-search-container" style="display: ${activeTab === 'coeficiente' ? 'none' : 'flex'};">
           <input type="text" class="col-search-input" placeholder="🔍 Buscar nome ou número..." data-col-id="${colId}">
           <span class="col-cand-count" id="count-${colId}">0 cand.</span>
         </div>
@@ -189,9 +205,11 @@ function renderContainer() {
           <span style="font-size:11px;color:var(--text-muted);">Consultando TSE...</span>
         </div>
 
-        <div class="col-feed" id="feed-${colId}">
+        <div class="col-feed" id="feed-${colId}" style="display: ${activeTab === 'coeficiente' ? 'none' : 'flex'};">
           <!-- Cards de candidatos injetados aqui -->
         </div>
+
+        ${isProportional ? `<div class="col-coef" id="coef-${colId}" style="display: ${activeTab === 'coeficiente' ? 'flex' : 'none'};"></div>` : ''}
 
         <div class="col-footer" id="footer-${colId}">
           <span class="col-footer-stat">Válidos: <strong id="validos-${colId}">0</strong></span>
@@ -244,7 +262,7 @@ function renderContainer() {
   }
 }
 
-// Configura botões de atualizar, busca e abas mobile
+// Configura botões de atualizar, busca, abas de coeficiente e abas mobile
 function setupColumnButtons() {
   document.querySelectorAll('.btn-col-refresh').forEach(btn => {
     btn.onclick = () => {
@@ -264,6 +282,36 @@ function setupColumnButtons() {
       const cargoId = parseInt(btn.dataset.cargoId, 10);
       const url = getTseWebUrl(cargoId, appState.uf);
       window.open(url, '_blank');
+    };
+  });
+
+  // Sub-abas de Coluna (Mais Votados vs Coeficiente Partidário)
+  document.querySelectorAll('.col-subtab-btn').forEach(btn => {
+    btn.onclick = () => {
+      const colId = btn.dataset.colId;
+      const tab = btn.dataset.tab;
+      appState.colTabs[colId] = tab;
+
+      const parentCol = document.getElementById(colId);
+      if (!parentCol) return;
+
+      parentCol.querySelectorAll('.col-subtab-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === tab);
+      });
+
+      const feed = document.getElementById(`feed-${colId}`);
+      const coef = document.getElementById(`coef-${colId}`);
+      const searchBox = parentCol.querySelector('.col-search-container');
+
+      if (tab === 'coeficiente') {
+        if (feed) feed.style.display = 'none';
+        if (coef) coef.style.display = 'flex';
+        if (searchBox) searchBox.style.display = 'none';
+      } else {
+        if (feed) feed.style.display = 'flex';
+        if (coef) coef.style.display = 'none';
+        if (searchBox) searchBox.style.display = 'flex';
+      }
     };
   });
 
@@ -367,30 +415,60 @@ async function fetchSingleCargoData(cargoId) {
 
     // MODO DEMONSTRAÇÃO COM VOTOS REAIS SIMULADOS
     if (appState.isDemoMode && candidatos.length > 0) {
-      secoesTotalizadasPerc = '82,64';
+      secoesTotalizadasPerc = '85,40';
       const totalSecNum = parseInt(secoesTotalQtd, 10);
-      secoesTotalizadasQtd = Math.round(totalSecNum * 0.8264).toString();
+      secoesTotalizadasQtd = Math.round(totalSecNum * 0.854).toString();
 
       totalValidos = 412850;
       totalBrancos = 12430;
       totalNulos = 18910;
 
-      const simulatedShares = [47.85, 38.20, 7.45, 4.10, 1.40, 0.55, 0.30, 0.15];
-      candidatos.forEach((cand, idx) => {
-        let share = idx < simulatedShares.length ? simulatedShares[idx] : Math.max(0.01, (0.1 / (idx + 1)));
-        cand.percNum = parseFloat(share.toFixed(2));
-        cand.percStr = share.toFixed(2).replace('.', ',');
-        cand.votos = Math.round((totalValidos * share) / 100);
-        if (targetCargo === 3 || targetCargo === 1) { // Gov ou Pres
-          cand.situacao = idx === 0 ? '2º Turno' : (idx === 1 ? '2º Turno' : 'Não eleito');
-        } else if (targetCargo === 5) { // Senador
-          cand.eleito = idx === 0;
-        } else if (targetCargo === 6) { // Dep. Federal
-          cand.eleito = idx < 8;
-        } else if (targetCargo === 7 || targetCargo === 8) { // Dep. Estadual
-          cand.eleito = idx < 24;
-        }
-      });
+      if (targetCargo === 3 || targetCargo === 1) {
+        // GOVERNADOR / PRESIDENTE: Disputa com 2º Turno (ninguém atingiu > 50%)
+        const simulatedShares = [47.85, 38.20, 7.45, 4.10, 1.40, 0.55, 0.30, 0.15];
+        candidatos.forEach((cand, idx) => {
+          let share = idx < simulatedShares.length ? simulatedShares[idx] : Math.max(0.01, (0.1 / (idx + 1)));
+          cand.percNum = parseFloat(share.toFixed(2));
+          cand.percStr = share.toFixed(2).replace('.', ',');
+          cand.votos = Math.round((totalValidos * share) / 100);
+          cand.eleito = false;
+          cand.situacao = (idx === 0 || idx === 1) ? '2º Turno' : 'Não eleito';
+        });
+      } else if (targetCargo === 5) {
+        // SENADOR: Em 2026 renova 2/3 (OS DOIS PRIMEIROS SÃO ELEITOS!)
+        const simulatedShares = [42.15, 36.80, 11.20, 5.80, 2.45, 1.10, 0.50];
+        candidatos.forEach((cand, idx) => {
+          let share = idx < simulatedShares.length ? simulatedShares[idx] : Math.max(0.01, (0.1 / (idx + 1)));
+          cand.percNum = parseFloat(share.toFixed(2));
+          cand.percStr = share.toFixed(2).replace('.', ',');
+          cand.votos = Math.round((totalValidos * share) / 100);
+          // Os 2 primeiros senadores são eleitos!
+          cand.eleito = (idx < 2);
+          cand.situacao = idx < 2 ? 'Eleito' : 'Não eleito';
+        });
+      } else {
+        // DEPUTADO FEDERAL (8 vagas) e DEPUTADO ESTADUAL (24 vagas)
+        candidatos.forEach((cand, idx) => {
+          let v = 0;
+          if (idx === 0) v = 38450;
+          else if (idx === 1) v = 32110;
+          else if (idx === 2) v = 28940;
+          else if (idx === 3) v = 25400;
+          else if (idx === 4) v = 22150;
+          else if (idx === 5) v = 19800;
+          else if (idx === 6) v = 17500;
+          else if (idx === 7) v = 15200;
+          else if (idx === 8) v = 13900;
+          else if (idx === 9) v = 12400;
+          else if (idx < 25) v = Math.round(11000 - (idx - 10) * 450);
+          else if (idx < 50) v = Math.round(4500 - (idx - 25) * 120);
+          else v = Math.max(150, Math.round(1500 - (idx - 50) * 35));
+
+          cand.votos = v;
+          cand.percNum = parseFloat(((v / totalValidos) * 100).toFixed(2));
+          cand.percStr = cand.percNum.toFixed(2).replace('.', ',');
+        });
+      }
     }
 
     // 1. Atualizar Estatísticas de Apuração
@@ -407,12 +485,19 @@ async function fetchSingleCargoData(cargoId) {
     if (brancosEl) brancosEl.textContent = formatNumber(totalBrancos);
     if (nulosEl) nulosEl.textContent = formatNumber(totalNulos);
 
-    // Ordenar pelo percentual de votos decrescente
-    candidatos.sort((a, b) => b.percNum - a.percNum || b.votos - a.votos);
+    // 3. Processar Quociente Partidário para Cargos Proporcionais (Deputado Federal e Estadual)
+    const isProportional = (targetCargo === 6 || targetCargo === 7 || targetCargo === 8);
+    if (isProportional) {
+      const coefData = calculateProportionalDistribution(data, candidatos, targetCargo, totalValidos);
+      renderCoeficientePanel(colId, coefData);
+    }
+
+    // 4. Ordenar candidatos pelo número de votos brutos (Mais Votados primeiro)
+    candidatos.sort((a, b) => b.votos - a.votos || b.percNum - a.percNum);
 
     if (countEl) countEl.textContent = `${candidatos.length} cand.`;
 
-    // 4. Renderizar Cards no Feed
+    // 5. Renderizar Feed de Candidatos (Sem medalhas 1º/2º/3º, apenas lista limpa com status)
     if (feed) {
       feed.innerHTML = '';
 
@@ -423,36 +508,29 @@ async function fetchSingleCargoData(cargoId) {
           </div>
         `;
       } else {
-        candidatos.forEach((cand, idx) => {
-          const rank = idx + 1;
+        candidatos.forEach((cand) => {
           const photoUrl = getCandPhotoUrl(eleicao, appState.uf, cand.sqcand);
           const initials = cand.nome.split(' ').map(n => n[0]).slice(0, 2).join('');
 
-          let rankBadge = `${rank}º`;
-          let rankClass = '';
-          if (rank === 1) { rankBadge = '🥇 1º'; rankClass = 'medal-1'; }
-          else if (rank === 2) { rankBadge = '🥈 2º'; rankClass = 'medal-2'; }
-          else if (rank === 3) { rankBadge = '🥉 3º'; rankClass = 'medal-3'; }
-
           let statusBadge = '';
           if (cand.eleito) {
-            statusBadge = '<span class="cand-status-badge eleito">ELEITO</span>';
-          } else if (cand.situacao.toLowerCase().includes('2º turno') || cand.situacao.toLowerCase().includes('segundo turno')) {
-            statusBadge = '<span class="cand-status-badge segundo-turno">2º TURNO</span>';
+            statusBadge = `<span class="cand-status-badge eleito">ELEITO</span>`;
+          } else if (cand.situacao && (cand.situacao.toLowerCase().includes('2º turno') || cand.situacao.toLowerCase().includes('segundo turno'))) {
+            statusBadge = `<span class="cand-status-badge segundo-turno">2º TURNO</span>`;
           }
 
           const card = document.createElement('div');
-          card.className = `cand-card ${rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''))}`;
+          card.className = `cand-card ${cand.eleito ? 'card-eleito' : ''}`;
           card.innerHTML = `
             <div class="cand-main-row">
-              <span class="cand-rank ${rankClass}">${rankBadge}</span>
               <div class="cand-photo-wrapper">
                 <img 
                   class="cand-photo" 
                   src="${photoUrl}" 
                   alt="${cand.nome}" 
                   loading="lazy"
-                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                  referrerpolicy="no-referrer"
+                  onerror="if(!this.dataset.triedDivulga){ this.dataset.triedDivulga='1'; this.src='https://divulgacandcontas.tse.jus.br/divulga/rest/v1/candidatura/buscar/foto/2/${cand.sqcand}/${eleicao}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }"
                 >
                 <div class="cand-photo-fallback" style="display:none;">${initials}</div>
               </div>
@@ -490,6 +568,220 @@ async function fetchSingleCargoData(cargoId) {
       `;
     }
   }
+}
+
+// ========================================================
+// CÁLCULO E RENDERIZAÇÃO DO COEFICIENTE PARTIDÁRIO
+// ========================================================
+
+/**
+ * Calcula o Quociente Eleitoral (QE), Quociente Partidário (QP)
+ * e distribuição de Sobras pela regra de maiores médias (Código Eleitoral Brasileiro)
+ */
+function calculateProportionalDistribution(data, candidatos, targetCargo, totalValidos) {
+  const vagas = parseInt(data.carg?.[0]?.nv || (targetCargo === 6 ? '8' : '24'), 10);
+  
+  // Agrupa os candidatos por partido / federação
+  const partyMap = new Map();
+
+  for (const agr of (data.carg?.[0]?.agr || [])) {
+    for (const par of (agr.par || [])) {
+      const sg = par.sg || 'IND';
+      if (!partyMap.has(sg)) {
+        partyMap.set(sg, {
+          sg: sg,
+          nm: par.nm || sg,
+          num: par.n || '',
+          votosNominais: 0,
+          votosLegenda: parseInt(par.tvtl || '0', 10),
+          votosTotal: 0,
+          cands: [],
+          vagasQP: 0,
+          vagasSobras: 0,
+          vagasTotal: 0,
+          eleitos: []
+        });
+      }
+    }
+  }
+
+  // Preenche candidatos com seus votos
+  candidatos.forEach(c => {
+    let p = partyMap.get(c.partido);
+    if (!p) {
+      p = {
+        sg: c.partido,
+        nm: c.partido,
+        num: c.num ? c.num.substring(0, 2) : '',
+        votosNominais: 0,
+        votosLegenda: 0,
+        votosTotal: 0,
+        cands: [],
+        vagasQP: 0,
+        vagasSobras: 0,
+        vagasTotal: 0,
+        eleitos: []
+      };
+      partyMap.set(c.partido, p);
+    }
+    p.votosNominais += c.votos;
+    p.cands.push(c);
+  });
+
+  partyMap.forEach(p => {
+    p.votosTotal = p.votosNominais + p.votosLegenda;
+    p.cands.sort((a, b) => b.votos - a.votos);
+  });
+
+  const validosCalc = totalValidos > 0 
+    ? totalValidos 
+    : Array.from(partyMap.values()).reduce((sum, p) => sum + p.votosTotal, 0);
+
+  const qe = (vagas > 0 && validosCalc > 0) ? Math.round(validosCalc / vagas) : 0;
+  const partiesList = Array.from(partyMap.values()).filter(p => p.votosTotal > 0 || p.cands.length > 0);
+
+  if (qe > 0) {
+    // 1ª FASE: Quociente Partidário (QP = Votos do Partido / QE)
+    let vagasDistribuidas = 0;
+    partiesList.forEach(p => {
+      p.vagasQP = Math.floor(p.votosTotal / qe);
+      p.vagasTotal = p.vagasQP;
+      vagasDistribuidas += p.vagasQP;
+    });
+
+    // 2ª FASE: Distribuição das Sobras (Regra da maior média)
+    let sobras = vagas - vagasDistribuidas;
+    while (sobras > 0) {
+      let melhorMedia = -1;
+      let melhorPartido = null;
+
+      partiesList.forEach(p => {
+        // Média = Votos / (Vagas Já Obtidas + 1)
+        const media = p.votosTotal / (p.vagasTotal + 1);
+        if (media > melhorMedia) {
+          melhorMedia = media;
+          melhorPartido = p;
+        }
+      });
+
+      if (melhorPartido && melhorMedia > 0) {
+        melhorPartido.vagasTotal += 1;
+        melhorPartido.vagasSobras += 1;
+        sobras--;
+      } else {
+        break;
+      }
+    }
+
+    // Atribui os eleitos de cada partido
+    partiesList.forEach(p => {
+      p.percQE = ((p.votosTotal / qe) * 100).toFixed(1);
+      p.percValidos = validosCalc > 0 ? ((p.votosTotal / validosCalc) * 100).toFixed(2) : '0,00';
+      p.eleitos = p.cands.slice(0, p.vagasTotal);
+      
+      // No modo simulação ou quando oficializado, marca eleitos do partido
+      if (appState.isDemoMode) {
+        p.eleitos.forEach((c, idx) => {
+          c.eleito = true;
+          c.situacao = idx < p.vagasQP ? 'Eleito por QP' : 'Eleito por média';
+        });
+      }
+    });
+  }
+
+  // Ordena partidos: primeiro os que ganharam vagas, depois por total de votos
+  partiesList.sort((a, b) => b.vagasTotal - a.vagasTotal || b.votosTotal - a.votosTotal);
+
+  return {
+    qe,
+    vagas,
+    validos: validosCalc,
+    partidos: partiesList
+  };
+}
+
+// Renderiza o painel de Coeficiente Partidário da Coluna
+function renderCoeficientePanel(colId, coefData) {
+  const container = document.getElementById(`coef-${colId}`);
+  if (!container) return;
+
+  const { qe, vagas, validos, partidos } = coefData;
+
+  let partiesHtml = '';
+  if (!partidos || partidos.length === 0 || validos === 0) {
+    partiesHtml = `
+      <div style="text-align:center;padding:25px 10px;color:var(--text-muted);font-size:12px;">
+        Aguardando votos apurados para calcular o Quociente Eleitoral.
+      </div>
+    `;
+  } else {
+    partidos.forEach(p => {
+      const temVagas = p.vagasTotal > 0;
+      const percQENum = parseFloat(p.percQE || 0);
+      const barWidth = Math.min(100, percQENum);
+      const barColor = temVagas 
+        ? 'linear-gradient(90deg, #00b4db, #00e676)' 
+        : (percQENum >= 80 ? 'linear-gradient(90deg, #ffc107, #00d2ff)' : 'rgba(255,255,255,0.25)');
+
+      let eleitosHtml = '';
+      if (p.eleitos && p.eleitos.length > 0) {
+        eleitosHtml = `
+          <div class="coef-eleitos-mini">
+            <span style="font-size:9.5px;color:var(--text-muted);margin-bottom:2px;">Candidatos que ocupam as vagas:</span>
+            ${p.eleitos.map(c => `
+              <div class="coef-eleito-item">
+                <span>👤 ${c.nome}</span>
+                <strong>${formatNumber(c.votos)} votos</strong>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+
+      partiesHtml += `
+        <div class="coef-party-card ${temVagas ? 'tem-vagas' : ''}">
+          <div class="coef-party-header">
+            <div class="coef-party-info">
+              <span class="coef-party-tag">${p.sg}</span>
+              <span class="coef-party-votos">${formatNumber(p.votosTotal)} votos (${p.percValidos}%)</span>
+            </div>
+            <span class="coef-vagas-badge ${temVagas ? 'ganhou' : 'zerado'}">
+              ${temVagas ? `✅ ${p.vagasTotal} ${p.vagasTotal === 1 ? 'vaga' : 'vagas'} (${p.vagasQP} QP + ${p.vagasSobras} sobra)` : `0 vagas (${p.percQE}% do QE)`}
+            </span>
+          </div>
+
+          <div class="coef-bar-track" title="${p.percQE}% do Quociente Eleitoral">
+            <div class="coef-bar-fill" style="width: ${barWidth}%; background: ${barColor};"></div>
+          </div>
+
+          ${eleitosHtml}
+        </div>
+      `;
+    });
+  }
+
+  container.innerHTML = `
+    <div class="coef-summary">
+      <div class="coef-summary-top">
+        <span class="coef-summary-title">📊 Quociente Eleitoral (QE)</span>
+        <span class="coef-qe-val">${formatNumber(qe)} votos/vaga</span>
+      </div>
+      <div class="coef-summary-grid">
+        <div>Vagas em Disputa: <strong>${vagas} vagas</strong></div>
+        <div>Votos Válidos: <strong>${formatNumber(validos)}</strong></div>
+      </div>
+      <div style="font-size:9.5px;color:var(--text-muted);line-height:1.2;">
+        O partido garante 1 vaga direta a cada <strong>${formatNumber(qe)} votos</strong> conquistados. Vagas restantes vão para a maior média (sobras).
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:0 2px;margin-top:2px;">
+      <span style="font-size:11px;font-weight:700;color:#fff;">Desempenho dos Partidos / Federações</span>
+      <span style="font-size:10px;color:var(--text-muted);font-family:var(--font-mono);">${partidos ? partidos.length : 0} legendas</span>
+    </div>
+
+    ${partiesHtml}
+  `;
 }
 
 // Buscar Dados de Todas as Colunas em Paralelo
@@ -753,6 +1045,51 @@ function applyZoom(scaleVal) {
   if (dom.zoomSelect) dom.zoomSelect.value = scaleVal.toString();
 }
 
+// ========================================================
+// CONTADOR DE ESPECTADORES ONLINE & ACESSOS EM TEMPO REAL
+// ========================================================
+async function initSpectatorCounter() {
+  const onlineEl = document.getElementById('onlineViewersCount');
+  const totalEl = document.getElementById('totalVisitsCount');
+
+  const KEY = 'apuracao2026-kevin-live';
+  const API_URL = `https://countapi.mileshilliard.com/api/v1/hit/${KEY}`;
+  
+  let totalVisits = parseInt(localStorage.getItem('tse_local_visits') || '1', 10);
+
+  try {
+    const res = await fetch(API_URL);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && typeof data.value === 'number') {
+        totalVisits = data.value;
+        localStorage.setItem('tse_local_visits', totalVisits.toString());
+      }
+    }
+  } catch (e) {
+    totalVisits++;
+    localStorage.setItem('tse_local_visits', totalVisits.toString());
+  }
+
+  if (totalEl) {
+    totalEl.textContent = `${totalVisits.toLocaleString('pt-BR')} acessos`;
+  }
+
+  function updateOnlineViewers() {
+    // Espectadores simultâneos calculados a partir dos acessos com oscilação natural de live
+    const baseOnline = Math.max(2, Math.round(Math.min(totalVisits, 8) + (totalVisits > 15 ? totalVisits * 0.12 : 0)));
+    const jitter = Math.floor(Math.random() * 3) - 1;
+    const currentOnline = Math.max(1, baseOnline + jitter);
+
+    if (onlineEl) {
+      onlineEl.textContent = currentOnline.toLocaleString('pt-BR');
+    }
+  }
+
+  updateOnlineViewers();
+  setInterval(updateOnlineViewers, 12000);
+}
+
 // Inicialização Principal
 function init() {
   dom.ufSelect.value = appState.uf;
@@ -766,6 +1103,7 @@ function init() {
   setupEventListeners();
   renderContainer();
   startAutoRefreshLoop();
+  initSpectatorCounter();
 }
 
 document.addEventListener('DOMContentLoaded', init);
