@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Multi-Telas | Apuração Eleições 2026</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- BARRA DE CONTROLE SUPERIOR -->
+  <header id="topbar" class="topbar">
+    <div class="topbar-left">
+      <div class="brand">
+        <span class="live-dot" title="Apuração Ativa"></span>
+        <div class="brand-text">
+          <span class="brand-title">APURAÇÃO 2026</span>
+          <span class="brand-subtitle">MULTI-TELAS TSE</span>
+        </div>
+      </div>
+
+      <!-- SELETOR DE ESTADO (UF) -->
+      <div class="control-group">
+        <label for="ufSelect">Estado (UF):</label>
+        <select id="ufSelect" class="styled-select">
+          <option value="ap" selected>AP - Amapá</option>
+          <option value="ac">AC - Acre</option>
+          <option value="al">AL - Alagoas</option>
+          <option value="am">AM - Amazonas</option>
+          <option value="ba">BA - Bahia</option>
+          <option value="ce">CE - Ceará</option>
+          <option value="df">DF - Distrito Federal</option>
+          <option value="es">ES - Espírito Santo</option>
+          <option value="go">GO - Goiás</option>
+          <option value="ma">MA - Maranhão</option>
+          <option value="mt">MT - Mato Grosso</option>
+          <option value="ms">MS - Mato Grosso do Sul</option>
+          <option value="mg">MG - Minas Gerais</option>
+          <option value="pa">PA - Pará</option>
+          <option value="pb">PB - Paraíba</option>
+          <option value="pr">PR - Paraná</option>
+          <option value="pe">PE - Pernambuco</option>
+          <option value="pi">PI - Piauí</option>
+          <option value="rj">RJ - Rio de Janeiro</option>
+          <option value="rn">RN - Rio Grande do Norte</option>
+          <option value="rs">RS - Rio Grande do Sul</option>
+          <option value="ro">RO - Rondônia</option>
+          <option value="rr">RR - Roraima</option>
+          <option value="sc">SC - Santa Catarina</option>
+          <option value="sp">SP - São Paulo</option>
+          <option value="se">SE - Sergipe</option>
+          <option value="to">TO - Tocantins</option>
+          <option value="br">BR - Brasil (Federal)</option>
+        </select>
+      </div>
+
+      <!-- SELETOR DE MODO DE VISUALIZAÇÃO -->
+      <div class="control-group">
+        <label for="viewModeSelect">Visualização:</label>
+        <select id="viewModeSelect" class="styled-select">
+          <option value="vertical" selected>📱 Modo Vertical (Celular)</option>
+          <option value="portal">🌐 Modo Portal Web (TSE)</option>
+        </select>
+      </div>
+
+      <!-- SELETOR DE QUANTIDADE DE TELAS -->
+      <div class="control-group">
+        <label for="layoutSelect">Cargos:</label>
+        <select id="layoutSelect" class="styled-select">
+          <option value="cols-4" selected>4 Telas (Gov + Sen + Fed + Est)</option>
+          <option value="cols-5">5 Telas (Pres + Gov + Sen + Fed + Est)</option>
+          <option value="cols-3">3 Telas (Gov + Sen + Fed)</option>
+          <option value="cols-2">2 Telas (Gov + Sen)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- CENTRO: AUTO-ATUALIZAÇÃO & TEMPORIZADOR -->
+    <div class="topbar-center">
+      <div class="timer-box">
+        <div class="timer-info">
+          <span id="timerStatusIcon">🔄</span>
+          <span id="timerLabel">Atualiza em:</span>
+          <strong id="timerCountdown">30s</strong>
+        </div>
+        <div class="timer-bar-track">
+          <div id="timerProgressBar" class="timer-bar-fill"></div>
+        </div>
+      </div>
+
+      <div class="control-group compact">
+        <label for="refreshInterval">Intervalo:</label>
+        <select id="refreshInterval" class="styled-select compact-select">
+          <option value="5">⚡ 5 seg (Ultra rápido)</option>
+          <option value="10">⚡ 10 seg (Muito rápido)</option>
+          <option value="15">15 seg</option>
+          <option value="20">20 seg</option>
+          <option value="30" selected>30 seg (Recomendado)</option>
+          <option value="60">1 min</option>
+          <option value="120">2 min</option>
+          <option value="300">5 min</option>
+          <option value="0">Desativar</option>
+        </select>
+      </div>
+
+      <button id="btnRefreshNow" class="btn btn-primary" title="Atualizar agora todas as telas (Atalho: R)">
+        <span class="btn-icon">⚡</span> Atualizar Agora
+      </button>
+
+      <button id="btnTogglePause" class="btn btn-secondary" title="Pausar / Retomar atualização automática (Atalho: Espaço)">
+        <span id="pauseIcon" class="btn-icon">⏸️</span> <span id="pauseText">Pausar</span>
+      </button>
+    </div>
+
+    <!-- DIREITA: ZOOM, MODO TELÃO E TELA CHEIA -->
+    <div class="topbar-right">
+      <div class="control-group compact">
+        <label for="zoomSelect">Zoom:</label>
+        <select id="zoomSelect" class="styled-select compact-select">
+          <option value="0.75">75% (Mais cards)</option>
+          <option value="0.85" selected>85% (Equilibrado)</option>
+          <option value="1.00">100% (Padrão)</option>
+          <option value="1.15">115% (Grande / TV)</option>
+          <option value="1.30">130% (Gigante)</option>
+        </select>
+      </div>
+
+      <button id="btnBorderless" class="btn btn-outline" title="Ocultar menu para visualização limpa sem bordas (Atalho: B)">
+        <span class="btn-icon">🔲</span> Modo Telão
+      </button>
+
+      <button id="btnFullscreen" class="btn btn-outline" title="Tela Cheia (Atalho: F)">
+        <span class="btn-icon">⛶</span> Tela Cheia
+      </button>
+
+      <button id="btnHelp" class="btn btn-icon-only" title="Ajuda e Atalhos">
+        ❓
+      </button>
+    </div>
+
+    <!-- ABINHA FLUTUANTE PARA MOSTRAR O MENU QUANDO ESTIVER NO MODO TELÃO -->
+    <div id="topbarRevealTrigger" class="topbar-reveal-trigger" title="Passe o mouse ou clique para mostrar o menu">
+      <span class="trigger-pill">▼ Menu / Controles</span>
+    </div>
+  </header>
+
+  <!-- CONTAINER PRINCIPAL DO MOSAICO DE TELAS VERTICAIS -->
+  <main id="screensContainer" class="screens-grid vertical-mode cols-4">
+    <!-- As colunas verticais são injetadas dinamicamente pelo script.js -->
+  </main>
+
+  <!-- MODAL DE CONFIGURAÇÃO / AJUDA -->
+  <div id="helpModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Painel Multi-Telas das Eleições 2026</h3>
+        <button id="btnCloseHelp" class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Acompanhe simultaneamente os resultados de múltiplos cargos da apuração oficial do TSE na mesma tela em tempo real, sem interferência entre as janelas.</p>
+        
+        <h4>📱 Modo Vertical (Estilo Celular):</h4>
+        <ul>
+          <li>Exibe 4 telas independentes verticais lado a lado com fotos oficiais dos candidatos, votos, porcentagens e barras de progresso.</li>
+          <li>Cada coluna fica <strong>100% fixa e bloqueada no seu cargo</strong> (Governador, Senador, Deputado Federal, Deputado Estadual).</li>
+          <li>Mesmo dando F5 ou atualizando automaticamente, cada coluna mantém o seu cargo correto sem alterar as outras!</li>
+        </ul>
+
+        <h4>⌨️ Atalhos de Teclado:</h4>
+        <div class="shortcuts-grid">
+          <div><kbd>R</kbd> Atualizar agora</div>
+          <div><kbd>Espaço</kbd> Pausar / Continuar</div>
+          <div><kbd>B</kbd> Alternar Modo Telão</div>
+          <div><kbd>F</kbd> Alternar Tela Cheia</div>
+          <div><kbd>1</kbd> a <kbd>4</kbd> Alternar quantidade de telas</div>
+          <div><kbd>ESC</kbd> Fechar tela cheia / menu</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="btnDismissHelp" class="btn btn-primary">Entendido!</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
