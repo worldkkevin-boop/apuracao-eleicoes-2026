@@ -51,6 +51,8 @@ const appState = {
   refreshInterval: parseInt(localStorage.getItem('tse_interval') || '30', 10),
   zoom: parseFloat(localStorage.getItem('tse_zoom') || '0.85'),
   isPaused: false,
+  isDemoMode: false,
+  activeMobileIndex: 0,
   countdown: 30,
   timerId: null
 };
@@ -64,6 +66,8 @@ const dom = {
   zoomSelect: document.getElementById('zoomSelect'),
   btnRefreshNow: document.getElementById('btnRefreshNow'),
   btnTogglePause: document.getElementById('btnTogglePause'),
+  btnDemo: document.getElementById('btnDemo'),
+  demoText: document.getElementById('demoText'),
   pauseIcon: document.getElementById('pauseIcon'),
   pauseText: document.getElementById('pauseText'),
   timerCountdown: document.getElementById('timerCountdown'),
@@ -75,6 +79,7 @@ const dom = {
   btnHelp: document.getElementById('btnHelp'),
   topbarRevealTrigger: document.getElementById('topbarRevealTrigger'),
   topbar: document.getElementById('topbar'),
+  mobileTabs: document.getElementById('mobileTabs'),
   screensContainer: document.getElementById('screensContainer'),
   helpModal: document.getElementById('helpModal'),
   btnCloseHelp: document.getElementById('btnCloseHelp'),
@@ -124,6 +129,8 @@ function renderContainer() {
   container.innerHTML = '';
   container.className = `screens-grid ${appState.layout} ${appState.viewMode}-mode`;
 
+  if (dom.mobileTabs) dom.mobileTabs.innerHTML = '';
+
   const colsConfig = LAYOUT_PRESETS[appState.layout] || LAYOUT_PRESETS['cols-4'];
 
   colsConfig.forEach((cfg, index) => {
@@ -132,10 +139,19 @@ function renderContainer() {
     const cargoInfo = TSE_CONFIG.CARGOS[cargoId] || { nome: cfg.titulo, tag: 'ELE', eleicao: '6259' };
     const colId = `col-${cargoId}`;
 
+    // Cria Aba Mobile correspondente
+    if (dom.mobileTabs) {
+      const tabBtn = document.createElement('button');
+      tabBtn.className = `mobile-tab-btn ${index === appState.activeMobileIndex ? 'active' : ''}`;
+      tabBtn.dataset.colIdx = index;
+      tabBtn.innerHTML = `${cargoInfo.tag} • ${cargoInfo.nome.split(' ')[0]}`;
+      dom.mobileTabs.appendChild(tabBtn);
+    }
+
     if (appState.viewMode === 'vertical') {
       // MODO VERTICAL / CELULAR
       const col = document.createElement('div');
-      col.className = 'vertical-col';
+      col.className = `vertical-col ${index === appState.activeMobileIndex ? 'mobile-active' : ''}`;
       col.id = colId;
       col.dataset.cargoId = cargoId;
       col.dataset.eleicao = cargoInfo.eleicao;
@@ -163,6 +179,11 @@ function renderContainer() {
           </div>
         </div>
 
+        <div class="col-search-container">
+          <input type="text" class="col-search-input" placeholder="🔍 Buscar nome ou número..." data-col-id="${colId}">
+          <span class="col-cand-count" id="count-${colId}">0 cand.</span>
+        </div>
+
         <div class="col-loading-overlay" id="loading-${colId}">
           <div class="spinner"></div>
           <span style="font-size:11px;color:var(--text-muted);">Consultando TSE...</span>
@@ -183,7 +204,7 @@ function renderContainer() {
     } else {
       // MODO PORTAL WEB (IFRAME)
       const col = document.createElement('div');
-      col.className = 'vertical-col';
+      col.className = `vertical-col ${index === appState.activeMobileIndex ? 'mobile-active' : ''}`;
       col.id = colId;
       const webUrl = getTseWebUrl(cargoId, appState.uf);
 
@@ -214,7 +235,7 @@ function renderContainer() {
     }
   });
 
-  // Configura botões individuais
+  // Configura botões individuais, busca e abas
   setupColumnButtons();
 
   // Carrega os dados se estiver no modo vertical
@@ -223,7 +244,7 @@ function renderContainer() {
   }
 }
 
-// Configura botões de atualizar e link externo de cada coluna
+// Configura botões de atualizar, busca e abas mobile
 function setupColumnButtons() {
   document.querySelectorAll('.btn-col-refresh').forEach(btn => {
     btn.onclick = () => {
@@ -245,6 +266,45 @@ function setupColumnButtons() {
       window.open(url, '_blank');
     };
   });
+
+  // Abas Mobile
+  document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+    btn.onclick = () => {
+      const idx = parseInt(btn.dataset.colIdx, 10);
+      appState.activeMobileIndex = idx;
+      document.querySelectorAll('.mobile-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.vertical-col').forEach((col, cIdx) => {
+        if (cIdx === idx) {
+          col.classList.add('mobile-active');
+        } else {
+          col.classList.remove('mobile-active');
+        }
+      });
+    };
+  });
+
+  // Busca e Filtro de Candidatos em Tempo Real
+  document.querySelectorAll('.col-search-input').forEach(input => {
+    input.oninput = (e) => {
+      const colId = e.target.dataset.colId;
+      const term = e.target.value.toLowerCase().trim();
+      const feed = document.getElementById(`feed-${colId}`);
+      if (!feed) return;
+      let visibleCount = 0;
+      feed.querySelectorAll('.cand-card').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (!term || text.includes(term)) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      const countEl = document.getElementById(`count-${colId}`);
+      if (countEl) countEl.textContent = `${visibleCount} cand.`;
+    };
+  });
 }
 
 // Buscar Dados de um Cargo Específico e Atualizar sua Coluna
@@ -263,6 +323,7 @@ async function fetchSingleCargoData(cargoId) {
   const validosEl = document.getElementById(`validos-${colId}`);
   const brancosEl = document.getElementById(`brancos-${colId}`);
   const nulosEl = document.getElementById(`nulos-${colId}`);
+  const countEl = document.getElementById(`count-${colId}`);
 
   try {
     const url = getTseJsonUrl(targetCargo, appState.uf);
@@ -273,25 +334,14 @@ async function fetchSingleCargoData(cargoId) {
 
     const data = await resp.json();
 
-    // 1. Atualizar Estatísticas de Apuração
-    const secoesTotalizadasPerc = data.s?.pst || '0,00';
-    const secoesTotalizadasQtd = data.s?.st || '0';
-    const secoesTotalQtd = data.s?.ts || '0';
+    let secoesTotalizadasPerc = data.s?.pst || '0,00';
+    let secoesTotalizadasQtd = data.s?.st || '0';
+    let secoesTotalQtd = data.s?.ts || '1914';
 
-    if (apuracaoVal) {
-      apuracaoVal.textContent = `${secoesTotalizadasPerc}% (${formatNumber(secoesTotalizadasQtd)}/${formatNumber(secoesTotalizadasQtd === '0' ? secoesTotalQtd : secoesTotalQtd)})`;
-    }
-    if (apuracaoFill) {
-      const cleanPerc = parseFloat(secoesTotalizadasPerc.replace(',', '.')) || 0;
-      apuracaoFill.style.width = `${Math.min(100, cleanPerc)}%`;
-    }
+    let totalValidos = parseInt(data.v?.vv || '0', 10);
+    let totalBrancos = parseInt(data.v?.vb || '0', 10);
+    let totalNulos = parseInt(data.v?.vn || '0', 10);
 
-    // 2. Atualizar Rodapé (Votos)
-    if (validosEl) validosEl.textContent = formatNumber(data.v?.vv || 0);
-    if (brancosEl) brancosEl.textContent = formatNumber(data.v?.vb || 0);
-    if (nulosEl) nulosEl.textContent = formatNumber(data.v?.vn || 0);
-
-    // 3. Extrair e Processar Candidatos
     const candidatos = [];
     const eleicao = data.ele || '6259';
 
@@ -315,8 +365,52 @@ async function fetchSingleCargoData(cargoId) {
       }
     }
 
+    // MODO DEMONSTRAÇÃO COM VOTOS REAIS SIMULADOS
+    if (appState.isDemoMode && candidatos.length > 0) {
+      secoesTotalizadasPerc = '82,64';
+      const totalSecNum = parseInt(secoesTotalQtd, 10);
+      secoesTotalizadasQtd = Math.round(totalSecNum * 0.8264).toString();
+
+      totalValidos = 412850;
+      totalBrancos = 12430;
+      totalNulos = 18910;
+
+      const simulatedShares = [47.85, 38.20, 7.45, 4.10, 1.40, 0.55, 0.30, 0.15];
+      candidatos.forEach((cand, idx) => {
+        let share = idx < simulatedShares.length ? simulatedShares[idx] : Math.max(0.01, (0.1 / (idx + 1)));
+        cand.percNum = parseFloat(share.toFixed(2));
+        cand.percStr = share.toFixed(2).replace('.', ',');
+        cand.votos = Math.round((totalValidos * share) / 100);
+        if (targetCargo === 3 || targetCargo === 1) { // Gov ou Pres
+          cand.situacao = idx === 0 ? '2º Turno' : (idx === 1 ? '2º Turno' : 'Não eleito');
+        } else if (targetCargo === 5) { // Senador
+          cand.eleito = idx === 0;
+        } else if (targetCargo === 6) { // Dep. Federal
+          cand.eleito = idx < 8;
+        } else if (targetCargo === 7 || targetCargo === 8) { // Dep. Estadual
+          cand.eleito = idx < 24;
+        }
+      });
+    }
+
+    // 1. Atualizar Estatísticas de Apuração
+    if (apuracaoVal) {
+      apuracaoVal.textContent = `${secoesTotalizadasPerc}% (${formatNumber(secoesTotalizadasQtd)}/${formatNumber(secoesTotalQtd)})`;
+    }
+    if (apuracaoFill) {
+      const cleanPerc = parseFloat(secoesTotalizadasPerc.replace(',', '.')) || 0;
+      apuracaoFill.style.width = `${Math.min(100, cleanPerc)}%`;
+    }
+
+    // 2. Atualizar Rodapé (Votos)
+    if (validosEl) validosEl.textContent = formatNumber(totalValidos);
+    if (brancosEl) brancosEl.textContent = formatNumber(totalBrancos);
+    if (nulosEl) nulosEl.textContent = formatNumber(totalNulos);
+
     // Ordenar pelo percentual de votos decrescente
     candidatos.sort((a, b) => b.percNum - a.percNum || b.votos - a.votos);
+
+    if (countEl) countEl.textContent = `${candidatos.length} cand.`;
 
     // 4. Renderizar Cards no Feed
     if (feed) {
@@ -334,6 +428,12 @@ async function fetchSingleCargoData(cargoId) {
           const photoUrl = getCandPhotoUrl(eleicao, appState.uf, cand.sqcand);
           const initials = cand.nome.split(' ').map(n => n[0]).slice(0, 2).join('');
 
+          let rankBadge = `${rank}º`;
+          let rankClass = '';
+          if (rank === 1) { rankBadge = '🥇 1º'; rankClass = 'medal-1'; }
+          else if (rank === 2) { rankBadge = '🥈 2º'; rankClass = 'medal-2'; }
+          else if (rank === 3) { rankBadge = '🥉 3º'; rankClass = 'medal-3'; }
+
           let statusBadge = '';
           if (cand.eleito) {
             statusBadge = '<span class="cand-status-badge eleito">ELEITO</span>';
@@ -342,10 +442,10 @@ async function fetchSingleCargoData(cargoId) {
           }
 
           const card = document.createElement('div');
-          card.className = `cand-card ${rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : '')}`;
+          card.className = `cand-card ${rank === 1 ? 'rank-1' : (rank === 2 ? 'rank-2' : (rank === 3 ? 'rank-3' : ''))}`;
           card.innerHTML = `
             <div class="cand-main-row">
-              <span class="cand-rank">${rank}º</span>
+              <span class="cand-rank ${rankClass}">${rankBadge}</span>
               <div class="cand-photo-wrapper">
                 <img 
                   class="cand-photo" 
@@ -554,6 +654,10 @@ function setupEventListeners() {
   dom.btnBorderless.addEventListener('click', toggleBorderlessMode);
   dom.btnFullscreen.addEventListener('click', toggleFullscreen);
 
+  if (dom.btnDemo) {
+    dom.btnDemo.addEventListener('click', toggleDemoMode);
+  }
+
   // Gatilho de revelar menu no modo Telão
   dom.topbarRevealTrigger.addEventListener('click', () => {
     dom.topbar.classList.toggle('revealed');
@@ -624,6 +728,21 @@ function setupEventListeners() {
       dom.btnFullscreen.innerHTML = '<span class="btn-icon">🗗</span> Sair Tela Cheia';
     }
   });
+}
+
+// Alternar Modo Demonstração (Simular Votos)
+function toggleDemoMode() {
+  appState.isDemoMode = !appState.isDemoMode;
+  if (appState.isDemoMode) {
+    if (dom.btnDemo) dom.btnDemo.classList.add('active');
+    if (dom.demoText) dom.demoText.textContent = '🟢 Dados Oficiais';
+    if (dom.btnDemo) dom.btnDemo.title = 'Clique para voltar aos dados oficiais zerados do TSE';
+  } else {
+    if (dom.btnDemo) dom.btnDemo.classList.remove('active');
+    if (dom.demoText) dom.demoText.textContent = '🧪 Simular Votos';
+    if (dom.btnDemo) dom.btnDemo.title = 'Simular votos reais para testar a tela antes da apuração começar';
+  }
+  fetchAllColumnsData();
 }
 
 // Aplicar Escala de Zoom na Interface

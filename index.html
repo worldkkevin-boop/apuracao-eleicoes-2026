@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -113,6 +113,10 @@
       <button id="btnTogglePause" class="btn btn-secondary" title="Pausar / Retomar atualização automática (Atalho: Espaço)">
         <span id="pauseIcon" class="btn-icon">⏸️</span> <span id="pauseText">Pausar</span>
       </button>
+
+      <button id="btnDemo" class="btn btn-demo" title="Simular votos reais para testar a tela antes da apuração começar">
+        <span class="btn-icon">🧪</span> <span id="demoText">Simular Votos</span>
+      </button>
     </div>
 
     <!-- DIREITA: ZOOM, MODO TELÃO E TELA CHEIA -->
@@ -146,6 +150,9 @@
       <span class="trigger-pill">▼ Menu / Controles</span>
     </div>
   </header>
+
+  <!-- ABAS DE NAVEGAÇÃO PARA TELAS DE SMARTPHONE -->
+  <nav id="mobileTabs" class="mobile-tabs"></nav>
 
   <!-- CONTAINER PRINCIPAL DO MOSAICO DE TELAS VERTICAIS -->
   <main id="screensContainer" class="screens-grid vertical-mode cols-4">
