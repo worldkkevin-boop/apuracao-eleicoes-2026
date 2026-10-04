@@ -472,12 +472,28 @@ async function fetchSingleCargoData(cargoId) {
     }
 
     // 1. Atualizar Estatísticas de Apuração
+    const isStarted = parseInt(secoesTotalizadasQtd, 10) > 0 || appState.isDemoMode;
     if (apuracaoVal) {
-      apuracaoVal.textContent = `${secoesTotalizadasPerc}% (${formatNumber(secoesTotalizadasQtd)}/${formatNumber(secoesTotalQtd)})`;
+      if (!isStarted) {
+        apuracaoVal.textContent = `Aguardando urnas (17h) • ${secoesTotalizadasPerc}%`;
+      } else {
+        apuracaoVal.textContent = `${secoesTotalizadasPerc}% (${formatNumber(secoesTotalizadasQtd)}/${formatNumber(secoesTotalQtd)})`;
+      }
     }
     if (apuracaoFill) {
       const cleanPerc = parseFloat(secoesTotalizadasPerc.replace(',', '.')) || 0;
       apuracaoFill.style.width = `${Math.min(100, cleanPerc)}%`;
+    }
+
+    const noticePill = document.getElementById('tseNoticePill');
+    if (noticePill) {
+      if (isStarted) {
+        noticePill.innerHTML = '<span class="pill-icon">🟢</span> <span class="pill-text">Urnas em Apuração</span>';
+        noticePill.classList.add('live');
+      } else {
+        noticePill.innerHTML = '<span class="pill-icon">🕒</span> <span class="pill-text">Apuração inicia às 17h (DF)</span>';
+        noticePill.classList.remove('live');
+      }
     }
 
     // 2. Atualizar Rodapé (Votos)
