@@ -114,6 +114,7 @@ const dom = {
   candModalPhoto: document.getElementById('candModalPhoto'),
   candModalFallback: document.getElementById('candModalFallback'),
   candModalName: document.getElementById('candModalName'),
+  candModalFullName: document.getElementById('candModalFullName'),
   candModalBadge: document.getElementById('candModalBadge'),
   candModalCargo: document.getElementById('candModalCargo'),
   candModalPartido: document.getElementById('candModalPartido'),
@@ -474,9 +475,11 @@ async function fetchSingleCargoData(cargoId, colIndex) {
           const percClean = parseFloat((c.pvap || '0').replace(',', '.')) || 0;
           const votosInt = parseInt(c.vap || '0', 10);
           candidatos.push({
+            cargoId: targetCargo,
             num: c.n,
             sqcand: c.sqcand,
             nome: c.nmu || c.nm,
+            nomeCompleto: c.nm || c.nmu,
             partido: par.sg,
             votos: votosInt,
             percStr: c.pvap || '0,00',
@@ -1099,25 +1102,47 @@ function isJariCandidate(cand) {
 
 // Obter votos oficiais apurados do TSE por município e cargo
 function getOfficialMunVotes(cargoId, candNum, munCode) {
-  if (typeof DADOS_TSE_MUNICIPIOS !== 'undefined' && DADOS_TSE_MUNICIPIOS[munCode]) {
-    const cData = DADOS_TSE_MUNICIPIOS[munCode].cargos?.[String(cargoId)]?.cands?.[String(candNum)];
-    if (cData && typeof cData.vap === 'number') {
+  if (typeof DADOS_TSE_MUNICIPIOS === 'undefined' || !DADOS_TSE_MUNICIPIOS[munCode]) {
+    return null;
+  }
+  const mun = DADOS_TSE_MUNICIPIOS[munCode];
+  const strNum = String(candNum || '').trim();
+  if (!strNum) return null;
+
+  // 1. Tenta no cargoId especificado se existir
+  if (cargoId && mun.cargos?.[String(cargoId)]?.cands?.[strNum]) {
+    const cData = mun.cargos[String(cargoId)].cands[strNum];
+    return {
+      vap: cData.vap,
+      pvap: cData.pvap,
+      totalValidos: mun.cargos[String(cargoId)].vv || 0,
+      cargoId: String(cargoId)
+    };
+  }
+
+  // 2. Busca em qualquer cargo do município pelo número do candidato
+  for (const [cId, cInfo] of Object.entries(mun.cargos || {})) {
+    if (cInfo.cands && cInfo.cands[strNum]) {
+      const cData = cInfo.cands[strNum];
       return {
         vap: cData.vap,
         pvap: cData.pvap,
-        totalValidos: DADOS_TSE_MUNICIPIOS[munCode].cargos[String(cargoId)]?.vv || 0
+        totalValidos: cInfo.vv || 0,
+        cargoId: cId
       };
     }
   }
+
   return null;
 }
 
 function openCandidateModal(cand, cargoId) {
   appState.selectedCandidate = cand;
-  appState.selectedCargoId = cargoId;
+  const targetCargo = cargoId || cand.cargoId || appState.selectedCargoId || 6;
+  appState.selectedCargoId = targetCargo;
   appState.candX1TargetSqcand = null; // Reseta adversário selecionado para o novo candidato
 
-  const cargoInfo = TSE_CONFIG.CARGOS[cargoId] || { nome: 'Deputado Federal' };
+  const cargoInfo = TSE_CONFIG.CARGOS[targetCargo] || { nome: 'Deputado Federal' };
   const eleicao = cargoInfo.eleicao || '6259';
   const photoUrl = getCandPhotoUrl(eleicao, appState.uf, cand.sqcand);
   const initials = cand.nome.split(' ').map(n => n[0]).slice(0, 2).join('');
@@ -1132,6 +1157,11 @@ function openCandidateModal(cand, cargoId) {
     dom.candModalFallback.style.display = 'none';
   }
   if (dom.candModalName) dom.candModalName.textContent = cand.nome;
+  if (dom.candModalFullName) {
+    dom.candModalFullName.textContent = cand.nomeCompleto && cand.nomeCompleto !== cand.nome 
+      ? `Nome completo: ${cand.nomeCompleto}` 
+      : '';
+  }
   if (dom.candModalCargo) dom.candModalCargo.textContent = cargoInfo.nome;
   if (dom.candModalPartido) dom.candModalPartido.textContent = cand.partido;
   if (dom.candModalNumero) dom.candModalNumero.textContent = `Nº ${cand.num}`;
@@ -1257,6 +1287,14 @@ function renderCandidateTabContent() {
           { sqcand: "30002533021", nome: "DR. VICTOR AMORAS", partido: "REDE", num: "18001", votos: 9383, percStr: "2,02" },
           { sqcand: "30002533112", nome: "SOCORRO NOGUEIRA", partido: "PT", num: "13123", votos: 9253, percStr: "1,99" }
         ];
+      } else if (appState.selectedCargoId === 5) {
+        // Senador
+        candidateList = [
+          { sqcand: "30002536303", nome: "ALLINY SERRÃO", partido: "UNIÃO", num: "444", votos: 85540, percStr: "22,15" },
+          { sqcand: "30002532840", nome: "LUCAS BARRETO", partido: "PSD", num: "555", votos: 92450, percStr: "23,94" },
+          { sqcand: "30002533099", nome: "JOÃO CAPIBERIBE", partido: "PSB", num: "400", votos: 78120, percStr: "20,23" },
+          { sqcand: "30002538083", nome: "RAIMUNDO GOMES DE OLIVEIRA", partido: "PL", num: "222", votos: 65400, percStr: "16,94" }
+        ];
       } else {
         // Deputado Federal
         candidateList = [
@@ -1302,11 +1340,13 @@ function renderCandidateTabContent() {
     let vitorias2 = 0;
 
     const seed2 = parseInt(cand2.num || '22', 10);
+    const totalPeso = munData.locais.reduce((s, loc) => s + (loc.pesoVotos || 0.01), 0);
 
     const comparativoEscolas = munData.locais.map((loc, idx) => {
-      const v1 = Math.max(1, Math.round(votosMun1 * loc.pesoVotos));
-      const fatorMod = 0.85 + (((seed2 * (idx + 3)) % 30) / 100);
-      const v2 = Math.max(1, Math.round(votosMun2 * loc.pesoVotos * fatorMod));
+      const normW = (loc.pesoVotos || 0.01) / totalPeso;
+      const v1 = Math.max(1, Math.round(votosMun1 * normW));
+      const fatorMod = 0.95 + (((seed2 * (idx + 3)) % 10) / 100);
+      const v2 = Math.max(1, Math.round(votosMun2 * normW * fatorMod));
 
       const totalDuelo = v1 + v2;
       const p1 = ((v1 / totalDuelo) * 100).toFixed(1);
@@ -1538,15 +1578,28 @@ function renderCandidateTabContent() {
     if (dom.candCityPerc) dom.candCityPerc.textContent = `${percMunTxt} (${percCandEst}% do total)`;
     if (dom.candCitySecoes) dom.candCitySecoes.textContent = `${munData.locais.length} Colégios (${munData.totalSecoes} Seções)`;
 
+    const totalPeso = munData.locais.reduce((s, loc) => s + (loc.pesoVotos || 0.01), 0);
+    let distributedVotes = 0;
     const locaisComVotos = munData.locais.map(loc => {
-      const votosEscola = Math.max(1, Math.round(votosNoMunicipio * loc.pesoVotos));
-      const percEscola = ((votosEscola / votosNoMunicipio) * 100).toFixed(1);
+      const normW = (loc.pesoVotos || 0.01) / totalPeso;
+      const v = Math.floor(votosNoMunicipio * normW);
+      distributedVotes += v;
       return {
         ...loc,
-        votosEscola,
-        percEscola
+        votosEscola: v,
+        percEscola: ((v / (votosNoMunicipio || 1)) * 100).toFixed(1)
       };
     });
+
+    let remainderVotes = votosNoMunicipio - distributedVotes;
+    let rIdx = 0;
+    while (remainderVotes > 0) {
+      locaisComVotos[rIdx % locaisComVotos.length].votosEscola += 1;
+      locaisComVotos[rIdx % locaisComVotos.length].percEscola = 
+        ((locaisComVotos[rIdx % locaisComVotos.length].votosEscola / (votosNoMunicipio || 1)) * 100).toFixed(1);
+      remainderVotes--;
+      rIdx++;
+    }
 
     locaisComVotos.sort((a, b) => b.votosEscola - a.votosEscola);
 
@@ -1570,10 +1623,6 @@ function renderCandidateTabContent() {
       }
       return true;
     });
-
-    if (dom.candCityVotos) dom.candCityVotos.textContent = formatNumber(votosNoMunicipio);
-    if (dom.candCityPerc) dom.candCityPerc.textContent = `${((votosNoMunicipio / (cand.votos || 1)) * 100).toFixed(1)}% do estado`;
-    if (dom.candCitySecoes) dom.candCitySecoes.textContent = `${munData.locais.length} Colégios (${munData.totalSecoes} Seções)`;
 
     const candSeed = parseInt(cand.num || '10', 10);
 
@@ -1838,15 +1887,28 @@ function setupEventListeners() {
       const cand = appState.selectedCandidate;
       if (!cand) return;
       const cargoNome = TSE_CONFIG.CARGOS[appState.selectedCargoId]?.nome || 'Deputado';
+      const offLaranjal = getOfficialMunVotes(appState.selectedCargoId, cand.num, '06130');
+      const offVitoria = getOfficialMunVotes(appState.selectedCargoId, cand.num, '06122');
       let msg = `🏛️ *APURAÇÃO ELEIÇÕES 2026 - BOLETIM DO CANDIDATO*\n\n`;
       msg += `👤 *Candidato:* ${cand.nome} (${cand.partido} - ${cand.num})\n`;
+      if (cand.nomeCompleto && cand.nomeCompleto !== cand.nome) {
+        msg += `📝 *Nome Oficial:* ${cand.nomeCompleto}\n`;
+      }
       msg += `📋 *Cargo:* ${cargoNome}\n`;
       msg += `🗳️ *Votos no Estado (AP):* ${formatNumber(cand.votos)} votos (${cand.percStr}%)\n`;
       msg += `📊 *Situação:* ${cand.eleito ? 'ELEITO ✅' : (cand.situacao || 'Concorrendo')}\n\n`;
       msg += `📍 *Base 7ª Zona Eleitoral (TRE-AP):*\n`;
-      msg += `• Laranjal do Jari: 24 Colégios | 108 Seções\n`;
-      msg += `• Vitória do Jari: 11 Colégios | 45 Seções\n\n`;
-      msg += `📲 *Acompanhe no Painel:* http://localhost:8085`;
+      if (offLaranjal) {
+        msg += `• Laranjal do Jari: *${formatNumber(offLaranjal.vap)} votos* (${offLaranjal.pvap}% na cidade)\n`;
+      } else {
+        msg += `• Laranjal do Jari: 24 Colégios | 108 Seções\n`;
+      }
+      if (offVitoria) {
+        msg += `• Vitória do Jari: *${formatNumber(offVitoria.vap)} votos* (${offVitoria.pvap}% na cidade)\n`;
+      } else {
+        msg += `• Vitória do Jari: 11 Colégios | 45 Seções\n`;
+      }
+      msg += `\n📲 *Acompanhe no Painel:* http://localhost:8085`;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(msg).then(() => {

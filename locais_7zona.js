@@ -4,11 +4,11 @@
  * Laranjal do Jari e Vitória do Jari
  */
 
-const DADOS_7ZONA_ELEITORAL = {
+var DADOS_7ZONA_ELEITORAL = {
   municipios: {
     laranjal_do_jari: {
       nome: "Laranjal do Jari",
-      codigoTse: "06050",
+      codigoTse: "06130",
       zona: "7ª Zona Eleitoral",
       totalSecoes: 108,
       eleitoradoEstimado: 32500,
@@ -234,7 +234,7 @@ const DADOS_7ZONA_ELEITORAL = {
 
     vitoria_do_jari: {
       nome: "Vitória do Jari",
-      codigoTse: "06092",
+      codigoTse: "06122",
       zona: "7ª Zona Eleitoral",
       totalSecoes: 45,
       eleitoradoEstimado: 12400,
@@ -344,21 +344,21 @@ const DADOS_7ZONA_ELEITORAL = {
 
   // Relação de todos os 16 Municípios do Amapá para a visão estadual
   municipiosAmapa: [
-    { nome: "Laranjal do Jari", codigo: "06050", zona: "7ª Zona", pesoEleitoral: 0.075 },
-    { nome: "Vitória do Jari", codigo: "06092", zona: "7ª Zona", pesoEleitoral: 0.025 },
-    { nome: "Macapá", codigo: "06012", zona: "2ª e 10ª Zonas", pesoEleitoral: 0.580 },
-    { nome: "Santana", codigo: "06076", zona: "6ª Zona", pesoEleitoral: 0.150 },
-    { nome: "Mazagão", codigo: "06068", zona: "5ª Zona", pesoEleitoral: 0.035 },
-    { nome: "Porto Grande", codigo: "06084", zona: "11ª Zona", pesoEleitoral: 0.030 },
-    { nome: "Oiapoque", codigo: "06055", zona: "4ª Zona", pesoEleitoral: 0.028 },
-    { nome: "Pedra Branca do Amapari", codigo: "06114", zona: "13ª Zona", pesoEleitoral: 0.018 },
-    { nome: "Tartarugalzinho", codigo: "06106", zona: "9ª Zona", pesoEleitoral: 0.016 },
-    { nome: "Calçoene", codigo: "06039", zona: "1ª Zona", pesoEleitoral: 0.012 },
-    { nome: "Amapá", codigo: "06020", zona: "1ª Zona", pesoEleitoral: 0.010 },
-    { nome: "Ferreira Gomes", codigo: "06047", zona: "11ª Zona", pesoEleitoral: 0.008 },
-    { nome: "Serra do Navio", codigo: "06130", zona: "13ª Zona", pesoEleitoral: 0.005 },
-    { nome: "Cutias", codigo: "06149", zona: "3ª Zona", pesoEleitoral: 0.004 },
-    { nome: "Itaubal", codigo: "06157", zona: "3ª Zona", pesoEleitoral: 0.003 },
-    { nome: "Pracuúba", codigo: "06122", zona: "9ª Zona", pesoEleitoral: 0.003 }
+    { nome: "Macapá", codigo: "06050", zona: "2ª e 10ª Zonas", pesoEleitoral: 0.580 },
+    { nome: "Santana", codigo: "06157", zona: "6ª Zona", pesoEleitoral: 0.150 },
+    { nome: "Laranjal do Jari", codigo: "06130", zona: "7ª Zona", pesoEleitoral: 0.075 },
+    { nome: "Vitória do Jari", codigo: "06122", zona: "7ª Zona", pesoEleitoral: 0.025 },
+    { nome: "Mazagão", codigo: "06076", zona: "5ª Zona", pesoEleitoral: 0.035 },
+    { nome: "Porto Grande", codigo: "06025", zona: "11ª Zona", pesoEleitoral: 0.030 },
+    { nome: "Oiapoque", codigo: "06092", zona: "4ª Zona", pesoEleitoral: 0.028 },
+    { nome: "Pedra Branca do Amapari", codigo: "06084", zona: "13ª Zona", pesoEleitoral: 0.018 },
+    { nome: "Tartarugalzinho", codigo: "06173", zona: "9ª Zona", pesoEleitoral: 0.016 },
+    { nome: "Amapá", codigo: "06017", zona: "1ª Zona", pesoEleitoral: 0.012 },
+    { nome: "Calçoene", codigo: "06033", zona: "1ª Zona", pesoEleitoral: 0.010 },
+    { nome: "Ferreira Gomes", codigo: "06114", zona: "11ª Zona", pesoEleitoral: 0.008 },
+    { nome: "Cutias", codigo: "06068", zona: "3ª Zona", pesoEleitoral: 0.005 },
+    { nome: "Itaubal", codigo: "06041", zona: "3ª Zona", pesoEleitoral: 0.004 },
+    { nome: "Serra do Navio", codigo: "06106", zona: "13ª Zona", pesoEleitoral: 0.003 },
+    { nome: "Pracuúba", codigo: "06009", zona: "9ª Zona", pesoEleitoral: 0.002 }
   ]
 };
