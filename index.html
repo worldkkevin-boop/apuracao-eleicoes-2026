@@ -86,10 +86,11 @@
       <div class="control-group">
         <label for="layoutSelect" class="lbl-desktop">Telas:</label>
         <select id="layoutSelect" class="styled-select compact-select">
+          <option value="cols-1">1 Tela (Foco)</option>
+          <option value="cols-2">2 Telas</option>
+          <option value="cols-3">3 Telas</option>
           <option value="cols-4" selected>4 Telas</option>
           <option value="cols-5">5 Telas (+Pres)</option>
-          <option value="cols-3">3 Telas</option>
-          <option value="cols-2">2 Telas</option>
         </select>
       </div>
     </div>
@@ -101,11 +102,10 @@
         <span id="opModeIcon" class="btn-icon">📊</span> <span id="opModeText" class="btn-text">Modo Consolidado</span>
       </button>
 
-      <!-- BADGE DE APURAÇÃO CONSOLIDADA (PADRÃO ATUAL) -->
-      <div id="consolidatedBadge" class="consolidated-badge" title="Apuração concluída e oficializada. Sem recarregamento automático.">
+      <!-- BADGE DE APURAÇÃO CONSOLIDADA COMPACTO -->
+      <div id="consolidatedBadge" class="consolidated-badge" title="Apuração concluída e oficializada (100% das seções apuradas)">
         <span class="badge-status-dot"></span>
-        <span class="badge-title">Apuração Consolidada</span>
-        <span class="badge-sub">100% Confirmada</span>
+        <span class="badge-title">100% Confirmada</span>
       </div>
 
       <!-- GRUPO DO TEMPORIZADOR / AUTO-REFRESH (Fica oculto no modo consolidado e visível no modo ao vivo) -->
@@ -279,9 +279,14 @@
         </div>
       </div>
       <div class="modal-footer" style="justify-content:space-between;">
-        <button id="btnResetAudience" class="btn btn-outline" style="font-size:11px;color:#ef4444;border-color:rgba(239,68,68,0.3);" title="Zerar registros para uma nova eleição futura">
-          🗑️ Zerar Registro
-        </button>
+        <div style="display:flex;gap:6px;">
+          <button id="btnEditAudience" class="btn btn-outline" style="font-size:11px;color:#38bdf8;border-color:rgba(56,189,248,0.3);" title="Ajustar número real de acessos acumulados">
+            ✏️ Ajustar Registro
+          </button>
+          <button id="btnResetAudience" class="btn btn-outline" style="font-size:11px;color:#ef4444;border-color:rgba(239,68,68,0.3);" title="Zerar registros para uma nova eleição futura">
+            🗑️ Zerar Registro
+          </button>
+        </div>
         <button id="btnDismissAudience" class="btn btn-primary" style="font-size:12px;">Fechar</button>
       </div>
     </div>
@@ -322,6 +327,9 @@
         <button class="cand-tab-btn" data-tab="municipios_ap">
           📍 Todos os 16 Municípios do AP
         </button>
+        <button class="cand-tab-btn" data-tab="comparador_x1">
+          ⚔️ Confronto Direto (X1)
+        </button>
       </div>
 
       <div class="modal-cand-filter-bar">
@@ -349,6 +357,9 @@
           </div>
         </div>
       </div>
+
+      <!-- Filtro de Fortalezas (Chips rápidos) -->
+      <div id="candFilterChipsContainer" class="cand-filter-chips"></div>
 
       <div class="modal-body modal-cand-body">
         <div id="candModalContentGrid" class="cand-modal-grid">

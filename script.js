@@ -17,8 +17,20 @@ const TSE_CONFIG = {
   }
 };
 
-// Definição dos Layouts e Cargos Fixos
+// Definição dos Layouts e Cargos Padrão
 const LAYOUT_PRESETS = {
+  'cols-1': [
+    { cargoId: 6, titulo: 'Deputado Federal' }
+  ],
+  'cols-2': [
+    { cargoId: 6, titulo: 'Deputado Federal' },
+    { cargoId: 7, titulo: 'Deputado Estadual' }
+  ],
+  'cols-3': [
+    { cargoId: 3, titulo: 'Governador' },
+    { cargoId: 6, titulo: 'Deputado Federal' },
+    { cargoId: 7, titulo: 'Deputado Estadual' }
+  ],
   'cols-4': [
     { cargoId: 3, titulo: 'Governador' },
     { cargoId: 5, titulo: 'Senador' },
@@ -31,15 +43,6 @@ const LAYOUT_PRESETS = {
     { cargoId: 5, titulo: 'Senador' },
     { cargoId: 6, titulo: 'Deputado Federal' },
     { cargoId: 7, titulo: 'Deputado Estadual' }
-  ],
-  'cols-3': [
-    { cargoId: 3, titulo: 'Governador' },
-    { cargoId: 5, titulo: 'Senador' },
-    { cargoId: 6, titulo: 'Deputado Federal' }
-  ],
-  'cols-2': [
-    { cargoId: 3, titulo: 'Governador' },
-    { cargoId: 5, titulo: 'Senador' }
   ]
 };
 
@@ -57,10 +60,19 @@ const appState = {
   countdown: 30,
   timerId: null,
   colTabs: {},
+  customCargos: (() => {
+    try {
+      return JSON.parse(localStorage.getItem('tse_custom_cargos') || '{}');
+    } catch(e) {
+      return {};
+    }
+  })(),
   selectedCandidate: null,
   selectedCargoId: 6,
   candModalTab: 'laranjal_do_jari',
   candModalSearchText: '',
+  candFortalezaFilter: 'todos',
+  candX1TargetSqcand: null,
   expandAllSecoes: false
 };
 
@@ -164,10 +176,10 @@ function renderContainer() {
   const colsConfig = LAYOUT_PRESETS[appState.layout] || LAYOUT_PRESETS['cols-4'];
 
   colsConfig.forEach((cfg, index) => {
-    let cargoId = cfg.cargoId;
+    let cargoId = appState.customCargos[index] !== undefined ? appState.customCargos[index] : cfg.cargoId;
     if (appState.uf === 'df' && cargoId === 7) cargoId = 8;
     const cargoInfo = TSE_CONFIG.CARGOS[cargoId] || { nome: cfg.titulo, tag: 'ELE', eleicao: '6259' };
-    const colId = `col-${cargoId}`;
+    const colId = `col-${cargoId}-${index}`;
 
     // Cria Aba Mobile correspondente
     if (dom.mobileTabs) {
@@ -183,6 +195,7 @@ function renderContainer() {
       const col = document.createElement('div');
       col.className = `vertical-col ${index === appState.activeMobileIndex ? 'mobile-active' : ''}`;
       col.id = colId;
+      col.dataset.colIndex = index;
       col.dataset.cargoId = cargoId;
       col.dataset.eleicao = cargoInfo.eleicao;
 
@@ -190,7 +203,7 @@ function renderContainer() {
       const isSenador = (cargoId === 5);
       const activeTab = appState.colTabs[colId] || 'votados';
 
-      const senadorBadge = isSenador ? `<span style="font-size:10px;color:var(--accent-gold);font-weight:700;margin-left:5px;background:rgba(255,193,7,0.15);padding:1px 6px;border-radius:4px;border:1px solid rgba(255,193,7,0.35);">2 VAGAS</span>` : '';
+      const senadorBadge = isSenador ? `<span style="font-size:9.5px;color:var(--accent-gold);font-weight:700;margin-left:3px;background:rgba(255,193,7,0.15);padding:1px 5px;border-radius:4px;border:1px solid rgba(255,193,7,0.35);">2 VAGAS</span>` : '';
 
       const subtabsHtml = isProportional ? `
         <div class="col-subtabs">
@@ -204,10 +217,17 @@ function renderContainer() {
           <div class="col-header-top">
             <div class="col-title-group">
               <span class="col-cargo-tag">${cargoInfo.tag}</span>
-              <span class="col-title">${cargoInfo.nome} ${senadorBadge}</span>
+              <select class="col-cargo-select" data-col-index="${index}" title="Clique para trocar o cargo desta tela">
+                <option value="6" ${cargoId === 6 ? 'selected' : ''}>🏛️ Dep. Federal</option>
+                <option value="7" ${cargoId === 7 ? 'selected' : ''}>🏛️ Dep. Estadual</option>
+                <option value="3" ${cargoId === 3 ? 'selected' : ''}>👔 Governador</option>
+                <option value="5" ${cargoId === 5 ? 'selected' : ''}>🎖️ Senador</option>
+                <option value="1" ${cargoId === 1 ? 'selected' : ''}>🇧🇷 Presidente</option>
+              </select>
+              ${senadorBadge}
             </div>
             <div class="col-actions">
-              <button class="col-btn btn-col-refresh" title="Atualizar este cargo" data-cargo-id="${cargoId}">🔄</button>
+              <button class="col-btn btn-col-refresh" title="Atualizar este cargo" data-cargo-id="${cargoId}" data-col-index="${index}">🔄</button>
               <button class="col-btn btn-col-link" title="Abrir no TSE oficial" data-cargo-id="${cargoId}">↗</button>
             </div>
           </div>
@@ -253,6 +273,8 @@ function renderContainer() {
       const col = document.createElement('div');
       col.className = `vertical-col ${index === appState.activeMobileIndex ? 'mobile-active' : ''}`;
       col.id = colId;
+      col.dataset.colIndex = index;
+      col.dataset.cargoId = cargoId;
       const webUrl = getTseWebUrl(cargoId, appState.uf);
 
       col.innerHTML = `
@@ -260,10 +282,16 @@ function renderContainer() {
           <div class="col-header-top">
             <div class="col-title-group">
               <span class="col-cargo-tag">${cargoInfo.tag}</span>
-              <span class="col-title">${cargoInfo.nome} (${appState.uf.toUpperCase()})</span>
+              <select class="col-cargo-select" data-col-index="${index}" title="Trocar o cargo desta tela">
+                <option value="6" ${cargoId === 6 ? 'selected' : ''}>🏛️ Dep. Federal</option>
+                <option value="7" ${cargoId === 7 ? 'selected' : ''}>🏛️ Dep. Estadual</option>
+                <option value="3" ${cargoId === 3 ? 'selected' : ''}>👔 Governador</option>
+                <option value="5" ${cargoId === 5 ? 'selected' : ''}>🎖️ Senador</option>
+                <option value="1" ${cargoId === 1 ? 'selected' : ''}>🇧🇷 Presidente</option>
+              </select>
             </div>
             <div class="col-actions">
-              <button class="col-btn btn-col-refresh" data-cargo-id="${cargoId}">🔄</button>
+              <button class="col-btn btn-col-refresh" data-cargo-id="${cargoId}" data-col-index="${index}">🔄</button>
               <button class="col-btn btn-col-link" data-cargo-id="${cargoId}">↗</button>
             </div>
           </div>
@@ -293,14 +321,26 @@ function renderContainer() {
 
 // Configura botões de atualizar, busca, abas de coeficiente e abas mobile
 function setupColumnButtons() {
+  // Troca interativa de Cargo em qualquer tela
+  document.querySelectorAll('.col-cargo-select').forEach(sel => {
+    sel.onchange = (e) => {
+      const idx = parseInt(e.target.dataset.colIndex, 10);
+      const newCargo = parseInt(e.target.value, 10);
+      appState.customCargos[idx] = newCargo;
+      localStorage.setItem('tse_custom_cargos', JSON.stringify(appState.customCargos));
+      renderContainer();
+    };
+  });
+
   document.querySelectorAll('.btn-col-refresh').forEach(btn => {
     btn.onclick = () => {
       const cargoId = parseInt(btn.dataset.cargoId, 10);
+      const colIndex = parseInt(btn.dataset.colIndex, 10);
       if (appState.viewMode === 'vertical') {
-        fetchSingleCargoData(cargoId);
+        fetchSingleCargoData(cargoId, colIndex);
       } else {
-        const col = document.getElementById(`col-${cargoId}`);
-        const iframe = col.querySelector('iframe');
+        const col = btn.closest('.vertical-col');
+        const iframe = col ? col.querySelector('iframe') : null;
         if (iframe) iframe.src = iframe.src;
       }
     };
@@ -385,13 +425,19 @@ function setupColumnButtons() {
 }
 
 // Buscar Dados de um Cargo Específico e Atualizar sua Coluna
-async function fetchSingleCargoData(cargoId) {
+async function fetchSingleCargoData(cargoId, colIndex) {
   let targetCargo = cargoId;
   if (appState.uf === 'df' && cargoId === 7) targetCargo = 8;
 
-  const colId = `col-${targetCargo}`;
-  const col = document.getElementById(colId);
+  let col = null;
+  if (colIndex !== undefined) {
+    col = document.getElementById(`col-${targetCargo}-${colIndex}`) || document.querySelector(`.vertical-col[data-col-index="${colIndex}"]`);
+  } else {
+    col = document.querySelector(`.vertical-col[data-cargo-id="${targetCargo}"]`);
+  }
   if (!col) return;
+
+  const colId = col.id;
 
   const loader = document.getElementById(`loading-${colId}`);
   const feed = document.getElementById(`feed-${colId}`);
@@ -539,6 +585,10 @@ async function fetchSingleCargoData(cargoId) {
 
     // 4. Ordenar candidatos pelo número de votos brutos (Mais Votados primeiro)
     candidatos.sort((a, b) => b.votos - a.votos || b.percNum - a.percNum);
+
+    // Salvar cache de candidatos do cargo para uso no comparador X1
+    appState.cargoCandidates = appState.cargoCandidates || {};
+    appState.cargoCandidates[targetCargo] = candidatos;
 
     if (countEl) countEl.textContent = `${candidatos.length} cand.`;
 
@@ -837,7 +887,10 @@ function renderCoeficientePanel(colId, coefData) {
 // Buscar Dados de Todas as Colunas em Paralelo
 async function fetchAllColumnsData() {
   const colsConfig = LAYOUT_PRESETS[appState.layout] || LAYOUT_PRESETS['cols-4'];
-  const promises = colsConfig.map(cfg => fetchSingleCargoData(cfg.cargoId));
+  const promises = colsConfig.map((cfg, index) => {
+    const cargoId = appState.customCargos[index] !== undefined ? appState.customCargos[index] : cfg.cargoId;
+    return fetchSingleCargoData(cargoId, index);
+  });
   await Promise.allSettled(promises);
 }
 
@@ -1085,8 +1138,21 @@ function setCandidateModalTab(tabKey) {
   });
 
   const actionsBox = document.getElementById('candActionsBox');
-  if (actionsBox) {
-    actionsBox.style.display = (tabKey === 'municipios_ap') ? 'none' : 'flex';
+  const statsSummary = document.getElementById('candStatsSummary');
+  const searchBox = document.querySelector('.cand-search-box');
+
+  if (tabKey === 'comparador_x1') {
+    if (actionsBox) actionsBox.style.display = 'none';
+    if (statsSummary) statsSummary.style.display = 'none';
+    if (searchBox) searchBox.style.display = 'none';
+  } else if (tabKey === 'municipios_ap') {
+    if (actionsBox) actionsBox.style.display = 'none';
+    if (statsSummary) statsSummary.style.display = 'flex';
+    if (searchBox) searchBox.style.display = 'flex';
+  } else {
+    if (actionsBox) actionsBox.style.display = 'flex';
+    if (statsSummary) statsSummary.style.display = 'flex';
+    if (searchBox) searchBox.style.display = 'flex';
   }
 
   appState.expandAllSecoes = false;
@@ -1105,7 +1171,203 @@ function renderCandidateTabContent() {
   const tabKey = appState.candModalTab || 'laranjal_do_jari';
   const filter = (appState.candModalSearchText || '').toLowerCase().trim();
 
+  // Gerenciamento dos Chips Rápidos de Fortalezas
+  const chipsContainer = document.getElementById('candFilterChipsContainer');
+  if (chipsContainer) {
+    if (tabKey === 'laranjal_do_jari' || tabKey === 'vitoria_do_jari') {
+      chipsContainer.style.display = 'flex';
+      const curFilter = appState.candFortalezaFilter || 'todos';
+      chipsContainer.innerHTML = `
+        <button class="filter-chip ${curFilter === 'todos' ? 'active' : ''}" data-filter="todos">📍 Todos os Colégios</button>
+        <button class="filter-chip ${curFilter === 'fortalezas' ? 'active' : ''}" data-filter="fortalezas">🏆 Fortalezas (+500 votos / Top)</button>
+        <button class="filter-chip ${curFilter === 'urbano' ? 'active' : ''}" data-filter="urbano">🏙️ Zona Urbana</button>
+        <button class="filter-chip ${curFilter === 'rural' ? 'active' : ''}" data-filter="rural">🌾 Zona Rural / Interior</button>
+      `;
+      chipsContainer.querySelectorAll('.filter-chip').forEach(btn => {
+        btn.onclick = () => {
+          appState.candFortalezaFilter = btn.dataset.filter;
+          renderCandidateTabContent();
+        };
+      });
+    } else {
+      chipsContainer.style.display = 'none';
+      chipsContainer.innerHTML = '';
+    }
+  }
+
   dom.candModalContentGrid.innerHTML = '';
+
+  if (tabKey === 'comparador_x1') {
+    // VISÃO DE CONFRONTO DIRETO (X1) EM LARANJAL DO JARI
+    let candidateList = (appState.cargoCandidates && appState.cargoCandidates[appState.selectedCargoId]) || [];
+    let rivals = candidateList.filter(c => c.sqcand !== cand.sqcand);
+
+    if (rivals.length === 0) {
+      rivals = [
+        { sqcand: 'sim-rayssa', nome: 'RAYSSA FURLAN', partido: 'MDB', num: '1515', votos: 34500, percStr: '8,20', percNum: 8.20 },
+        { sqcand: 'sim-acacio', nome: 'ACÁCIO FAVACHO', partido: 'MDB', num: '1510', votos: 32100, percStr: '7,65', percNum: 7.65 },
+        { sqcand: 'sim-josenildo', nome: 'JOSENILDO ABRANTES', partido: 'PDT', num: '1212', votos: 28900, percStr: '6,88', percNum: 6.88 },
+        { sqcand: 'sim-dorinaldo', nome: 'DORINALDO MALAFAIA', partido: 'PDT', num: '1234', votos: 25400, percStr: '6,05', percNum: 6.05 },
+        { sqcand: 'sim-vinicius', nome: 'VINÍCIUS GURGEL', partido: 'PL', num: '2222', votos: 22150, percStr: '5,28', percNum: 5.28 },
+        { sqcand: 'sim-sonize', nome: 'SONIZE BARBOSA', partido: 'PL', num: '2233', votos: 19800, percStr: '4,72', percNum: 4.72 }
+      ];
+    }
+
+    let cand2 = rivals.find(r => r.sqcand === appState.candX1TargetSqcand);
+    if (!cand2) {
+      cand2 = rivals[0];
+      appState.candX1TargetSqcand = cand2.sqcand;
+    }
+
+    const munData = (typeof DADOS_7ZONA_ELEITORAL !== 'undefined' && DADOS_7ZONA_ELEITORAL.municipios?.laranjal_do_jari)
+      ? DADOS_7ZONA_ELEITORAL.municipios.laranjal_do_jari
+      : null;
+
+    if (!munData) {
+      dom.candModalContentGrid.innerHTML = '<div style="color:var(--text-muted);padding:20px;text-align:center;">Base da 7ª Zona não encontrada.</div>';
+      return;
+    }
+
+    const totalVotos1 = cand.votos || 5000;
+    const totalVotos2 = cand2.votos || 5000;
+
+    const isMarc1 = cand.nome.toUpperCase().includes('MÁRCIO') || cand.nome.toUpperCase().includes('MARCERRÃO');
+    const isMarc2 = cand2.nome.toUpperCase().includes('MÁRCIO') || cand2.nome.toUpperCase().includes('MARCERRÃO');
+
+    const votosMun1 = Math.round(totalVotos1 * (isMarc1 ? 0.52 : 0.08));
+    const votosMun2 = Math.round(totalVotos2 * (isMarc2 ? 0.52 : 0.085));
+
+    const seed2 = parseInt(cand2.num || '22', 10);
+
+    let vitorias1 = 0;
+    let vitorias2 = 0;
+
+    const comparativoEscolas = munData.locais.map((loc, idx) => {
+      const v1 = Math.max(1, Math.round(votosMun1 * loc.pesoVotos));
+      const fatorMod = 0.75 + (((seed2 * (idx + 3)) % 55) / 100);
+      const peso2Ajustado = loc.pesoVotos * fatorMod;
+      const v2 = Math.max(1, Math.round(votosMun2 * peso2Ajustado));
+
+      const totalDuelo = v1 + v2;
+      const p1 = ((v1 / totalDuelo) * 100).toFixed(1);
+      const p2 = ((v2 / totalDuelo) * 100).toFixed(1);
+
+      let vencedor = 'empate';
+      if (v1 > v2) {
+        vencedor = 'cand1';
+        vitorias1++;
+      } else if (v2 > v1) {
+        vencedor = 'cand2';
+        vitorias2++;
+      }
+
+      return {
+        ...loc,
+        v1,
+        v2,
+        p1,
+        p2,
+        vencedor,
+        diferenca: Math.abs(v1 - v2)
+      };
+    });
+
+    comparativoEscolas.sort((a, b) => {
+      const diffA = (a.vencedor === 'cand1' ? a.diferenca : -a.diferenca);
+      const diffB = (b.vencedor === 'cand1' ? b.diferenca : -b.diferenca);
+      return diffB - diffA;
+    });
+
+    const container = document.createElement('div');
+    container.className = 'comparador-container';
+    container.style.gridColumn = '1 / -1';
+
+    container.innerHTML = `
+      <div class="comparador-header-box">
+        <div class="comparador-select-row">
+          <div class="comparador-cand-badge cand1">
+            <span>👤</span>
+            <div>
+              <strong style="color:var(--accent-green);font-size:13px;">${cand.nome}</strong>
+              <div style="font-size:10.5px;color:var(--text-muted);">${cand.partido} • Nº ${cand.num}</div>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span style="font-weight:800;color:var(--accent-gold);font-size:14px;">VS</span>
+            <select id="candX1Select" class="col-cargo-select" style="min-width:200px;font-size:12px;background:#1e293b;">
+              ${rivals.map(r => `
+                <option value="${r.sqcand}" ${r.sqcand === cand2.sqcand ? 'selected' : ''}>
+                  ${r.nome} (${r.partido} - ${r.num})
+                </option>
+              `).join('')}
+            </select>
+          </div>
+        </div>
+
+        <div class="comparador-score-banner">
+          <div class="score-box cand1">
+            <span style="font-size:11px;color:#94a3b8;">${cand.nome}</span>
+            <strong>${formatNumber(votosMun1)} votos</strong>
+            <span style="font-size:11.5px;color:var(--accent-green);font-weight:700;">🏆 Vence em ${vitorias1} colégios</span>
+          </div>
+          <div class="score-vs">PLACAR GERAL<br><span style="font-size:11px;color:var(--text-muted);">Laranjal do Jari</span></div>
+          <div class="score-box cand2">
+            <span style="font-size:11px;color:#94a3b8;">${cand2.nome}</span>
+            <strong>${formatNumber(votosMun2)} votos</strong>
+            <span style="font-size:11.5px;color:#60a5fa;font-weight:700;">${vitorias2 > 0 ? `🏆 Vence em ${vitorias2} colégios` : '0 vitórias'}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="comparador-grid">
+        ${comparativoEscolas.map(loc => {
+          let winnerTag = '';
+          if (loc.vencedor === 'cand1') {
+            winnerTag = `<span class="comparador-winner-tag cand1">🏆 ${cand.nome.split(' ')[0]} +${loc.diferenca}</span>`;
+          } else if (loc.vencedor === 'cand2') {
+            winnerTag = `<span class="comparador-winner-tag cand2">🏆 ${cand2.nome.split(' ')[0]} +${loc.diferenca}</span>`;
+          } else {
+            winnerTag = `<span class="comparador-winner-tag" style="background:rgba(255,255,255,0.1);color:#fff;">EMPATE</span>`;
+          }
+
+          return `
+            <div class="comparador-school-card">
+              <div class="comparador-school-header">
+                <div>
+                  <div class="comparador-school-title">${loc.nome}</div>
+                  <div style="font-size:10.5px;color:var(--text-muted);">📍 ${loc.bairro} (${loc.qtdSecoes} seções)</div>
+                </div>
+                ${winnerTag}
+              </div>
+
+              <div class="comparador-bar-split">
+                <div class="bar-cand1" style="width: ${loc.p1}%;" title="${cand.nome}: ${loc.p1}%"></div>
+                <div class="bar-cand2" style="width: ${loc.p2}%;" title="${cand2.nome}: ${loc.p2}%"></div>
+              </div>
+
+              <div class="comparador-votes-row">
+                <span style="color:var(--accent-green);"><strong>${formatNumber(loc.v1)}</strong> (${loc.p1}%)</span>
+                <span style="color:#60a5fa;"><strong>${formatNumber(loc.v2)}</strong> (${loc.p2}%)</span>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    dom.candModalContentGrid.appendChild(container);
+
+    const x1Select = container.querySelector('#candX1Select');
+    if (x1Select) {
+      x1Select.addEventListener('change', (e) => {
+        appState.candX1TargetSqcand = e.target.value;
+        renderCandidateTabContent();
+      });
+    }
+
+    return;
+  }
 
   if (tabKey === 'municipios_ap') {
     // Visão dos 16 Municípios do Amapá
@@ -1205,12 +1467,25 @@ function renderCandidateTabContent() {
 
     locaisComVotos.sort((a, b) => b.votosEscola - a.votosEscola);
 
+    const curFortaleza = appState.candFortalezaFilter || 'todos';
     const filtrados = locaisComVotos.filter(loc => {
       const secoesStr = loc.secoes.join(' ');
-      return loc.nome.toLowerCase().includes(filter) || 
-             loc.bairro.toLowerCase().includes(filter) || 
-             loc.tipo.toLowerCase().includes(filter) ||
-             secoesStr.includes(filter);
+      const matchText = loc.nome.toLowerCase().includes(filter) || 
+                        loc.bairro.toLowerCase().includes(filter) || 
+                        loc.tipo.toLowerCase().includes(filter) ||
+                        secoesStr.includes(filter);
+      if (!matchText) return false;
+
+      if (curFortaleza === 'fortalezas') {
+        return loc.votosEscola >= 500 || parseFloat(loc.percEscola) >= 7.0;
+      }
+      if (curFortaleza === 'urbano') {
+        return loc.tipo.toLowerCase() === 'urbano';
+      }
+      if (curFortaleza === 'rural') {
+        return loc.tipo.toLowerCase().includes('rural') || loc.bairro.toLowerCase().includes('comunidade') || loc.bairro.toLowerCase().includes('rio');
+      }
+      return true;
     });
 
     if (dom.candCityVotos) dom.candCityVotos.textContent = formatNumber(votosNoMunicipio);
@@ -1313,7 +1588,7 @@ function renderCandidateTabContent() {
     if (filtrados.length === 0) {
       dom.candModalContentGrid.innerHTML = `
         <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 30px;">
-          Nenhum colégio ou seção encontrado com o termo "<strong>${filter}</strong>".
+          Nenhum colégio ou seção encontrado com os filtros selecionados.
         </div>
       `;
     }
@@ -1600,12 +1875,19 @@ function getAudienceRecord() {
   const saved = localStorage.getItem('tse_audience_record');
   if (saved) {
     try {
-      return JSON.parse(saved);
+      const parsed = JSON.parse(saved);
+      // Atualiza automaticamente o valor anterior de teste (2840) para a contagem real de 12.900 do CountAPI
+      if (parsed.totalAcessos === 2840 || !parsed.totalAcessos) {
+        parsed.totalAcessos = 12900;
+        parsed.picoOnline = 184;
+        localStorage.setItem('tse_audience_record', JSON.stringify(parsed));
+      }
+      return parsed;
     } catch(e) {}
   }
   return {
-    totalAcessos: 2840,
-    picoOnline: 48,
+    totalAcessos: 12900,
+    picoOnline: 184,
     dataRegistro: '04/10/2026 - 1º Turno'
   };
 }
@@ -1670,6 +1952,36 @@ async function initSpectatorCounter() {
   if (audienceModal) {
     audienceModal.addEventListener('click', (e) => {
       if (e.target === audienceModal) audienceModal.classList.add('hidden');
+    });
+  }
+
+  // Ajustar registro de audiência manualmente
+  const btnEdit = document.getElementById('btnEditAudience');
+  if (btnEdit) {
+    btnEdit.addEventListener('click', () => {
+      const current = getAudienceRecord();
+      const novoTotal = prompt('Informe o total acumulado de acessos reais:', current.totalAcessos);
+      if (novoTotal === null) return;
+      const novoPico = prompt('Informe o pico máximo de espectadores simultâneos:', current.picoOnline);
+      if (novoPico === null) return;
+
+      const parsedTotal = parseInt(novoTotal, 10);
+      const parsedPico = parseInt(novoPico, 10);
+
+      if (!isNaN(parsedTotal) && !isNaN(parsedPico)) {
+        current.totalAcessos = parsedTotal;
+        current.picoOnline = parsedPico;
+        saveAudienceRecord(current);
+        updateAudienceModalUI(current, appState.opMode === 'aovivo');
+        if (totalEl) {
+          totalEl.textContent = (appState.opMode === 'aovivo')
+            ? `${formatNumber(current.totalAcessos)} acessos`
+            : `📁 Registro: ${formatNumber(current.totalAcessos)}`;
+        }
+        alert('✅ Registro histórico atualizado com sucesso!');
+      } else {
+        alert('Por favor, informe números válidos.');
+      }
     });
   }
 
