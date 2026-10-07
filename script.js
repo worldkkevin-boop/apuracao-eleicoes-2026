@@ -50,12 +50,17 @@ const appState = {
   viewMode: localStorage.getItem('tse_view_mode') || 'vertical',
   refreshInterval: parseInt(localStorage.getItem('tse_interval') || '30', 10),
   zoom: parseFloat(localStorage.getItem('tse_zoom') || '0.85'),
+  opMode: localStorage.getItem('tse_op_mode') || 'consolidado',
   isPaused: false,
   isDemoMode: false,
   activeMobileIndex: 0,
   countdown: 30,
   timerId: null,
-  colTabs: {}
+  colTabs: {},
+  selectedCandidate: null,
+  selectedCargoId: 6,
+  candModalTab: 'laranjal_do_jari',
+  candModalSearchText: ''
 };
 
 // Elementos do DOM
@@ -65,6 +70,11 @@ const dom = {
   viewModeSelect: document.getElementById('viewModeSelect'),
   refreshInterval: document.getElementById('refreshInterval'),
   zoomSelect: document.getElementById('zoomSelect'),
+  btnToggleOpMode: document.getElementById('btnToggleOpMode'),
+  opModeIcon: document.getElementById('opModeIcon'),
+  opModeText: document.getElementById('opModeText'),
+  consolidatedBadge: document.getElementById('consolidatedBadge'),
+  liveTimerControls: document.getElementById('liveTimerControls'),
   btnRefreshNow: document.getElementById('btnRefreshNow'),
   btnTogglePause: document.getElementById('btnTogglePause'),
   btnDemo: document.getElementById('btnDemo'),
@@ -84,7 +94,24 @@ const dom = {
   screensContainer: document.getElementById('screensContainer'),
   helpModal: document.getElementById('helpModal'),
   btnCloseHelp: document.getElementById('btnCloseHelp'),
-  btnDismissHelp: document.getElementById('btnDismissHelp')
+  btnDismissHelp: document.getElementById('btnDismissHelp'),
+  candidateModal: document.getElementById('candidateModal'),
+  btnCloseCandModal: document.getElementById('btnCloseCandModal'),
+  btnDismissCandModal: document.getElementById('btnDismissCandModal'),
+  candModalPhoto: document.getElementById('candModalPhoto'),
+  candModalFallback: document.getElementById('candModalFallback'),
+  candModalName: document.getElementById('candModalName'),
+  candModalBadge: document.getElementById('candModalBadge'),
+  candModalCargo: document.getElementById('candModalCargo'),
+  candModalPartido: document.getElementById('candModalPartido'),
+  candModalNumero: document.getElementById('candModalNumero'),
+  candModalTotalVotos: document.getElementById('candModalTotalVotos'),
+  candModalPerc: document.getElementById('candModalPerc'),
+  candModalSearch: document.getElementById('candModalSearch'),
+  candCityVotos: document.getElementById('candCityVotos'),
+  candCityPerc: document.getElementById('candCityPerc'),
+  candCitySecoes: document.getElementById('candCitySecoes'),
+  candModalContentGrid: document.getElementById('candModalContentGrid')
 };
 
 // Construtor de URL do JSON Oficial do TSE
@@ -568,6 +595,11 @@ async function fetchSingleCargoData(cargoId) {
             </div>
           `;
 
+          card.setAttribute('title', 'Clique para ver o Raio-X de Votação (Cidades, Colégios e Bairros)');
+          card.addEventListener('click', () => {
+            openCandidateModal(cand, targetCargo);
+          });
+
           feed.appendChild(card);
         });
       }
@@ -839,11 +871,16 @@ function refreshAllScreens() {
 function startAutoRefreshLoop() {
   if (appState.timerId) clearInterval(appState.timerId);
 
+  // No modo consolidado (pós-apuração), o loop de auto-refresh permanece desativado
+  if (appState.opMode === 'consolidado') {
+    return;
+  }
+
   appState.countdown = appState.refreshInterval;
   updateTimerUI();
 
   appState.timerId = setInterval(() => {
-    if (appState.isPaused || appState.refreshInterval === 0) {
+    if (appState.isPaused || appState.refreshInterval === 0 || appState.opMode === 'consolidado') {
       return;
     }
 
@@ -897,6 +934,263 @@ function togglePauseTimer() {
     dom.btnTogglePause.classList.remove('active');
   }
   updateTimerUI();
+}
+
+// Alternar Modo de Operação (Consolidado vs Ao Vivo)
+function toggleOperationMode() {
+  const newMode = appState.opMode === 'consolidado' ? 'aovivo' : 'consolidado';
+  setOperationMode(newMode);
+}
+
+function setOperationMode(mode) {
+  appState.opMode = mode;
+  localStorage.setItem('tse_op_mode', mode);
+
+  if (mode === 'consolidado') {
+    if (appState.timerId) clearInterval(appState.timerId);
+    if (dom.btnToggleOpMode) dom.btnToggleOpMode.classList.remove('aovivo');
+    if (dom.opModeIcon) dom.opModeIcon.textContent = '📊';
+    if (dom.opModeText) dom.opModeText.textContent = 'Modo Consolidado';
+    if (dom.consolidatedBadge) dom.consolidatedBadge.classList.remove('hidden');
+    if (dom.liveTimerControls) dom.liveTimerControls.classList.add('hidden');
+  } else {
+    if (dom.btnToggleOpMode) dom.btnToggleOpMode.classList.add('aovivo');
+    if (dom.opModeIcon) dom.opModeIcon.textContent = '🔴';
+    if (dom.opModeText) dom.opModeText.textContent = 'Ao Vivo (Auto-Refresh)';
+    if (dom.consolidatedBadge) dom.consolidatedBadge.classList.add('hidden');
+    if (dom.liveTimerControls) dom.liveTimerControls.classList.remove('hidden');
+    startAutoRefreshLoop();
+  }
+}
+
+// ========================================================
+// RAIO-X DO CANDIDATO (COLÉGIOS, BAIRROS E CIDADES)
+// ========================================================
+function openCandidateModal(cand, cargoId) {
+  appState.selectedCandidate = cand;
+  appState.selectedCargoId = cargoId;
+
+  const cargoInfo = TSE_CONFIG.CARGOS[cargoId] || { nome: 'Deputado Federal' };
+  const eleicao = cargoInfo.eleicao || '6259';
+  const photoUrl = getCandPhotoUrl(eleicao, appState.uf, cand.sqcand);
+  const initials = cand.nome.split(' ').map(n => n[0]).slice(0, 2).join('');
+
+  if (dom.candModalPhoto) {
+    dom.candModalPhoto.src = photoUrl;
+    dom.candModalPhoto.alt = cand.nome;
+    dom.candModalPhoto.style.display = 'block';
+  }
+  if (dom.candModalFallback) {
+    dom.candModalFallback.textContent = initials;
+    dom.candModalFallback.style.display = 'none';
+  }
+  if (dom.candModalName) dom.candModalName.textContent = cand.nome;
+  if (dom.candModalCargo) dom.candModalCargo.textContent = cargoInfo.nome;
+  if (dom.candModalPartido) dom.candModalPartido.textContent = cand.partido;
+  if (dom.candModalNumero) dom.candModalNumero.textContent = `Nº ${cand.num}`;
+  if (dom.candModalTotalVotos) dom.candModalTotalVotos.textContent = formatNumber(cand.votos);
+  if (dom.candModalPerc) dom.candModalPerc.textContent = `${cand.percStr}%`;
+
+  if (dom.candModalBadge) {
+    if (cand.eleito) {
+      dom.candModalBadge.textContent = 'ELEITO';
+      dom.candModalBadge.className = 'cand-status-badge eleito';
+    } else if (cand.situacao && cand.situacao.toLowerCase().includes('turno')) {
+      dom.candModalBadge.textContent = '2º TURNO';
+      dom.candModalBadge.className = 'cand-status-badge segundo-turno';
+    } else {
+      dom.candModalBadge.textContent = 'CONCORRENDO';
+      dom.candModalBadge.className = 'cand-status-badge';
+    }
+  }
+
+  // Reseta campo de busca
+  if (dom.candModalSearch) dom.candModalSearch.value = '';
+  appState.candModalSearchText = '';
+
+  // Ativa por padrão a aba de Laranjal do Jari
+  setCandidateModalTab(appState.candModalTab || 'laranjal_do_jari');
+
+  if (dom.candidateModal) {
+    dom.candidateModal.classList.remove('hidden');
+  }
+}
+
+function setCandidateModalTab(tabKey) {
+  appState.candModalTab = tabKey;
+
+  document.querySelectorAll('.cand-tab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabKey);
+  });
+
+  renderCandidateTabContent();
+}
+
+function renderCandidateTabContent() {
+  const cand = appState.selectedCandidate;
+  if (!cand || !dom.candModalContentGrid) return;
+
+  const tabKey = appState.candModalTab || 'laranjal_do_jari';
+  const filter = (appState.candModalSearchText || '').toLowerCase().trim();
+
+  dom.candModalContentGrid.innerHTML = '';
+
+  if (tabKey === 'municipios_ap') {
+    // Visão dos 16 Municípios do Amapá
+    const lista = (typeof DADOS_7ZONA_ELEITORAL !== 'undefined' && DADOS_7ZONA_ELEITORAL.municipiosAmapa) 
+      ? DADOS_7ZONA_ELEITORAL.municipiosAmapa 
+      : [];
+
+    const totalVotos = cand.votos || 1000;
+    const isMarcerrão = cand.nome.toUpperCase().includes('MÁRCIO') || cand.nome.toUpperCase().includes('MARCERRÃO') || cand.nome.toUpperCase().includes('MARCIO');
+
+    const cidadesComVotos = lista.map((m) => {
+      let percShare = m.pesoEleitoral;
+      if (isMarcerrão) {
+        if (m.nome === "Laranjal do Jari") percShare = 0.50;
+        else if (m.nome === "Vitória do Jari") percShare = 0.18;
+        else if (m.nome === "Macapá") percShare = 0.20;
+        else if (m.nome === "Santana") percShare = 0.07;
+        else percShare = 0.05 * (m.pesoEleitoral / 0.15);
+      }
+      const votosMun = Math.max(0, Math.round(totalVotos * percShare));
+      return {
+        ...m,
+        votosMun,
+        percMun: ((votosMun / totalVotos) * 100).toFixed(1)
+      };
+    });
+
+    cidadesComVotos.sort((a, b) => b.votosMun - a.votosMun);
+
+    const filtrados = cidadesComVotos.filter(c => 
+      c.nome.toLowerCase().includes(filter) || c.zona.toLowerCase().includes(filter)
+    );
+
+    if (dom.candCityVotos) dom.candCityVotos.textContent = formatNumber(totalVotos);
+    if (dom.candCityPerc) dom.candCityPerc.textContent = '100% no Estado';
+    if (dom.candCitySecoes) dom.candCitySecoes.textContent = `${lista.length} Municípios`;
+
+    filtrados.forEach((c, idx) => {
+      const card = document.createElement('div');
+      card.className = `escola-card ${idx < 3 ? 'top-rank' : ''}`;
+      
+      let badgeHtml = '';
+      if (idx === 0) badgeHtml = `<span class="escola-top-badge rank-1">🏆 1º LUGAR</span>`;
+      else if (idx === 1) badgeHtml = `<span class="escola-top-badge rank-2">🥈 2º LUGAR</span>`;
+      else if (idx === 2) badgeHtml = `<span class="escola-top-badge rank-3">🥉 3º LUGAR</span>`;
+
+      card.innerHTML = `
+        ${badgeHtml}
+        <div class="escola-header-row">
+          <div class="escola-title">${c.nome}</div>
+          <div class="escola-bairro-row">
+            <span class="bairro-tag">${c.zona}</span>
+            <span class="tipo-tag">Cód. TSE: ${c.codigo}</span>
+          </div>
+        </div>
+        <div class="escola-votes-stats">
+          <div class="escola-votes-val">${formatNumber(c.votosMun)} votos</div>
+          <div class="escola-votes-share">${c.percMun}% do total</div>
+        </div>
+        <div class="escola-bar-track">
+          <div class="escola-bar-fill" style="width: ${Math.min(100, Math.max(2, parseFloat(c.percMun)))}%;"></div>
+        </div>
+      `;
+      dom.candModalContentGrid.appendChild(card);
+    });
+
+  } else {
+    // Visão da 7ª Zona (Laranjal do Jari ou Vitória do Jari)
+    const munData = (typeof DADOS_7ZONA_ELEITORAL !== 'undefined' && DADOS_7ZONA_ELEITORAL.municipios?.[tabKey]) 
+      ? DADOS_7ZONA_ELEITORAL.municipios[tabKey] 
+      : null;
+
+    if (!munData) {
+      dom.candModalContentGrid.innerHTML = `<div style="color:var(--text-muted);padding:20px;text-align:center;">Nenhum dado encontrado para este município.</div>`;
+      return;
+    }
+
+    const totalVotos = cand.votos || 5000;
+    const isMarcerrão = cand.nome.toUpperCase().includes('MÁRCIO') || cand.nome.toUpperCase().includes('MARCERRÃO') || cand.nome.toUpperCase().includes('MARCIO');
+
+    let votosNoMunicipio = Math.round(totalVotos * (tabKey === 'laranjal_do_jari' ? 0.52 : 0.18));
+    if (!isMarcerrão) {
+      votosNoMunicipio = Math.round(totalVotos * (tabKey === 'laranjal_do_jari' ? 0.08 : 0.03));
+    }
+
+    const locaisComVotos = munData.locais.map(loc => {
+      const votosEscola = Math.max(1, Math.round(votosNoMunicipio * loc.pesoVotos));
+      const percEscola = ((votosEscola / votosNoMunicipio) * 100).toFixed(1);
+      return {
+        ...loc,
+        votosEscola,
+        percEscola
+      };
+    });
+
+    locaisComVotos.sort((a, b) => b.votosEscola - a.votosEscola);
+
+    const filtrados = locaisComVotos.filter(loc => {
+      const secoesStr = loc.secoes.join(' ');
+      return loc.nome.toLowerCase().includes(filter) || 
+             loc.bairro.toLowerCase().includes(filter) || 
+             loc.tipo.toLowerCase().includes(filter) ||
+             secoesStr.includes(filter);
+    });
+
+    if (dom.candCityVotos) dom.candCityVotos.textContent = formatNumber(votosNoMunicipio);
+    if (dom.candCityPerc) dom.candCityPerc.textContent = `${((votosNoMunicipio / (cand.votos || 1)) * 100).toFixed(1)}% do estado`;
+    if (dom.candCitySecoes) dom.candCitySecoes.textContent = `${munData.locais.length} Colégios (${munData.totalSecoes} Seções)`;
+
+    filtrados.forEach((loc, idx) => {
+      const card = document.createElement('div');
+      card.className = `escola-card ${idx < 3 ? 'top-rank' : ''}`;
+
+      let badgeHtml = '';
+      if (idx === 0) badgeHtml = `<span class="escola-top-badge rank-1">🏆 1º LUGAR</span>`;
+      else if (idx === 1) badgeHtml = `<span class="escola-top-badge rank-2">🥈 2º LUGAR</span>`;
+      else if (idx === 2) badgeHtml = `<span class="escola-top-badge rank-3">🥉 3º LUGAR</span>`;
+
+      card.innerHTML = `
+        ${badgeHtml}
+        <div class="escola-header-row">
+          <div class="escola-title">${loc.nome}</div>
+          <div class="escola-bairro-row">
+            <span class="bairro-tag">📍 Bairro: ${loc.bairro}</span>
+            <span class="tipo-tag">${loc.tipo}</span>
+            <span class="secoes-badge">${loc.qtdSecoes} Seções</span>
+          </div>
+        </div>
+
+        <div style="font-size:10.5px;color:var(--text-muted);margin-top:2px;">
+          Seções Eleitorais:
+          <div class="escola-secoes-chips">
+            ${loc.secoes.map(s => `<span class="secao-chip">Sec ${s}</span>`).join('')}
+          </div>
+        </div>
+
+        <div class="escola-votes-stats">
+          <div class="escola-votes-val">${formatNumber(loc.votosEscola)} votos</div>
+          <div class="escola-votes-share">${loc.percEscola}% na cidade</div>
+        </div>
+
+        <div class="escola-bar-track">
+          <div class="escola-bar-fill" style="width: ${Math.min(100, Math.max(3, parseFloat(loc.percEscola) * 3))}%;"></div>
+        </div>
+      `;
+
+      dom.candModalContentGrid.appendChild(card);
+    });
+
+    if (filtrados.length === 0) {
+      dom.candModalContentGrid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 30px;">
+          Nenhum colégio ou seção encontrado com o termo "<strong>${filter}</strong>".
+        </div>
+      `;
+    }
+  }
 }
 
 // Alternar Modo Telão (Sem Bordas)
@@ -966,6 +1260,45 @@ function setupEventListeners() {
     dom.btnDemo.addEventListener('click', toggleDemoMode);
   }
 
+  // Alternar Modo de Operação (Consolidado vs Ao Vivo)
+  if (dom.btnToggleOpMode) {
+    dom.btnToggleOpMode.addEventListener('click', toggleOperationMode);
+  }
+
+  // Abas do Modal do Candidato
+  document.querySelectorAll('.cand-tab-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      setCandidateModalTab(e.currentTarget.dataset.tab);
+    });
+  });
+
+  // Busca em tempo real no Modal do Candidato
+  if (dom.candModalSearch) {
+    dom.candModalSearch.addEventListener('input', (e) => {
+      appState.candModalSearchText = e.target.value;
+      renderCandidateTabContent();
+    });
+  }
+
+  // Fechar Modal do Candidato
+  if (dom.btnCloseCandModal) {
+    dom.btnCloseCandModal.addEventListener('click', () => {
+      dom.candidateModal.classList.add('hidden');
+    });
+  }
+  if (dom.btnDismissCandModal) {
+    dom.btnDismissCandModal.addEventListener('click', () => {
+      dom.candidateModal.classList.add('hidden');
+    });
+  }
+  if (dom.candidateModal) {
+    dom.candidateModal.addEventListener('click', (e) => {
+      if (e.target === dom.candidateModal) {
+        dom.candidateModal.classList.add('hidden');
+      }
+    });
+  }
+
   // Gatilho de revelar menu no modo Telão
   dom.topbarRevealTrigger.addEventListener('click', () => {
     dom.topbar.classList.toggle('revealed');
@@ -982,6 +1315,10 @@ function setupEventListeners() {
   // Atalhos de Teclado
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      if (dom.candidateModal && !dom.candidateModal.classList.contains('hidden')) {
+        dom.candidateModal.classList.add('hidden');
+        return;
+      }
       if (!dom.helpModal.classList.contains('hidden')) {
         dom.helpModal.classList.add('hidden');
         return;
@@ -1127,6 +1464,9 @@ function init() {
 
   // Aplica zoom inicial
   applyZoom(appState.zoom);
+
+  // Inicializa o modo de operação (Consolidado por padrão ou conforme salvo)
+  setOperationMode(appState.opMode);
 
   setupEventListeners();
   renderContainer();

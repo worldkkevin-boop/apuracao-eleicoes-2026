@@ -94,40 +94,55 @@
       </div>
     </div>
 
-    <!-- CENTRO: AUTO-ATUALIZAÇÃO & TEMPORIZADOR -->
+    <!-- CENTRO: CONTROLE DE MODO (CONSOLIDADO vs AO VIVO) & TEMPORIZADOR -->
     <div class="topbar-center">
-      <div class="timer-box" title="Tempo restante para próxima atualização">
-        <div class="timer-info">
-          <span id="timerStatusIcon">🔄</span>
-          <span id="timerLabel" class="lbl-timer">Atualiza:</span>
-          <strong id="timerCountdown">30s</strong>
-        </div>
-        <div class="timer-bar-track">
-          <div id="timerProgressBar" class="timer-bar-fill"></div>
-        </div>
-      </div>
-
-      <div class="control-group compact">
-        <select id="refreshInterval" class="styled-select compact-select" title="Intervalo de atualização automática">
-          <option value="5">⚡ 5s</option>
-          <option value="10">⚡ 10s</option>
-          <option value="15">15s</option>
-          <option value="20">20s</option>
-          <option value="30" selected>30s</option>
-          <option value="60">1 min</option>
-          <option value="120">2 min</option>
-          <option value="300">5 min</option>
-          <option value="0">Off</option>
-        </select>
-      </div>
-
-      <button id="btnRefreshNow" class="btn btn-primary" title="Atualizar agora todas as telas (Atalho: R)">
-        <span class="btn-icon">⚡</span> <span class="btn-text">Atualizar</span>
+      <!-- BOTÃO DE ALTERNAR MODO DE OPERAÇÃO -->
+      <button id="btnToggleOpMode" class="btn btn-mode-toggle" title="Alternar entre Análise Consolidada (Confirmada) e Modo Ao Vivo (Apuração)">
+        <span id="opModeIcon" class="btn-icon">📊</span> <span id="opModeText" class="btn-text">Modo Consolidado</span>
       </button>
 
-      <button id="btnTogglePause" class="btn btn-secondary" title="Pausar / Retomar atualização automática (Atalho: Espaço)">
-        <span id="pauseIcon" class="btn-icon">⏸️</span> <span id="pauseText" class="btn-text">Pausar</span>
-      </button>
+      <!-- BADGE DE APURAÇÃO CONSOLIDADA (PADRÃO ATUAL) -->
+      <div id="consolidatedBadge" class="consolidated-badge" title="Apuração concluída e oficializada. Sem recarregamento automático.">
+        <span class="badge-status-dot"></span>
+        <span class="badge-title">Apuração Consolidada</span>
+        <span class="badge-sub">100% Confirmada</span>
+      </div>
+
+      <!-- GRUPO DO TEMPORIZADOR / AUTO-REFRESH (Fica oculto no modo consolidado e visível no modo ao vivo) -->
+      <div id="liveTimerControls" class="live-timer-controls hidden">
+        <div class="timer-box" title="Tempo restante para próxima atualização">
+          <div class="timer-info">
+            <span id="timerStatusIcon">🔄</span>
+            <span id="timerLabel" class="lbl-timer">Atualiza:</span>
+            <strong id="timerCountdown">30s</strong>
+          </div>
+          <div class="timer-bar-track">
+            <div id="timerProgressBar" class="timer-bar-fill"></div>
+          </div>
+        </div>
+
+        <div class="control-group compact">
+          <select id="refreshInterval" class="styled-select compact-select" title="Intervalo de atualização automática">
+            <option value="5">⚡ 5s</option>
+            <option value="10">⚡ 10s</option>
+            <option value="15">15s</option>
+            <option value="20">20s</option>
+            <option value="30" selected>30s</option>
+            <option value="60">1 min</option>
+            <option value="120">2 min</option>
+            <option value="300">5 min</option>
+            <option value="0">Off</option>
+          </select>
+        </div>
+
+        <button id="btnRefreshNow" class="btn btn-primary" title="Atualizar agora todas as telas (Atalho: R)">
+          <span class="btn-icon">⚡</span> <span class="btn-text">Atualizar</span>
+        </button>
+
+        <button id="btnTogglePause" class="btn btn-secondary" title="Pausar / Retomar atualização automática (Atalho: Espaço)">
+          <span id="pauseIcon" class="btn-icon">⏸️</span> <span id="pauseText" class="btn-text">Pausar</span>
+        </button>
+      </div>
 
       <button id="btnDemo" class="btn btn-demo" title="Simular votos reais e coeficiente para testar a tela antes da apuração">
         <span class="btn-icon">🧪</span> <span id="demoText" class="btn-text">Simular Votos</span>
@@ -219,6 +234,78 @@
     </div>
   </div>
 
+  <!-- MODAL DE RAIO-X DO CANDIDATO (COLÉGIOS, BAIRROS E CIDADES) -->
+  <div id="candidateModal" class="modal-overlay hidden">
+    <div class="modal-card modal-candidate-card">
+      <div class="modal-header">
+        <div class="modal-cand-profile">
+          <div class="cand-photo-wrapper modal-cand-photo">
+            <img id="candModalPhoto" class="cand-photo" src="" alt="" loading="lazy">
+            <div id="candModalFallback" class="cand-photo-fallback" style="display:none;"></div>
+          </div>
+          <div class="modal-cand-titles">
+            <div class="modal-cand-name-row">
+              <h2 id="candModalName">Nome do Candidato</h2>
+              <span id="candModalBadge" class="cand-status-badge"></span>
+            </div>
+            <div class="modal-cand-meta">
+              <span id="candModalCargo" class="cand-cargo-pill">Deputado Federal</span>
+              <span id="candModalPartido" class="cand-party-pill">UNIÃO</span>
+              <span id="candModalNumero" class="cand-num-pill">Nº 4411</span>
+              <span class="cand-total-votes">Total no Estado: <strong id="candModalTotalVotos">0</strong> votos (<span id="candModalPerc">0%</span>)</span>
+            </div>
+          </div>
+        </div>
+        <button id="btnCloseCandModal" class="modal-close">&times;</button>
+      </div>
+
+      <div class="modal-cand-nav">
+        <button class="cand-tab-btn active" data-tab="laranjal_do_jari">
+          🏫 Laranjal do Jari (Colégios & Bairros)
+        </button>
+        <button class="cand-tab-btn" data-tab="vitoria_do_jari">
+          🏫 Vitória do Jari (Colégios & Seções)
+        </button>
+        <button class="cand-tab-btn" data-tab="municipios_ap">
+          📍 Todos os 16 Municípios do AP
+        </button>
+      </div>
+
+      <div class="modal-cand-filter-bar">
+        <div class="cand-search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="candModalSearch" placeholder="Filtrar colégio, bairro, seção ou cidade...">
+        </div>
+        <div class="cand-stats-summary" id="candStatsSummary">
+          <div class="stat-box">
+            <span class="stat-lbl">Votos Apurados:</span>
+            <strong id="candCityVotos" class="stat-val">0</strong>
+          </div>
+          <div class="stat-box">
+            <span class="stat-lbl">Participação:</span>
+            <strong id="candCityPerc" class="stat-val">0%</strong>
+          </div>
+          <div class="stat-box">
+            <span class="stat-lbl">Locais Mapeados:</span>
+            <strong id="candCitySecoes" class="stat-val">0</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-body modal-cand-body">
+        <div id="candModalContentGrid" class="cand-modal-grid">
+          <!-- Cards de escolas ou cidades gerados dinamicamente -->
+        </div>
+      </div>
+
+      <div class="modal-footer modal-cand-footer">
+        <span class="footer-notice">🏛️ Dados oficiais da 7ª Zona Eleitoral (TRE-AP) com distribuição de locais e seções.</span>
+        <button id="btnDismissCandModal" class="btn btn-secondary">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="locais_7zona.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
