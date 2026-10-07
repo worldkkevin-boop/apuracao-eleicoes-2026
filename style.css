@@ -1851,9 +1851,151 @@ kbd {
   padding: 10px 18px;
   background: #090e1a;
   border-top: 1px solid var(--border-color);
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .footer-notice {
   font-size: 11px;
   color: var(--text-muted);
+}
+
+/* Audiência e Registro Histórico */
+.viewers-badge {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.viewers-badge:hover {
+  background: rgba(0, 230, 118, 0.16);
+  border-color: rgba(0, 230, 118, 0.5);
+  transform: translateY(-1px);
+}
+
+.viewers-badge.consolidated {
+  background: rgba(148, 163, 184, 0.08);
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+.viewers-badge.consolidated .live-pulse-dot {
+  background: #64748b;
+  box-shadow: none;
+  animation: none;
+}
+
+.viewers-badge.consolidated .viewers-count {
+  color: #94a3b8;
+}
+
+.viewers-badge.consolidated .viewers-total {
+  color: #38bdf8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.audience-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.audience-stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.audience-stat-label {
+  font-size: 10.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.audience-stat-val {
+  font-size: 18px;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+.audience-stat-desc {
+  font-size: 9.5px;
+  color: #64748b;
+}
+
+.audience-info-box {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+/* Estilos de Impressão (Boletim de Desempenho do Candidato) */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #candidateModal,
+  #candidateModal * {
+    visibility: visible;
+  }
+  #candidateModal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    background: #fff !important;
+    color: #000 !important;
+    display: block !important;
+    padding: 0;
+    margin: 0;
+  }
+  .modal-candidate-card {
+    border: none !important;
+    box-shadow: none !important;
+    background: #fff !important;
+    color: #000 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .modal-header, .modal-cand-filter-bar, .modal-cand-body, .modal-cand-footer {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #e2e8f0 !important;
+  }
+  .modal-close, #btnShareWhatsApp, #btnPrintCandReport, #btnDismissCandModal, #btnToggleAllSecoes {
+    display: none !important;
+  }
+  .escola-card {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #000 !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .escola-title {
+    color: #0f172a !important;
+  }
+  .escola-votes-val, .modal-cand-name-row h2 {
+    color: #000 !important;
+  }
+  .escola-secoes-container {
+    display: block !important;
+    background: #f1f5f9 !important;
+    color: #000 !important;
+  }
+  .secao-row-item {
+    color: #000 !important;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .secao-num-badge {
+    background: #e2e8f0 !important;
+    color: #000 !important;
+  }
 }
