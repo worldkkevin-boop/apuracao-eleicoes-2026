@@ -1073,9 +1073,34 @@ function generateSecaoVotes(secoes, totalVotosEscola, seed = 1) {
   }));
 }
 
+// Normalizar strings para buscas e comparações (remove acentos e pontuação)
+function normalizeStr(s) {
+  if (!s) return '';
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().trim();
+}
+
+// Identificar se o candidato pertence à base eleitoral do Vale do Jari (Laranjal / Vitória do Jari)
+function isJariCandidate(cand) {
+  if (!cand) return false;
+  const num = String(cand.num || '');
+  const nomeNorm = normalizeStr(cand.nome || '');
+
+  // 1. Números específicos dos líderes do Vale do Jari
+  if (num === '4444' || num === '44123' || num === '10300' || num === '30333') return true;
+
+  // 2. Nomes ou apelidos da base política de Laranjal do Jari e Vitória do Jari
+  if (nomeNorm.includes('SERRAO') || nomeNorm.includes('MARCERRAO')) return true;
+  if (nomeNorm.includes('MARCIO') && (num.startsWith('44') || nomeNorm.includes('CLAY') || nomeNorm.includes('COSTA'))) return true;
+  if (nomeNorm.includes('BIA POMBO') || (nomeNorm.includes('POMBO') && num.startsWith('44'))) return true;
+  if (nomeNorm.includes('JARI') || nomeNorm.includes('JORY')) return true;
+
+  return false;
+}
+
 function openCandidateModal(cand, cargoId) {
   appState.selectedCandidate = cand;
   appState.selectedCargoId = cargoId;
+  appState.candX1TargetSqcand = null; // Reseta adversário selecionado para o novo candidato
 
   const cargoInfo = TSE_CONFIG.CARGOS[cargoId] || { nome: 'Deputado Federal' };
   const eleicao = cargoInfo.eleicao || '6259';
@@ -1200,42 +1225,68 @@ function renderCandidateTabContent() {
   if (tabKey === 'comparador_x1') {
     // VISÃO DE CONFRONTO DIRETO (X1) EM LARANJAL DO JARI
     let candidateList = (appState.cargoCandidates && appState.cargoCandidates[appState.selectedCargoId]) || [];
-    let rivals = candidateList.filter(c => c.sqcand !== cand.sqcand);
 
-    if (rivals.length === 0) {
-      rivals = [
-        { sqcand: 'sim-rayssa', nome: 'RAYSSA FURLAN', partido: 'MDB', num: '1515', votos: 34500, percStr: '8,20', percNum: 8.20 },
-        { sqcand: 'sim-acacio', nome: 'ACÁCIO FAVACHO', partido: 'MDB', num: '1510', votos: 32100, percStr: '7,65', percNum: 7.65 },
-        { sqcand: 'sim-josenildo', nome: 'JOSENILDO ABRANTES', partido: 'PDT', num: '1212', votos: 28900, percStr: '6,88', percNum: 6.88 },
-        { sqcand: 'sim-dorinaldo', nome: 'DORINALDO MALAFAIA', partido: 'PDT', num: '1234', votos: 25400, percStr: '6,05', percNum: 6.05 },
-        { sqcand: 'sim-vinicius', nome: 'VINÍCIUS GURGEL', partido: 'PL', num: '2222', votos: 22150, percStr: '5,28', percNum: 5.28 },
-        { sqcand: 'sim-sonize', nome: 'SONIZE BARBOSA', partido: 'PL', num: '2233', votos: 19800, percStr: '4,72', percNum: 4.72 }
-      ];
+    // Fallbacks oficiais extraídos do TSE AP por cargo caso ainda não carregados
+    if (candidateList.length === 0) {
+      if (appState.selectedCargoId === 7) {
+        // Deputado Estadual
+        candidateList = [
+          { sqcand: "30002533718", nome: "JOÃO PEDRO", partido: "PDT", num: "12123", votos: 17559, percStr: "3,79" },
+          { sqcand: "30002539119", nome: "RODOLFO VALE", partido: "UNIÃO", num: "44044", votos: 15863, percStr: "3,42" },
+          { sqcand: "30002533720", nome: "JACK JK", partido: "PDT", num: "12222", votos: 13278, percStr: "2,86" },
+          { sqcand: "30002549884", nome: "HILDEGARD GURGEL", partido: "REPUBLICANOS", num: "10800", votos: 12357, percStr: "2,66" },
+          { sqcand: "30002532038", nome: "R NELSON", partido: "PODE", num: "20193", votos: 10286, percStr: "2,22" },
+          { sqcand: "30002549865", nome: "DIOGO SENIOR", partido: "MDB", num: "15123", votos: 10050, percStr: "2,17" },
+          { sqcand: "30002549880", nome: "KINOVAK", partido: "REPUBLICANOS", num: "10999", votos: 9978, percStr: "2,15" },
+          { sqcand: "30002539120", nome: "BIA POMBO", partido: "UNIÃO", num: "44123", votos: 9771, percStr: "2,11" },
+          { sqcand: "30002533021", nome: "DR. VICTOR AMORAS", partido: "REDE", num: "18001", votos: 9383, percStr: "2,02" },
+          { sqcand: "30002533112", nome: "SOCORRO NOGUEIRA", partido: "PT", num: "13123", votos: 9253, percStr: "1,99" }
+        ];
+      } else {
+        // Deputado Federal
+        candidateList = [
+          { sqcand: "30002536306", nome: "FELIPE SHOW", partido: "UNIÃO", num: "4480", votos: 34587, percStr: "7,51" },
+          { sqcand: "30002532841", nome: "JOSENILDO", partido: "PDT", num: "1212", votos: 26453, percStr: "5,74" },
+          { sqcand: "30002536304", nome: "ALINE GURGEL", partido: "UNIÃO", num: "4410", votos: 25501, percStr: "5,54" },
+          { sqcand: "30002536305", nome: "MARCIO SERRÃO", partido: "UNIÃO", num: "4444", votos: 20796, percStr: "4,51" },
+          { sqcand: "30002538084", nome: "VINICIUS GURGEL", partido: "PL", num: "2222", votos: 19625, percStr: "4,26" },
+          { sqcand: "30002532842", nome: "DORINALDO MALAFAIA", partido: "PDT", num: "1222", votos: 19382, percStr: "4,21" },
+          { sqcand: "30002533096", nome: "PROFESSORA MARCIVÂNIA", partido: "PCDOB", num: "6565", votos: 17913, percStr: "3,89" },
+          { sqcand: "30002533100", nome: "PAULO LEMOS", partido: "PT", num: "1350", votos: 16242, percStr: "3,53" },
+          { sqcand: "30002530514", nome: "DRA. ERICA", partido: "PODE", num: "2000", votos: 15358, percStr: "3,33" }
+        ];
+      }
     }
+
+    let rivals = candidateList.filter(c => c.sqcand !== cand.sqcand && String(c.num) !== String(cand.num));
+    rivals.sort((a, b) => (b.votos || 0) - (a.votos || 0));
 
     let cand2 = rivals.find(r => r.sqcand === appState.candX1TargetSqcand);
     if (!cand2) {
       cand2 = rivals[0];
-      appState.candX1TargetSqcand = cand2.sqcand;
+      appState.candX1TargetSqcand = cand2?.sqcand || null;
     }
 
     const munData = (typeof DADOS_7ZONA_ELEITORAL !== 'undefined' && DADOS_7ZONA_ELEITORAL.municipios?.laranjal_do_jari)
       ? DADOS_7ZONA_ELEITORAL.municipios.laranjal_do_jari
       : null;
 
-    if (!munData) {
-      dom.candModalContentGrid.innerHTML = '<div style="color:var(--text-muted);padding:20px;text-align:center;">Base da 7ª Zona não encontrada.</div>';
+    if (!munData || !cand2) {
+      dom.candModalContentGrid.innerHTML = '<div style="color:var(--text-muted);padding:20px;text-align:center;">Base de dados não encontrada para confronto.</div>';
       return;
     }
 
     const totalVotos1 = cand.votos || 5000;
     const totalVotos2 = cand2.votos || 5000;
 
-    const isMarc1 = cand.nome.toUpperCase().includes('MÁRCIO') || cand.nome.toUpperCase().includes('MARCERRÃO');
-    const isMarc2 = cand2.nome.toUpperCase().includes('MÁRCIO') || cand2.nome.toUpperCase().includes('MARCERRÃO');
+    const isJari1 = isJariCandidate(cand);
+    const isJari2 = isJariCandidate(cand2);
 
-    const votosMun1 = Math.round(totalVotos1 * (isMarc1 ? 0.52 : 0.08));
-    const votosMun2 = Math.round(totalVotos2 * (isMarc2 ? 0.52 : 0.085));
+    const share1 = isJari1 ? 0.70 : 0.025;
+    const share2 = isJari2 ? 0.70 : 0.025;
+
+    const votosMun1 = Math.max(10, Math.round(totalVotos1 * share1));
+    const votosMun2 = Math.max(10, Math.round(totalVotos2 * share2));
 
     const seed2 = parseInt(cand2.num || '22', 10);
 
@@ -1244,9 +1295,8 @@ function renderCandidateTabContent() {
 
     const comparativoEscolas = munData.locais.map((loc, idx) => {
       const v1 = Math.max(1, Math.round(votosMun1 * loc.pesoVotos));
-      const fatorMod = 0.75 + (((seed2 * (idx + 3)) % 55) / 100);
-      const peso2Ajustado = loc.pesoVotos * fatorMod;
-      const v2 = Math.max(1, Math.round(votosMun2 * peso2Ajustado));
+      const fatorMod = 0.85 + (((seed2 * (idx + 3)) % 30) / 100);
+      const v2 = Math.max(1, Math.round(votosMun2 * loc.pesoVotos * fatorMod));
 
       const totalDuelo = v1 + v2;
       const p1 = ((v1 / totalDuelo) * 100).toFixed(1);
@@ -1376,18 +1426,29 @@ function renderCandidateTabContent() {
       : [];
 
     const totalVotos = cand.votos || 1000;
-    const isMarcerrão = cand.nome.toUpperCase().includes('MÁRCIO') || cand.nome.toUpperCase().includes('MARCERRÃO') || cand.nome.toUpperCase().includes('MARCIO');
+    const isJari = isJariCandidate(cand);
 
     const cidadesComVotos = lista.map((m) => {
       let percShare = m.pesoEleitoral;
-      if (isMarcerrão) {
-        if (m.nome === "Laranjal do Jari") percShare = 0.50;
-        else if (m.nome === "Vitória do Jari") percShare = 0.18;
-        else if (m.nome === "Macapá") percShare = 0.20;
-        else if (m.nome === "Santana") percShare = 0.07;
-        else percShare = 0.05 * (m.pesoEleitoral / 0.15);
+      if (isJari) {
+        // Líderes com forte base no Vale do Jari
+        if (m.nome === "Laranjal do Jari") percShare = 0.70;
+        else if (m.nome === "Vitória do Jari") percShare = 0.17;
+        else if (m.nome === "Macapá") percShare = 0.065;
+        else if (m.nome === "Santana") percShare = 0.025;
+        else if (m.nome === "Mazagão") percShare = 0.012;
+        else percShare = 0.028 * (m.pesoEleitoral / 0.15);
+      } else {
+        // Candidatos de Macapá / Capital / Outras regiões
+        if (m.nome === "Macapá") percShare = 0.63;
+        else if (m.nome === "Santana") percShare = 0.17;
+        else if (m.nome === "Laranjal do Jari") percShare = 0.025;
+        else if (m.nome === "Vitória do Jari") percShare = 0.008;
+        else if (m.nome === "Mazagão") percShare = 0.035;
+        else if (m.nome === "Porto Grande") percShare = 0.028;
+        else percShare = 0.104 * (m.pesoEleitoral / 0.15);
       }
-      const votosMun = Math.max(0, Math.round(totalVotos * percShare));
+      const votosMun = Math.max(1, Math.round(totalVotos * percShare));
       return {
         ...m,
         votosMun,
@@ -1448,12 +1509,16 @@ function renderCandidateTabContent() {
     }
 
     const totalVotos = cand.votos || 5000;
-    const isMarcerrão = cand.nome.toUpperCase().includes('MÁRCIO') || cand.nome.toUpperCase().includes('MARCERRÃO') || cand.nome.toUpperCase().includes('MARCIO');
+    const isJari = isJariCandidate(cand);
 
-    let votosNoMunicipio = Math.round(totalVotos * (tabKey === 'laranjal_do_jari' ? 0.52 : 0.18));
-    if (!isMarcerrão) {
-      votosNoMunicipio = Math.round(totalVotos * (tabKey === 'laranjal_do_jari' ? 0.08 : 0.03));
+    let shareMun = 0.025;
+    if (tabKey === 'laranjal_do_jari') {
+      shareMun = isJari ? 0.70 : 0.025;
+    } else if (tabKey === 'vitoria_do_jari') {
+      shareMun = isJari ? 0.17 : 0.008;
     }
+
+    let votosNoMunicipio = Math.max(10, Math.round(totalVotos * shareMun));
 
     const locaisComVotos = munData.locais.map(loc => {
       const votosEscola = Math.max(1, Math.round(votosNoMunicipio * loc.pesoVotos));
