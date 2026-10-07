@@ -1,0 +1,2986 @@
+{
+  "06130": {
+    "1": {
+      "totalValidos": 20556,
+      "cands": {
+        "13": {
+          "vap": 10748,
+          "pvap": "52,29",
+          "nome": "LULA"
+        },
+        "14": {
+          "vap": 482,
+          "pvap": "2,34",
+          "nome": "RENAN SANTOS"
+        },
+        "16": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "HERTZ DIAS"
+        },
+        "21": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "EDMILSON COSTA"
+        },
+        "22": {
+          "vap": 8386,
+          "pvap": "40,80",
+          "nome": "FLAVIO BOLSONARO"
+        },
+        "27": {
+          "vap": 6,
+          "pvap": "0,03",
+          "nome": "CLARIANA BARAO"
+        },
+        "29": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "RUI COSTA PIMENTA"
+        },
+        "30": {
+          "vap": 8,
+          "pvap": "0,04",
+          "nome": "ZEMA"
+        },
+        "35": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "VETERINÁRIO WILSON GRASSI"
+        },
+        "55": {
+          "vap": 282,
+          "pvap": "1,37",
+          "nome": "RONALDO CAIADO"
+        },
+        "70": {
+          "vap": 622,
+          "pvap": "3,03",
+          "nome": "ESCRITOR AUGUSTO CURY"
+        },
+        "80": {
+          "vap": 17,
+          "pvap": "0,08",
+          "nome": "SAMARA"
+        }
+      }
+    },
+    "3": {
+      "totalValidos": 19448,
+      "cands": {
+        "16": {
+          "vap": 9,
+          "pvap": "0,05",
+          "nome": "CARLOS CLEY"
+        },
+        "27": {
+          "vap": 10,
+          "pvap": "0,05",
+          "nome": "DELEGADO MARCOS"
+        },
+        "29": {
+          "vap": 5,
+          "pvap": "0,03",
+          "nome": "JAIRO PALHETA"
+        },
+        "44": {
+          "vap": 8507,
+          "pvap": "43,74",
+          "nome": "CLÉCIO"
+        },
+        "55": {
+          "vap": 10917,
+          "pvap": "56,13",
+          "nome": "DR. FURLAN"
+        }
+      }
+    },
+    "5": {
+      "totalValidos": 38793,
+      "cands": {
+        "130": {
+          "vap": 7081,
+          "pvap": "18,25",
+          "nome": "RANDOLFE"
+        },
+        "151": {
+          "vap": 4518,
+          "pvap": "11,65",
+          "nome": "ACÁCIO FAVACHO"
+        },
+        "200": {
+          "vap": 9224,
+          "pvap": "23,78",
+          "nome": "RAYSSA FURLAN"
+        },
+        "272": {
+          "vap": 59,
+          "pvap": "0,15",
+          "nome": "PROFESSOR UZIAN PINTO"
+        },
+        "277": {
+          "vap": 40,
+          "pvap": "0,10",
+          "nome": "JUÍZA JÔ"
+        },
+        "290": {
+          "vap": 10,
+          "pvap": "0,03",
+          "nome": "HELIO SILVA"
+        },
+        "401": {
+          "vap": 454,
+          "pvap": "1,17",
+          "nome": "CAPI"
+        },
+        "444": {
+          "vap": 10241,
+          "pvap": "26,40",
+          "nome": "ALLINY SERRÃO"
+        },
+        "555": {
+          "vap": 7166,
+          "pvap": "18,47",
+          "nome": "LUCAS BARRETO"
+        }
+      }
+    },
+    "6": {
+      "totalValidos": 20618,
+      "cands": {
+        "1111": {
+          "vap": 168,
+          "pvap": "0,81",
+          "nome": "ANDRE ABDON"
+        },
+        "1112": {
+          "vap": 36,
+          "pvap": "0,17",
+          "nome": "BENA ROCHA"
+        },
+        "1200": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "KLEBER KARIPUNA"
+        },
+        "1210": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "WELTON BARREIROS"
+        },
+        "1212": {
+          "vap": 1624,
+          "pvap": "7,87",
+          "nome": "JOSENILDO"
+        },
+        "1213": {
+          "vap": 148,
+          "pvap": "0,72",
+          "nome": "ISABEL NOGUEIRA"
+        },
+        "1215": {
+          "vap": 19,
+          "pvap": "0,09",
+          "nome": "LAU CAUSA ANIMAL"
+        },
+        "1220": {
+          "vap": 12,
+          "pvap": "0,06",
+          "nome": "PROFESSORA KATIA PAULINO"
+        },
+        "1222": {
+          "vap": 976,
+          "pvap": "4,73",
+          "nome": "DORINALDO MALAFAIA"
+        },
+        "1233": {
+          "vap": 147,
+          "pvap": "0,71",
+          "nome": "PASTOR SOLANGELO"
+        },
+        "1234": {
+          "vap": 523,
+          "pvap": "2,54",
+          "nome": "JESUS PONTES"
+        },
+        "1313": {
+          "vap": 14,
+          "pvap": "0,07",
+          "nome": "PROFESSORA IVANÉIA"
+        },
+        "1340": {
+          "vap": 245,
+          "pvap": "1,19",
+          "nome": "CAMILO CAPIBERIBE"
+        },
+        "1350": {
+          "vap": 213,
+          "pvap": "1,03",
+          "nome": "PAULO LEMOS"
+        },
+        "1400": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ISRAEL DOS SANTOS"
+        },
+        "1401": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "MEIRE SALVIANO"
+        },
+        "1414": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "LUY RICARDO"
+        },
+        "1415": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "BRUNO BORGES"
+        },
+        "1420": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MARCIA NERY"
+        },
+        "1511": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "HELDER"
+        },
+        "1515": {
+          "vap": 197,
+          "pvap": "0,96",
+          "nome": "FRANCISCA FAVACHO"
+        },
+        "1516": {
+          "vap": 33,
+          "pvap": "0,16",
+          "nome": "LUCAS DA GAZETA"
+        },
+        "1522": {
+          "vap": 537,
+          "pvap": "2,60",
+          "nome": "ALINNE MADEIREIRO"
+        },
+        "1526": {
+          "vap": 79,
+          "pvap": "0,38",
+          "nome": "DALDEIA"
+        },
+        "1545": {
+          "vap": 16,
+          "pvap": "0,08",
+          "nome": "MARIA ORLANDA"
+        },
+        "1555": {
+          "vap": 22,
+          "pvap": "0,11",
+          "nome": "ELIZAURA DA ANÁPOLIS"
+        },
+        "1580": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "RÔMULO MONTEIRO"
+        },
+        "1599": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "IRMÃ MARIA"
+        },
+        "1818": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "CRIS NUNES"
+        },
+        "1834": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "JAWARUWA WAJÃPI"
+        },
+        "2000": {
+          "vap": 328,
+          "pvap": "1,59",
+          "nome": "DRA. ERICA"
+        },
+        "2010": {
+          "vap": 66,
+          "pvap": "0,32",
+          "nome": "MAYLA CARVALHO"
+        },
+        "2020": {
+          "vap": 310,
+          "pvap": "1,50",
+          "nome": "SANDRA LACERDA"
+        },
+        "2022": {
+          "vap": 21,
+          "pvap": "0,10",
+          "nome": "JOEL CAVALCANTE"
+        },
+        "2023": {
+          "vap": 441,
+          "pvap": "2,14",
+          "nome": "DR. VINICIUS REIS"
+        },
+        "2026": {
+          "vap": 58,
+          "pvap": "0,28",
+          "nome": "KASSYO RAMOS"
+        },
+        "2027": {
+          "vap": 169,
+          "pvap": "0,82",
+          "nome": "PROFESSORA GORETH"
+        },
+        "2030": {
+          "vap": 16,
+          "pvap": "0,08",
+          "nome": "KAMILLE ALMEIDA"
+        },
+        "2055": {
+          "vap": 424,
+          "pvap": "2,06",
+          "nome": "ALEXANDRE AZEVEDO"
+        },
+        "2211": {
+          "vap": 83,
+          "pvap": "0,40",
+          "nome": "CONSELHEIRA HUELMA MEDEIROS"
+        },
+        "2212": {
+          "vap": 13,
+          "pvap": "0,06",
+          "nome": "JORGE SOUZA"
+        },
+        "2220": {
+          "vap": 19,
+          "pvap": "0,09",
+          "nome": "CORONEL PALMIRA"
+        },
+        "2222": {
+          "vap": 591,
+          "pvap": "2,87",
+          "nome": "VINICIUS GURGEL"
+        },
+        "2223": {
+          "vap": 63,
+          "pvap": "0,31",
+          "nome": "ELIAS REAL DO MENINO JESUS"
+        },
+        "2225": {
+          "vap": 132,
+          "pvap": "0,64",
+          "nome": "TENENTE CORONEL MARQUES"
+        },
+        "2255": {
+          "vap": 176,
+          "pvap": "0,85",
+          "nome": "BIA DA ZILMA"
+        },
+        "2277": {
+          "vap": 49,
+          "pvap": "0,24",
+          "nome": "GESIEL OLIVEIRA"
+        },
+        "2280": {
+          "vap": 343,
+          "pvap": "1,66",
+          "nome": "CAETANO BENTES"
+        },
+        "2700": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "WILGUER CARVALHO"
+        },
+        "2719": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SHIRLEY AMARAL"
+        },
+        "2722": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CARMINA RODRIGUES"
+        },
+        "2727": {
+          "vap": 4,
+          "pvap": "0,02",
+          "nome": "ROBSON GUALBERTO"
+        },
+        "2770": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ELIADA SANTOS"
+        },
+        "2777": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "PIMPOLHO"
+        },
+        "2929": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ELIELTON SILVA"
+        },
+        "2999": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "VASTI BARBOSA"
+        },
+        "3026": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROFESSORA RILANY SILVA"
+        },
+        "3030": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "IRANEI LOPES"
+        },
+        "3065": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "BETH GARCIA"
+        },
+        "3088": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "LUISÃO"
+        },
+        "3099": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "EDILEUZA RODRIGUES"
+        },
+        "4321": {
+          "vap": 387,
+          "pvap": "1,88",
+          "nome": "LUCAS ABRAHAO"
+        },
+        "4343": {
+          "vap": 218,
+          "pvap": "1,06",
+          "nome": "IVONE CHAGAS"
+        },
+        "4400": {
+          "vap": 496,
+          "pvap": "2,40",
+          "nome": "CRISTIANO FURLAN"
+        },
+        "4410": {
+          "vap": 358,
+          "pvap": "1,74",
+          "nome": "ALINE GURGEL"
+        },
+        "4444": {
+          "vap": 8991,
+          "pvap": "43,59",
+          "nome": "MARCIO SERRÃO"
+        },
+        "4456": {
+          "vap": 289,
+          "pvap": "1,40",
+          "nome": "LUIZ CARLOS"
+        },
+        "4478": {
+          "vap": 36,
+          "pvap": "0,17",
+          "nome": "FÁTIMA PELAES"
+        },
+        "4480": {
+          "vap": 382,
+          "pvap": "1,85",
+          "nome": "FELIPE SHOW"
+        },
+        "5013": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "RAMONA MATARAZZO"
+        },
+        "5050": {
+          "vap": 8,
+          "pvap": "0,04",
+          "nome": "ANDREW COSTA"
+        },
+        "5080": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "PROF. GIL BARBOSA"
+        },
+        "5500": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "NANDA"
+        },
+        "5510": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "AUGUSTO AGUIAR"
+        },
+        "5512": {
+          "vap": 24,
+          "pvap": "0,12",
+          "nome": "TIA LU"
+        },
+        "5515": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "DILSON BORGES"
+        },
+        "5522": {
+          "vap": 7,
+          "pvap": "0,03",
+          "nome": "PR. DIDIO"
+        },
+        "5533": {
+          "vap": 25,
+          "pvap": "0,12",
+          "nome": "RELSON CARDOSO"
+        },
+        "5544": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "LUIZ ALEX"
+        },
+        "5555": {
+          "vap": 16,
+          "pvap": "0,08",
+          "nome": "KELLY DANTAS"
+        },
+        "5577": {
+          "vap": 42,
+          "pvap": "0,20",
+          "nome": "LEDA SADALA"
+        },
+        "6522": {
+          "vap": 12,
+          "pvap": "0,06",
+          "nome": "DUDÃO COSTA"
+        },
+        "6556": {
+          "vap": 16,
+          "pvap": "0,08",
+          "nome": "PROFESSORA VIVIAN"
+        },
+        "6565": {
+          "vap": 378,
+          "pvap": "1,83",
+          "nome": "PROFESSORA MARCIVÂNIA"
+        }
+      }
+    },
+    "7": {
+      "totalValidos": 19086,
+      "cands": {
+        "10000": {
+          "vap": 116,
+          "pvap": "0,56",
+          "nome": "TELMA NERY"
+        },
+        "10010": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "DÉBORA MARTINS"
+        },
+        "10100": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "BENÉ DO PLUTÃO"
+        },
+        "10110": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "CARECA DA TALENTUS"
+        },
+        "10111": {
+          "vap": 17,
+          "pvap": "0,08",
+          "nome": "ODILSON NUNES"
+        },
+        "10123": {
+          "vap": 53,
+          "pvap": "0,26",
+          "nome": "DR MARCOS PAULO"
+        },
+        "10144": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ESTEFANE RAPOSA"
+        },
+        "10190": {
+          "vap": 8,
+          "pvap": "0,04",
+          "nome": "CORONEL ANDRÉ DIAS"
+        },
+        "10300": {
+          "vap": 119,
+          "pvap": "0,58",
+          "nome": "TEKA DO JORY"
+        },
+        "10321": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "KARLA SAMILA"
+        },
+        "10333": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR. HUGO"
+        },
+        "10369": {
+          "vap": 113,
+          "pvap": "0,55",
+          "nome": "DUDU BARBOSA"
+        },
+        "10500": {
+          "vap": 68,
+          "pvap": "0,33",
+          "nome": "CORONEL FLEXA"
+        },
+        "10555": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SARGENTO GEOVANA"
+        },
+        "10580": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "DUDU TAVARES"
+        },
+        "10678": {
+          "vap": 467,
+          "pvap": "2,27",
+          "nome": "RAYFRAN BEIRÃO"
+        },
+        "10699": {
+          "vap": 59,
+          "pvap": "0,29",
+          "nome": "ENNIO CAVALCANTE"
+        },
+        "10700": {
+          "vap": 6,
+          "pvap": "0,03",
+          "nome": "PROFESSOR MORPHEU"
+        },
+        "10777": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "DR RENAN ROSAS"
+        },
+        "10789": {
+          "vap": 368,
+          "pvap": "1,79",
+          "nome": "JAIME PEREZ"
+        },
+        "10800": {
+          "vap": 285,
+          "pvap": "1,39",
+          "nome": "HILDEGARD GURGEL"
+        },
+        "10999": {
+          "vap": 158,
+          "pvap": "0,77",
+          "nome": "KINOVAK"
+        },
+        "11123": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "SELMA DE PAULA"
+        },
+        "11700": {
+          "vap": 150,
+          "pvap": "0,73",
+          "nome": "JOSELYO MAIS SAÚDE"
+        },
+        "12100": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CLAUDIO DO POVÃO"
+        },
+        "12123": {
+          "vap": 546,
+          "pvap": "2,66",
+          "nome": "JOÃO PEDRO"
+        },
+        "12131": {
+          "vap": 4,
+          "pvap": "0,02",
+          "nome": "CLEICY LEÃO"
+        },
+        "12147": {
+          "vap": 137,
+          "pvap": "0,67",
+          "nome": "PASTOR OLIVEIRA"
+        },
+        "12222": {
+          "vap": 737,
+          "pvap": "3,59",
+          "nome": "JACK JK"
+        },
+        "12300": {
+          "vap": 62,
+          "pvap": "0,30",
+          "nome": "PASTORA LÉIA PELAES"
+        },
+        "12345": {
+          "vap": 20,
+          "pvap": "0,10",
+          "nome": "VAL DIAS"
+        },
+        "12369": {
+          "vap": 80,
+          "pvap": "0,39",
+          "nome": "KLEBER DINIZ"
+        },
+        "12377": {
+          "vap": 69,
+          "pvap": "0,34",
+          "nome": "PASTORA IZAMAR"
+        },
+        "12456": {
+          "vap": 421,
+          "pvap": "2,05",
+          "nome": "ALDILENE SOUZA"
+        },
+        "12555": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "LEILA VIANA"
+        },
+        "12678": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MARICLEY RIBEIRO"
+        },
+        "12777": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CRIS DA ABB"
+        },
+        "12789": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JIM DAVIS"
+        },
+        "13047": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "CARLOS CARMEZIM"
+        },
+        "13113": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "CELISA MELO"
+        },
+        "13123": {
+          "vap": 163,
+          "pvap": "0,79",
+          "nome": "SOCORRO NOGUEIRA"
+        },
+        "13130": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "VAN VILHENA"
+        },
+        "13141": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "JARDEL ELIEZER"
+        },
+        "13289": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "MANOEL ARAUJO"
+        },
+        "13333": {
+          "vap": 14,
+          "pvap": "0,07",
+          "nome": "ALCINETE SANTOS"
+        },
+        "13456": {
+          "vap": 33,
+          "pvap": "0,16",
+          "nome": "ZENEIDE COSTA"
+        },
+        "15000": {
+          "vap": 46,
+          "pvap": "0,22",
+          "nome": "CAROL MONTEIRO"
+        },
+        "15007": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JÓ PEREIRA"
+        },
+        "15123": {
+          "vap": 781,
+          "pvap": "3,80",
+          "nome": "DIOGO SENIOR"
+        },
+        "15125": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "CLEUMA DUARTE"
+        },
+        "15190": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "BALIEIRO"
+        },
+        "15222": {
+          "vap": 10,
+          "pvap": "0,05",
+          "nome": "SALMON SANTANA"
+        },
+        "15321": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "APÓSTOLA BERENICE LAZAMÉ"
+        },
+        "15444": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "FULÊRA"
+        },
+        "15555": {
+          "vap": 137,
+          "pvap": "0,67",
+          "nome": "ARANTHU"
+        },
+        "15699": {
+          "vap": 428,
+          "pvap": "2,08",
+          "nome": "JUNIOR FAVACHO"
+        },
+        "15777": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "HELÔ"
+        },
+        "18000": {
+          "vap": 465,
+          "pvap": "2,26",
+          "nome": "FABRICIO FURLAN"
+        },
+        "18001": {
+          "vap": 291,
+          "pvap": "1,42",
+          "nome": "DR. VICTOR AMORAS"
+        },
+        "18111": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MARINA SÁ"
+        },
+        "18122": {
+          "vap": 15,
+          "pvap": "0,07",
+          "nome": "RICARDO MAGNO"
+        },
+        "18123": {
+          "vap": 12,
+          "pvap": "0,06",
+          "nome": "JOELSON ALENCAR"
+        },
+        "18130": {
+          "vap": 32,
+          "pvap": "0,16",
+          "nome": "HELINHO CASTRO"
+        },
+        "18139": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "LOBATO"
+        },
+        "18143": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "JULIANA CARVALHO"
+        },
+        "18144": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "RIBA DAS MESAS"
+        },
+        "18147": {
+          "vap": 24,
+          "pvap": "0,12",
+          "nome": "ZÉ ROBERTO"
+        },
+        "18180": {
+          "vap": 68,
+          "pvap": "0,33",
+          "nome": "ANNE MARQUES"
+        },
+        "18193": {
+          "vap": 12,
+          "pvap": "0,06",
+          "nome": "RAFAEL MASIM"
+        },
+        "18222": {
+          "vap": 4,
+          "pvap": "0,02",
+          "nome": "PROFESSORA DALVA"
+        },
+        "18500": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "HARIFE VIEGAS"
+        },
+        "18667": {
+          "vap": 7,
+          "pvap": "0,03",
+          "nome": "PROFESSOR MARCO ANTONIO"
+        },
+        "18777": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CHIQUINHO DO POVO"
+        },
+        "18789": {
+          "vap": 34,
+          "pvap": "0,17",
+          "nome": "DAYSE MARQUES"
+        },
+        "18888": {
+          "vap": 10,
+          "pvap": "0,05",
+          "nome": "SIMONE KARIPUNA"
+        },
+        "20000": {
+          "vap": 9,
+          "pvap": "0,04",
+          "nome": "MARIO BIANCHI"
+        },
+        "20100": {
+          "vap": 9,
+          "pvap": "0,04",
+          "nome": "JULIA SOARES"
+        },
+        "20111": {
+          "vap": 11,
+          "pvap": "0,05",
+          "nome": "SANDRA ALCANTARA"
+        },
+        "20120": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROF. IVANILDO LUZ"
+        },
+        "20123": {
+          "vap": 4,
+          "pvap": "0,02",
+          "nome": "ALAN FIGUEIREDO"
+        },
+        "20155": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "COSTA FILHO"
+        },
+        "20180": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "NANDA CABRAL"
+        },
+        "20193": {
+          "vap": 358,
+          "pvap": "1,74",
+          "nome": "R NELSON"
+        },
+        "20200": {
+          "vap": 61,
+          "pvap": "0,30",
+          "nome": "ELENICE"
+        },
+        "20201": {
+          "vap": 21,
+          "pvap": "0,10",
+          "nome": "CRISTINA ALMEIDA"
+        },
+        "20220": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "PROF. ROGÉRIO LIMA"
+        },
+        "20222": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "LAENE DANTAS"
+        },
+        "20223": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JORGINHO MACIEL"
+        },
+        "20300": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "DRA VÂNIA FONTOURA"
+        },
+        "20321": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "CESAR FARIAS"
+        },
+        "20333": {
+          "vap": 20,
+          "pvap": "0,10",
+          "nome": "DR. ANGELO"
+        },
+        "20416": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ISRAEL SANTOS"
+        },
+        "20500": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "CLAUDINHA"
+        },
+        "20555": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "HERISON TUPAN"
+        },
+        "20666": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR. SANDRO CARVALHO"
+        },
+        "20777": {
+          "vap": 111,
+          "pvap": "0,54",
+          "nome": "CARLOS MURILO"
+        },
+        "20789": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROF. BENÉ BINGOTA"
+        },
+        "20800": {
+          "vap": 29,
+          "pvap": "0,14",
+          "nome": "JOÃO MENDONÇA"
+        },
+        "20888": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JUCELINO FERNANDES"
+        },
+        "22000": {
+          "vap": 1219,
+          "pvap": "5,94",
+          "nome": "WALCIMAR FONSECA"
+        },
+        "22022": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "CARLOS EVANGELISTA"
+        },
+        "22100": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "GIRLENE BARROSO"
+        },
+        "22101": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "OBREIRA LENE LOBO"
+        },
+        "22111": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ANNE TÁVORA"
+        },
+        "22122": {
+          "vap": 159,
+          "pvap": "0,77",
+          "nome": "GIAN DO NAE"
+        },
+        "22123": {
+          "vap": 41,
+          "pvap": "0,20",
+          "nome": "ALEX"
+        },
+        "22190": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ÍNDIA POTIRA"
+        },
+        "22222": {
+          "vap": 16,
+          "pvap": "0,08",
+          "nome": "MADSON MILLOR"
+        },
+        "22223": {
+          "vap": 25,
+          "pvap": "0,12",
+          "nome": "ALEXANDRE VERÇOSA"
+        },
+        "22240": {
+          "vap": 14,
+          "pvap": "0,07",
+          "nome": "DR. PATRICK MEDRADO"
+        },
+        "22321": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SOEDI"
+        },
+        "22333": {
+          "vap": 71,
+          "pvap": "0,35",
+          "nome": "JORIELSON"
+        },
+        "22456": {
+          "vap": 77,
+          "pvap": "0,37",
+          "nome": "DR ACHILES"
+        },
+        "22555": {
+          "vap": 20,
+          "pvap": "0,10",
+          "nome": "EDU SIQUEIRA"
+        },
+        "22580": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CIRILO FERNANDES"
+        },
+        "22666": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "DR REINALDO PORTILHO"
+        },
+        "22722": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "PASTORA MARIA DE JESUS"
+        },
+        "22777": {
+          "vap": 9,
+          "pvap": "0,04",
+          "nome": "ALDO MAURÍCIO"
+        },
+        "22789": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "WANNA QUEIROGA"
+        },
+        "22800": {
+          "vap": 12,
+          "pvap": "0,06",
+          "nome": "ARANHA"
+        },
+        "22999": {
+          "vap": 5,
+          "pvap": "0,02",
+          "nome": "ADOLFO NERY"
+        },
+        "29000": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CLAUDIO COSTA"
+        },
+        "29999": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ELIANA BRANDÃO"
+        },
+        "30000": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "MARCELO OLIVEIRA"
+        },
+        "30111": {
+          "vap": 47,
+          "pvap": "0,23",
+          "nome": "WALDEIR"
+        },
+        "30123": {
+          "vap": 46,
+          "pvap": "0,22",
+          "nome": "HELSON FREITAS"
+        },
+        "30151": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "NATANAEL DOS ANJOS"
+        },
+        "30190": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "TEN CEL ADEMAR"
+        },
+        "30192": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ALAN SANTOS"
+        },
+        "30200": {
+          "vap": 52,
+          "pvap": "0,25",
+          "nome": "WINNIE ATALIBA"
+        },
+        "30222": {
+          "vap": 15,
+          "pvap": "0,07",
+          "nome": "KARYNA RAMOS"
+        },
+        "30300": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DANIELA FORTUNATO"
+        },
+        "30321": {
+          "vap": 795,
+          "pvap": "3,87",
+          "nome": "VERA DA FARMÁCIA"
+        },
+        "30333": {
+          "vap": 55,
+          "pvap": "0,27",
+          "nome": "DULCE DO JARI"
+        },
+        "30456": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "IRISMAR VILHENA"
+        },
+        "30500": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "MARLUCE COSTA"
+        },
+        "30555": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "DR YURI ALESI"
+        },
+        "30888": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "AUGUSTO JÚNIOR"
+        },
+        "30999": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR SATH"
+        },
+        "43043": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ELINDOMAR SILVA"
+        },
+        "43333": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ALESSON CAVALVANTE"
+        },
+        "43444": {
+          "vap": 133,
+          "pvap": "0,65",
+          "nome": "EDNA AUZIER"
+        },
+        "43456": {
+          "vap": 124,
+          "pvap": "0,60",
+          "nome": "LILIANE ABREU"
+        },
+        "44000": {
+          "vap": 109,
+          "pvap": "0,53",
+          "nome": "PAULINHO RAMOS"
+        },
+        "44044": {
+          "vap": 433,
+          "pvap": "2,11",
+          "nome": "RODOLFO VALE"
+        },
+        "44111": {
+          "vap": 67,
+          "pvap": "0,33",
+          "nome": "ROBERTO GÓES"
+        },
+        "44123": {
+          "vap": 5031,
+          "pvap": "24,50",
+          "nome": "BIA POMBO"
+        },
+        "44130": {
+          "vap": 458,
+          "pvap": "2,23",
+          "nome": "NETE MATIAS"
+        },
+        "44144": {
+          "vap": 85,
+          "pvap": "0,41",
+          "nome": "ANDERSON ALMEIDA"
+        },
+        "44222": {
+          "vap": 188,
+          "pvap": "0,92",
+          "nome": "JORGE AMANAJAS"
+        },
+        "44444": {
+          "vap": 76,
+          "pvap": "0,37",
+          "nome": "ENGENHEIRO ANGELO"
+        },
+        "44456": {
+          "vap": 72,
+          "pvap": "0,35",
+          "nome": "ROSELI MATOS"
+        },
+        "44478": {
+          "vap": 34,
+          "pvap": "0,17",
+          "nome": "BETH PELAES"
+        },
+        "44577": {
+          "vap": 2,
+          "pvap": "0,01",
+          "nome": "ELIZETE TRINDADE"
+        },
+        "44580": {
+          "vap": 48,
+          "pvap": "0,23",
+          "nome": "DIVINO ROCHA"
+        },
+        "44700": {
+          "vap": 245,
+          "pvap": "1,19",
+          "nome": "APARECIDA SALOMÃO"
+        },
+        "44777": {
+          "vap": 119,
+          "pvap": "0,58",
+          "nome": "OFIRNEY SADALA"
+        },
+        "44789": {
+          "vap": 21,
+          "pvap": "0,10",
+          "nome": "LUCÉLIA QUARESMA"
+        },
+        "44800": {
+          "vap": 16,
+          "pvap": "0,08",
+          "nome": "REGINALDO FARAÓ"
+        },
+        "44999": {
+          "vap": 107,
+          "pvap": "0,52",
+          "nome": "DR. NEGRÃO"
+        },
+        "55000": {
+          "vap": 38,
+          "pvap": "0,19",
+          "nome": "ARI GOES"
+        },
+        "55055": {
+          "vap": 302,
+          "pvap": "1,47",
+          "nome": "LORRAN BARRETO"
+        },
+        "55100": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "TOINHO AGUIAR"
+        },
+        "55111": {
+          "vap": 18,
+          "pvap": "0,09",
+          "nome": "PROFª CARLA"
+        },
+        "55122": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "CARECA LOBATO"
+        },
+        "55123": {
+          "vap": 1167,
+          "pvap": "5,68",
+          "nome": "ROGÉRIO SERRÃO"
+        },
+        "55155": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "BRYAN MENDONÇA"
+        },
+        "55190": {
+          "vap": 58,
+          "pvap": "0,28",
+          "nome": "RAFAEL PIMENTEL"
+        },
+        "55200": {
+          "vap": 127,
+          "pvap": "0,62",
+          "nome": "DRª LILIANE ALBUQUERQUE"
+        },
+        "55222": {
+          "vap": 82,
+          "pvap": "0,40",
+          "nome": "RONILDO NOBRE"
+        },
+        "55321": {
+          "vap": 25,
+          "pvap": "0,12",
+          "nome": "PR. MEZAQUE"
+        },
+        "55369": {
+          "vap": 29,
+          "pvap": "0,14",
+          "nome": "SOCORRO MARQUES"
+        },
+        "55455": {
+          "vap": 4,
+          "pvap": "0,02",
+          "nome": "DEOLINDA LUZ"
+        },
+        "55555": {
+          "vap": 105,
+          "pvap": "0,51",
+          "nome": "FRANCO"
+        },
+        "55622": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "INSTRUTOR SANTOS"
+        },
+        "55666": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "CAPITÃO ADRIANO"
+        },
+        "55699": {
+          "vap": 154,
+          "pvap": "0,75",
+          "nome": "ELAINE IGREJA"
+        },
+        "55789": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DARY GUEDES"
+        },
+        "55800": {
+          "vap": 6,
+          "pvap": "0,03",
+          "nome": "JACQUELINE AMARAL"
+        },
+        "55888": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SEBASTIÃO FILHO"
+        },
+        "65000": {
+          "vap": 4,
+          "pvap": "0,02",
+          "nome": "PROFESSOR RAUDISON SENA"
+        },
+        "65123": {
+          "vap": 3,
+          "pvap": "0,01",
+          "nome": "PROFESSOR MARCOS"
+        },
+        "65222": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "SILVIA ARTESÃ"
+        }
+      }
+    }
+  },
+  "06122": {
+    "1": {
+      "totalValidos": 7903,
+      "cands": {
+        "13": {
+          "vap": 4824,
+          "pvap": "61,04",
+          "nome": "LULA"
+        },
+        "14": {
+          "vap": 141,
+          "pvap": "1,78",
+          "nome": "RENAN SANTOS"
+        },
+        "16": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "HERTZ DIAS"
+        },
+        "21": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "EDMILSON COSTA"
+        },
+        "22": {
+          "vap": 2668,
+          "pvap": "33,76",
+          "nome": "FLAVIO BOLSONARO"
+        },
+        "27": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "CLARIANA BARAO"
+        },
+        "29": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "RUI COSTA PIMENTA"
+        },
+        "30": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "ZEMA"
+        },
+        "35": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "VETERINÁRIO WILSON GRASSI"
+        },
+        "55": {
+          "vap": 81,
+          "pvap": "1,02",
+          "nome": "RONALDO CAIADO"
+        },
+        "70": {
+          "vap": 177,
+          "pvap": "2,24",
+          "nome": "ESCRITOR AUGUSTO CURY"
+        },
+        "80": {
+          "vap": 6,
+          "pvap": "0,08",
+          "nome": "SAMARA"
+        }
+      }
+    },
+    "3": {
+      "totalValidos": 7547,
+      "cands": {
+        "16": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "CARLOS CLEY"
+        },
+        "27": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "DELEGADO MARCOS"
+        },
+        "29": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "JAIRO PALHETA"
+        },
+        "44": {
+          "vap": 3652,
+          "pvap": "48,39",
+          "nome": "CLÉCIO"
+        },
+        "55": {
+          "vap": 3890,
+          "pvap": "51,54",
+          "nome": "DR. FURLAN"
+        }
+      }
+    },
+    "5": {
+      "totalValidos": 15106,
+      "cands": {
+        "130": {
+          "vap": 3438,
+          "pvap": "22,76",
+          "nome": "RANDOLFE"
+        },
+        "151": {
+          "vap": 2615,
+          "pvap": "17,31",
+          "nome": "ACÁCIO FAVACHO"
+        },
+        "200": {
+          "vap": 3417,
+          "pvap": "22,62",
+          "nome": "RAYSSA FURLAN"
+        },
+        "272": {
+          "vap": 81,
+          "pvap": "0,54",
+          "nome": "PROFESSOR UZIAN PINTO"
+        },
+        "277": {
+          "vap": 10,
+          "pvap": "0,07",
+          "nome": "JUÍZA JÔ"
+        },
+        "290": {
+          "vap": 5,
+          "pvap": "0,03",
+          "nome": "HELIO SILVA"
+        },
+        "401": {
+          "vap": 85,
+          "pvap": "0,56",
+          "nome": "CAPI"
+        },
+        "444": {
+          "vap": 2065,
+          "pvap": "13,67",
+          "nome": "ALLINY SERRÃO"
+        },
+        "555": {
+          "vap": 3390,
+          "pvap": "22,44",
+          "nome": "LUCAS BARRETO"
+        }
+      }
+    },
+    "6": {
+      "totalValidos": 7964,
+      "cands": {
+        "1111": {
+          "vap": 178,
+          "pvap": "2,23",
+          "nome": "ANDRE ABDON"
+        },
+        "1112": {
+          "vap": 19,
+          "pvap": "0,24",
+          "nome": "BENA ROCHA"
+        },
+        "1200": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "KLEBER KARIPUNA"
+        },
+        "1210": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "WELTON BARREIROS"
+        },
+        "1212": {
+          "vap": 891,
+          "pvap": "11,19",
+          "nome": "JOSENILDO"
+        },
+        "1213": {
+          "vap": 39,
+          "pvap": "0,49",
+          "nome": "ISABEL NOGUEIRA"
+        },
+        "1215": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "LAU CAUSA ANIMAL"
+        },
+        "1220": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "PROFESSORA KATIA PAULINO"
+        },
+        "1222": {
+          "vap": 762,
+          "pvap": "9,57",
+          "nome": "DORINALDO MALAFAIA"
+        },
+        "1233": {
+          "vap": 125,
+          "pvap": "1,57",
+          "nome": "PASTOR SOLANGELO"
+        },
+        "1234": {
+          "vap": 145,
+          "pvap": "1,82",
+          "nome": "JESUS PONTES"
+        },
+        "1313": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "PROFESSORA IVANÉIA"
+        },
+        "1340": {
+          "vap": 110,
+          "pvap": "1,38",
+          "nome": "CAMILO CAPIBERIBE"
+        },
+        "1350": {
+          "vap": 847,
+          "pvap": "10,63",
+          "nome": "PAULO LEMOS"
+        },
+        "1400": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ISRAEL DOS SANTOS"
+        },
+        "1401": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MEIRE SALVIANO"
+        },
+        "1414": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "LUY RICARDO"
+        },
+        "1415": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "BRUNO BORGES"
+        },
+        "1420": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "MARCIA NERY"
+        },
+        "1511": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "HELDER"
+        },
+        "1515": {
+          "vap": 34,
+          "pvap": "0,43",
+          "nome": "FRANCISCA FAVACHO"
+        },
+        "1516": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "LUCAS DA GAZETA"
+        },
+        "1522": {
+          "vap": 7,
+          "pvap": "0,09",
+          "nome": "ALINNE MADEIREIRO"
+        },
+        "1526": {
+          "vap": 6,
+          "pvap": "0,08",
+          "nome": "DALDEIA"
+        },
+        "1545": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "MARIA ORLANDA"
+        },
+        "1555": {
+          "vap": 8,
+          "pvap": "0,10",
+          "nome": "ELIZAURA DA ANÁPOLIS"
+        },
+        "1580": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "RÔMULO MONTEIRO"
+        },
+        "1599": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "IRMÃ MARIA"
+        },
+        "1818": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CRIS NUNES"
+        },
+        "1834": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JAWARUWA WAJÃPI"
+        },
+        "2000": {
+          "vap": 106,
+          "pvap": "1,33",
+          "nome": "DRA. ERICA"
+        },
+        "2010": {
+          "vap": 43,
+          "pvap": "0,54",
+          "nome": "MAYLA CARVALHO"
+        },
+        "2020": {
+          "vap": 282,
+          "pvap": "3,54",
+          "nome": "SANDRA LACERDA"
+        },
+        "2022": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "JOEL CAVALCANTE"
+        },
+        "2023": {
+          "vap": 130,
+          "pvap": "1,63",
+          "nome": "DR. VINICIUS REIS"
+        },
+        "2026": {
+          "vap": 151,
+          "pvap": "1,90",
+          "nome": "KASSYO RAMOS"
+        },
+        "2027": {
+          "vap": 12,
+          "pvap": "0,15",
+          "nome": "PROFESSORA GORETH"
+        },
+        "2030": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "KAMILLE ALMEIDA"
+        },
+        "2055": {
+          "vap": 76,
+          "pvap": "0,95",
+          "nome": "ALEXANDRE AZEVEDO"
+        },
+        "2211": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "CONSELHEIRA HUELMA MEDEIROS"
+        },
+        "2212": {
+          "vap": 5,
+          "pvap": "0,06",
+          "nome": "JORGE SOUZA"
+        },
+        "2220": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "CORONEL PALMIRA"
+        },
+        "2222": {
+          "vap": 298,
+          "pvap": "3,74",
+          "nome": "VINICIUS GURGEL"
+        },
+        "2223": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ELIAS REAL DO MENINO JESUS"
+        },
+        "2225": {
+          "vap": 7,
+          "pvap": "0,09",
+          "nome": "TENENTE CORONEL MARQUES"
+        },
+        "2255": {
+          "vap": 27,
+          "pvap": "0,34",
+          "nome": "BIA DA ZILMA"
+        },
+        "2277": {
+          "vap": 13,
+          "pvap": "0,16",
+          "nome": "GESIEL OLIVEIRA"
+        },
+        "2280": {
+          "vap": 117,
+          "pvap": "1,47",
+          "nome": "CAETANO BENTES"
+        },
+        "2700": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "WILGUER CARVALHO"
+        },
+        "2719": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SHIRLEY AMARAL"
+        },
+        "2722": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CARMINA RODRIGUES"
+        },
+        "2727": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ROBSON GUALBERTO"
+        },
+        "2770": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ELIADA SANTOS"
+        },
+        "2777": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PIMPOLHO"
+        },
+        "2929": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ELIELTON SILVA"
+        },
+        "2999": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "VASTI BARBOSA"
+        },
+        "3026": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROFESSORA RILANY SILVA"
+        },
+        "3030": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "IRANEI LOPES"
+        },
+        "3065": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "BETH GARCIA"
+        },
+        "3088": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "LUISÃO"
+        },
+        "3099": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "EDILEUZA RODRIGUES"
+        },
+        "4321": {
+          "vap": 99,
+          "pvap": "1,24",
+          "nome": "LUCAS ABRAHAO"
+        },
+        "4343": {
+          "vap": 44,
+          "pvap": "0,55",
+          "nome": "IVONE CHAGAS"
+        },
+        "4400": {
+          "vap": 225,
+          "pvap": "2,82",
+          "nome": "CRISTIANO FURLAN"
+        },
+        "4410": {
+          "vap": 749,
+          "pvap": "9,40",
+          "nome": "ALINE GURGEL"
+        },
+        "4444": {
+          "vap": 1073,
+          "pvap": "13,47",
+          "nome": "MARCIO SERRÃO"
+        },
+        "4456": {
+          "vap": 114,
+          "pvap": "1,43",
+          "nome": "LUIZ CARLOS"
+        },
+        "4478": {
+          "vap": 49,
+          "pvap": "0,62",
+          "nome": "FÁTIMA PELAES"
+        },
+        "4480": {
+          "vap": 495,
+          "pvap": "6,21",
+          "nome": "FELIPE SHOW"
+        },
+        "5013": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "RAMONA MATARAZZO"
+        },
+        "5050": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ANDREW COSTA"
+        },
+        "5080": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROF. GIL BARBOSA"
+        },
+        "5500": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "NANDA"
+        },
+        "5510": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "AUGUSTO AGUIAR"
+        },
+        "5512": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "TIA LU"
+        },
+        "5515": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DILSON BORGES"
+        },
+        "5522": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "PR. DIDIO"
+        },
+        "5533": {
+          "vap": 17,
+          "pvap": "0,21",
+          "nome": "RELSON CARDOSO"
+        },
+        "5544": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "LUIZ ALEX"
+        },
+        "5555": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "KELLY DANTAS"
+        },
+        "5577": {
+          "vap": 27,
+          "pvap": "0,34",
+          "nome": "LEDA SADALA"
+        },
+        "6522": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "DUDÃO COSTA"
+        },
+        "6556": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROFESSORA VIVIAN"
+        },
+        "6565": {
+          "vap": 432,
+          "pvap": "5,42",
+          "nome": "PROFESSORA MARCIVÂNIA"
+        }
+      }
+    },
+    "7": {
+      "totalValidos": 7923,
+      "cands": {
+        "10000": {
+          "vap": 16,
+          "pvap": "0,20",
+          "nome": "TELMA NERY"
+        },
+        "10010": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DÉBORA MARTINS"
+        },
+        "10100": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "BENÉ DO PLUTÃO"
+        },
+        "10110": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CARECA DA TALENTUS"
+        },
+        "10111": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "ODILSON NUNES"
+        },
+        "10123": {
+          "vap": 41,
+          "pvap": "0,51",
+          "nome": "DR MARCOS PAULO"
+        },
+        "10144": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ESTEFANE RAPOSA"
+        },
+        "10190": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "CORONEL ANDRÉ DIAS"
+        },
+        "10300": {
+          "vap": 14,
+          "pvap": "0,18",
+          "nome": "TEKA DO JORY"
+        },
+        "10321": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "KARLA SAMILA"
+        },
+        "10333": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR. HUGO"
+        },
+        "10369": {
+          "vap": 56,
+          "pvap": "0,70",
+          "nome": "DUDU BARBOSA"
+        },
+        "10500": {
+          "vap": 13,
+          "pvap": "0,16",
+          "nome": "CORONEL FLEXA"
+        },
+        "10555": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SARGENTO GEOVANA"
+        },
+        "10580": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "DUDU TAVARES"
+        },
+        "10678": {
+          "vap": 1775,
+          "pvap": "22,27",
+          "nome": "RAYFRAN BEIRÃO"
+        },
+        "10699": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ENNIO CAVALCANTE"
+        },
+        "10700": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "PROFESSOR MORPHEU"
+        },
+        "10777": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR RENAN ROSAS"
+        },
+        "10789": {
+          "vap": 94,
+          "pvap": "1,18",
+          "nome": "JAIME PEREZ"
+        },
+        "10800": {
+          "vap": 156,
+          "pvap": "1,96",
+          "nome": "HILDEGARD GURGEL"
+        },
+        "10999": {
+          "vap": 119,
+          "pvap": "1,49",
+          "nome": "KINOVAK"
+        },
+        "11123": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SELMA DE PAULA"
+        },
+        "11700": {
+          "vap": 64,
+          "pvap": "0,80",
+          "nome": "JOSELYO MAIS SAÚDE"
+        },
+        "12100": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CLAUDIO DO POVÃO"
+        },
+        "12123": {
+          "vap": 380,
+          "pvap": "4,77",
+          "nome": "JOÃO PEDRO"
+        },
+        "12131": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CLEICY LEÃO"
+        },
+        "12147": {
+          "vap": 24,
+          "pvap": "0,30",
+          "nome": "PASTOR OLIVEIRA"
+        },
+        "12222": {
+          "vap": 309,
+          "pvap": "3,88",
+          "nome": "JACK JK"
+        },
+        "12300": {
+          "vap": 14,
+          "pvap": "0,18",
+          "nome": "PASTORA LÉIA PELAES"
+        },
+        "12345": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "VAL DIAS"
+        },
+        "12369": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "KLEBER DINIZ"
+        },
+        "12377": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "PASTORA IZAMAR"
+        },
+        "12456": {
+          "vap": 61,
+          "pvap": "0,77",
+          "nome": "ALDILENE SOUZA"
+        },
+        "12555": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "LEILA VIANA"
+        },
+        "12678": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MARICLEY RIBEIRO"
+        },
+        "12777": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CRIS DA ABB"
+        },
+        "12789": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JIM DAVIS"
+        },
+        "13047": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CARLOS CARMEZIM"
+        },
+        "13113": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CELISA MELO"
+        },
+        "13123": {
+          "vap": 32,
+          "pvap": "0,40",
+          "nome": "SOCORRO NOGUEIRA"
+        },
+        "13130": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "VAN VILHENA"
+        },
+        "13141": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JARDEL ELIEZER"
+        },
+        "13289": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MANOEL ARAUJO"
+        },
+        "13333": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ALCINETE SANTOS"
+        },
+        "13456": {
+          "vap": 17,
+          "pvap": "0,21",
+          "nome": "ZENEIDE COSTA"
+        },
+        "15000": {
+          "vap": 16,
+          "pvap": "0,20",
+          "nome": "CAROL MONTEIRO"
+        },
+        "15007": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JÓ PEREIRA"
+        },
+        "15123": {
+          "vap": 41,
+          "pvap": "0,51",
+          "nome": "DIOGO SENIOR"
+        },
+        "15125": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "CLEUMA DUARTE"
+        },
+        "15190": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "BALIEIRO"
+        },
+        "15222": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "SALMON SANTANA"
+        },
+        "15321": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "APÓSTOLA BERENICE LAZAMÉ"
+        },
+        "15444": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "FULÊRA"
+        },
+        "15555": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "ARANTHU"
+        },
+        "15699": {
+          "vap": 52,
+          "pvap": "0,65",
+          "nome": "JUNIOR FAVACHO"
+        },
+        "15777": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "HELÔ"
+        },
+        "18000": {
+          "vap": 256,
+          "pvap": "3,21",
+          "nome": "FABRICIO FURLAN"
+        },
+        "18001": {
+          "vap": 114,
+          "pvap": "1,43",
+          "nome": "DR. VICTOR AMORAS"
+        },
+        "18111": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MARINA SÁ"
+        },
+        "18122": {
+          "vap": 5,
+          "pvap": "0,06",
+          "nome": "RICARDO MAGNO"
+        },
+        "18123": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JOELSON ALENCAR"
+        },
+        "18130": {
+          "vap": 53,
+          "pvap": "0,67",
+          "nome": "HELINHO CASTRO"
+        },
+        "18139": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "LOBATO"
+        },
+        "18143": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "JULIANA CARVALHO"
+        },
+        "18144": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "RIBA DAS MESAS"
+        },
+        "18147": {
+          "vap": 9,
+          "pvap": "0,11",
+          "nome": "ZÉ ROBERTO"
+        },
+        "18180": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "ANNE MARQUES"
+        },
+        "18193": {
+          "vap": 10,
+          "pvap": "0,13",
+          "nome": "RAFAEL MASIM"
+        },
+        "18222": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROFESSORA DALVA"
+        },
+        "18500": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "HARIFE VIEGAS"
+        },
+        "18667": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROFESSOR MARCO ANTONIO"
+        },
+        "18777": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CHIQUINHO DO POVO"
+        },
+        "18789": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "DAYSE MARQUES"
+        },
+        "18888": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SIMONE KARIPUNA"
+        },
+        "20000": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "MARIO BIANCHI"
+        },
+        "20100": {
+          "vap": 11,
+          "pvap": "0,14",
+          "nome": "JULIA SOARES"
+        },
+        "20111": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SANDRA ALCANTARA"
+        },
+        "20120": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROF. IVANILDO LUZ"
+        },
+        "20123": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ALAN FIGUEIREDO"
+        },
+        "20155": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "COSTA FILHO"
+        },
+        "20180": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "NANDA CABRAL"
+        },
+        "20193": {
+          "vap": 76,
+          "pvap": "0,95",
+          "nome": "R NELSON"
+        },
+        "20200": {
+          "vap": 24,
+          "pvap": "0,30",
+          "nome": "ELENICE"
+        },
+        "20201": {
+          "vap": 13,
+          "pvap": "0,16",
+          "nome": "CRISTINA ALMEIDA"
+        },
+        "20220": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROF. ROGÉRIO LIMA"
+        },
+        "20222": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "LAENE DANTAS"
+        },
+        "20223": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JORGINHO MACIEL"
+        },
+        "20300": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DRA VÂNIA FONTOURA"
+        },
+        "20321": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CESAR FARIAS"
+        },
+        "20333": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR. ANGELO"
+        },
+        "20416": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ISRAEL SANTOS"
+        },
+        "20500": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CLAUDINHA"
+        },
+        "20555": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "HERISON TUPAN"
+        },
+        "20666": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR. SANDRO CARVALHO"
+        },
+        "20777": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "CARLOS MURILO"
+        },
+        "20789": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "PROF. BENÉ BINGOTA"
+        },
+        "20800": {
+          "vap": 10,
+          "pvap": "0,13",
+          "nome": "JOÃO MENDONÇA"
+        },
+        "20888": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JUCELINO FERNANDES"
+        },
+        "22000": {
+          "vap": 21,
+          "pvap": "0,26",
+          "nome": "WALCIMAR FONSECA"
+        },
+        "22022": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "CARLOS EVANGELISTA"
+        },
+        "22100": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "GIRLENE BARROSO"
+        },
+        "22101": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "OBREIRA LENE LOBO"
+        },
+        "22111": {
+          "vap": 8,
+          "pvap": "0,10",
+          "nome": "ANNE TÁVORA"
+        },
+        "22122": {
+          "vap": 16,
+          "pvap": "0,20",
+          "nome": "GIAN DO NAE"
+        },
+        "22123": {
+          "vap": 6,
+          "pvap": "0,08",
+          "nome": "ALEX"
+        },
+        "22190": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ÍNDIA POTIRA"
+        },
+        "22222": {
+          "vap": 17,
+          "pvap": "0,21",
+          "nome": "MADSON MILLOR"
+        },
+        "22223": {
+          "vap": 8,
+          "pvap": "0,10",
+          "nome": "ALEXANDRE VERÇOSA"
+        },
+        "22240": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "DR. PATRICK MEDRADO"
+        },
+        "22321": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SOEDI"
+        },
+        "22333": {
+          "vap": 13,
+          "pvap": "0,16",
+          "nome": "JORIELSON"
+        },
+        "22456": {
+          "vap": 72,
+          "pvap": "0,90",
+          "nome": "DR ACHILES"
+        },
+        "22555": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "EDU SIQUEIRA"
+        },
+        "22580": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "CIRILO FERNANDES"
+        },
+        "22666": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR REINALDO PORTILHO"
+        },
+        "22722": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PASTORA MARIA DE JESUS"
+        },
+        "22777": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ALDO MAURÍCIO"
+        },
+        "22789": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "WANNA QUEIROGA"
+        },
+        "22800": {
+          "vap": 6,
+          "pvap": "0,08",
+          "nome": "ARANHA"
+        },
+        "22999": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ADOLFO NERY"
+        },
+        "29000": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "CLAUDIO COSTA"
+        },
+        "29999": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ELIANA BRANDÃO"
+        },
+        "30000": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MARCELO OLIVEIRA"
+        },
+        "30111": {
+          "vap": 12,
+          "pvap": "0,15",
+          "nome": "WALDEIR"
+        },
+        "30123": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "HELSON FREITAS"
+        },
+        "30151": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "NATANAEL DOS ANJOS"
+        },
+        "30190": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "TEN CEL ADEMAR"
+        },
+        "30192": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ALAN SANTOS"
+        },
+        "30200": {
+          "vap": 18,
+          "pvap": "0,23",
+          "nome": "WINNIE ATALIBA"
+        },
+        "30222": {
+          "vap": 8,
+          "pvap": "0,10",
+          "nome": "KARYNA RAMOS"
+        },
+        "30300": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DANIELA FORTUNATO"
+        },
+        "30321": {
+          "vap": 25,
+          "pvap": "0,31",
+          "nome": "VERA DA FARMÁCIA"
+        },
+        "30333": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "DULCE DO JARI"
+        },
+        "30456": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "IRISMAR VILHENA"
+        },
+        "30500": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "MARLUCE COSTA"
+        },
+        "30555": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR YURI ALESI"
+        },
+        "30888": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "AUGUSTO JÚNIOR"
+        },
+        "30999": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DR SATH"
+        },
+        "43043": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ELINDOMAR SILVA"
+        },
+        "43333": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ALESSON CAVALVANTE"
+        },
+        "43444": {
+          "vap": 35,
+          "pvap": "0,44",
+          "nome": "EDNA AUZIER"
+        },
+        "43456": {
+          "vap": 13,
+          "pvap": "0,16",
+          "nome": "LILIANE ABREU"
+        },
+        "44000": {
+          "vap": 2,
+          "pvap": "0,03",
+          "nome": "PAULINHO RAMOS"
+        },
+        "44044": {
+          "vap": 25,
+          "pvap": "0,31",
+          "nome": "RODOLFO VALE"
+        },
+        "44111": {
+          "vap": 35,
+          "pvap": "0,44",
+          "nome": "ROBERTO GÓES"
+        },
+        "44123": {
+          "vap": 128,
+          "pvap": "1,61",
+          "nome": "BIA POMBO"
+        },
+        "44130": {
+          "vap": 2824,
+          "pvap": "35,44",
+          "nome": "NETE MATIAS"
+        },
+        "44144": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "ANDERSON ALMEIDA"
+        },
+        "44222": {
+          "vap": 4,
+          "pvap": "0,05",
+          "nome": "JORGE AMANAJAS"
+        },
+        "44444": {
+          "vap": 8,
+          "pvap": "0,10",
+          "nome": "ENGENHEIRO ANGELO"
+        },
+        "44456": {
+          "vap": 7,
+          "pvap": "0,09",
+          "nome": "ROSELI MATOS"
+        },
+        "44478": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "BETH PELAES"
+        },
+        "44577": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ELIZETE TRINDADE"
+        },
+        "44580": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "DIVINO ROCHA"
+        },
+        "44700": {
+          "vap": 69,
+          "pvap": "0,87",
+          "nome": "APARECIDA SALOMÃO"
+        },
+        "44777": {
+          "vap": 116,
+          "pvap": "1,46",
+          "nome": "OFIRNEY SADALA"
+        },
+        "44789": {
+          "vap": 3,
+          "pvap": "0,04",
+          "nome": "LUCÉLIA QUARESMA"
+        },
+        "44800": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "REGINALDO FARAÓ"
+        },
+        "44999": {
+          "vap": 12,
+          "pvap": "0,15",
+          "nome": "DR. NEGRÃO"
+        },
+        "55000": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "ARI GOES"
+        },
+        "55055": {
+          "vap": 22,
+          "pvap": "0,28",
+          "nome": "LORRAN BARRETO"
+        },
+        "55100": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "TOINHO AGUIAR"
+        },
+        "55111": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROFª CARLA"
+        },
+        "55122": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CARECA LOBATO"
+        },
+        "55123": {
+          "vap": 46,
+          "pvap": "0,58",
+          "nome": "ROGÉRIO SERRÃO"
+        },
+        "55155": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "BRYAN MENDONÇA"
+        },
+        "55190": {
+          "vap": 1,
+          "pvap": "0,01",
+          "nome": "RAFAEL PIMENTEL"
+        },
+        "55200": {
+          "vap": 12,
+          "pvap": "0,15",
+          "nome": "DRª LILIANE ALBUQUERQUE"
+        },
+        "55222": {
+          "vap": 14,
+          "pvap": "0,18",
+          "nome": "RONILDO NOBRE"
+        },
+        "55321": {
+          "vap": 15,
+          "pvap": "0,19",
+          "nome": "PR. MEZAQUE"
+        },
+        "55369": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SOCORRO MARQUES"
+        },
+        "55455": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DEOLINDA LUZ"
+        },
+        "55555": {
+          "vap": 10,
+          "pvap": "0,13",
+          "nome": "FRANCO"
+        },
+        "55622": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "INSTRUTOR SANTOS"
+        },
+        "55666": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "CAPITÃO ADRIANO"
+        },
+        "55699": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "ELAINE IGREJA"
+        },
+        "55789": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "DARY GUEDES"
+        },
+        "55800": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "JACQUELINE AMARAL"
+        },
+        "55888": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SEBASTIÃO FILHO"
+        },
+        "65000": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROFESSOR RAUDISON SENA"
+        },
+        "65123": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "PROFESSOR MARCOS"
+        },
+        "65222": {
+          "vap": 0,
+          "pvap": "0,00",
+          "nome": "SILVIA ARTESÃ"
+        }
+      }
+    }
+  }
+}

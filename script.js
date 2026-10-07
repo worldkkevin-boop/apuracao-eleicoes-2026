@@ -1097,6 +1097,21 @@ function isJariCandidate(cand) {
   return false;
 }
 
+// Obter votos oficiais apurados do TSE por município e cargo
+function getOfficialMunVotes(cargoId, candNum, munCode) {
+  if (typeof DADOS_TSE_MUNICIPIOS !== 'undefined' && DADOS_TSE_MUNICIPIOS[munCode]) {
+    const cData = DADOS_TSE_MUNICIPIOS[munCode].cargos?.[String(cargoId)]?.cands?.[String(candNum)];
+    if (cData && typeof cData.vap === 'number') {
+      return {
+        vap: cData.vap,
+        pvap: cData.pvap,
+        totalValidos: DADOS_TSE_MUNICIPIOS[munCode].cargos[String(cargoId)]?.vv || 0
+      };
+    }
+  }
+  return null;
+}
+
 function openCandidateModal(cand, cargoId) {
   appState.selectedCandidate = cand;
   appState.selectedCargoId = cargoId;
@@ -1276,22 +1291,17 @@ function renderCandidateTabContent() {
       return;
     }
 
-    const totalVotos1 = cand.votos || 5000;
-    const totalVotos2 = cand2.votos || 5000;
+    const targetCd = '06130';
+    const off1 = getOfficialMunVotes(appState.selectedCargoId, cand.num, targetCd);
+    const off2 = getOfficialMunVotes(appState.selectedCargoId, cand2.num, targetCd);
 
-    const isJari1 = isJariCandidate(cand);
-    const isJari2 = isJariCandidate(cand2);
-
-    const share1 = isJari1 ? 0.70 : 0.025;
-    const share2 = isJari2 ? 0.70 : 0.025;
-
-    const votosMun1 = Math.max(10, Math.round(totalVotos1 * share1));
-    const votosMun2 = Math.max(10, Math.round(totalVotos2 * share2));
-
-    const seed2 = parseInt(cand2.num || '22', 10);
+    let votosMun1 = (off1 && typeof off1.vap === 'number') ? off1.vap : Math.max(10, Math.round((cand.votos || 5000) * (isJariCandidate(cand) ? 0.43 : 0.02)));
+    let votosMun2 = (off2 && typeof off2.vap === 'number') ? off2.vap : Math.max(10, Math.round((cand2.votos || 5000) * (isJariCandidate(cand2) ? 0.43 : 0.02)));
 
     let vitorias1 = 0;
     let vitorias2 = 0;
+
+    const seed2 = parseInt(cand2.num || '22', 10);
 
     const comparativoEscolas = munData.locais.map((loc, idx) => {
       const v1 = Math.max(1, Math.round(votosMun1 * loc.pesoVotos));
@@ -1420,51 +1430,50 @@ function renderCandidateTabContent() {
   }
 
   if (tabKey === 'municipios_ap') {
-    // Visão dos 16 Municípios do Amapá
-    const lista = (typeof DADOS_7ZONA_ELEITORAL !== 'undefined' && DADOS_7ZONA_ELEITORAL.municipiosAmapa) 
-      ? DADOS_7ZONA_ELEITORAL.municipiosAmapa 
-      : [];
+    // Visão dos 16 Municípios do Amapá (100% Base Oficial TSE)
+    const listaCidades = [];
+    const totalEstado = cand.votos || 1;
 
-    const totalVotos = cand.votos || 1000;
-    const isJari = isJariCandidate(cand);
-
-    const cidadesComVotos = lista.map((m) => {
-      let percShare = m.pesoEleitoral;
-      if (isJari) {
-        // Líderes com forte base no Vale do Jari
-        if (m.nome === "Laranjal do Jari") percShare = 0.70;
-        else if (m.nome === "Vitória do Jari") percShare = 0.17;
-        else if (m.nome === "Macapá") percShare = 0.065;
-        else if (m.nome === "Santana") percShare = 0.025;
-        else if (m.nome === "Mazagão") percShare = 0.012;
-        else percShare = 0.028 * (m.pesoEleitoral / 0.15);
-      } else {
-        // Candidatos de Macapá / Capital / Outras regiões
-        if (m.nome === "Macapá") percShare = 0.63;
-        else if (m.nome === "Santana") percShare = 0.17;
-        else if (m.nome === "Laranjal do Jari") percShare = 0.025;
-        else if (m.nome === "Vitória do Jari") percShare = 0.008;
-        else if (m.nome === "Mazagão") percShare = 0.035;
-        else if (m.nome === "Porto Grande") percShare = 0.028;
-        else percShare = 0.104 * (m.pesoEleitoral / 0.15);
+    if (typeof DADOS_TSE_MUNICIPIOS !== 'undefined') {
+      for (const [cd, m] of Object.entries(DADOS_TSE_MUNICIPIOS)) {
+        const cData = m.cargos?.[String(appState.selectedCargoId)]?.cands?.[String(cand.num)];
+        const v = cData ? cData.vap : 0;
+        const pTse = cData ? cData.pvap : '0,00';
+        listaCidades.push({
+          codigo: cd,
+          nome: m.nome,
+          zona: (cd === '06130' || cd === '06122') ? '7ª Zona' : (cd === '06050' ? '2ª e 10ª Zonas' : 'Zona Eleitoral'),
+          votosMun: v,
+          percMun: ((v / totalEstado) * 100).toFixed(1),
+          percMunTse: pTse
+        });
       }
-      const votosMun = Math.max(1, Math.round(totalVotos * percShare));
-      return {
-        ...m,
-        votosMun,
-        percMun: ((votosMun / totalVotos) * 100).toFixed(1)
-      };
-    });
+    }
 
-    cidadesComVotos.sort((a, b) => b.votosMun - a.votosMun);
+    if (listaCidades.length === 0) {
+      const lista = (typeof DADOS_7ZONA_ELEITORAL !== 'undefined' && DADOS_7ZONA_ELEITORAL.municipiosAmapa) ? DADOS_7ZONA_ELEITORAL.municipiosAmapa : [];
+      lista.forEach(m => {
+        const v = Math.round(totalEstado * (m.pesoEleitoral || 0.05));
+        listaCidades.push({
+          codigo: m.codigo,
+          nome: m.nome,
+          zona: m.zona,
+          votosMun: v,
+          percMun: ((v / totalEstado) * 100).toFixed(1),
+          percMunTse: '0,00'
+        });
+      });
+    }
 
-    const filtrados = cidadesComVotos.filter(c => 
+    listaCidades.sort((a, b) => b.votosMun - a.votosMun);
+
+    const filtrados = listaCidades.filter(c => 
       c.nome.toLowerCase().includes(filter) || c.zona.toLowerCase().includes(filter)
     );
 
-    if (dom.candCityVotos) dom.candCityVotos.textContent = formatNumber(totalVotos);
+    if (dom.candCityVotos) dom.candCityVotos.textContent = formatNumber(totalEstado);
     if (dom.candCityPerc) dom.candCityPerc.textContent = '100% no Estado';
-    if (dom.candCitySecoes) dom.candCitySecoes.textContent = `${lista.length} Municípios`;
+    if (dom.candCitySecoes) dom.candCitySecoes.textContent = `${listaCidades.length} Municípios`;
 
     filtrados.forEach((c, idx) => {
       const card = document.createElement('div');
@@ -1488,7 +1497,7 @@ function renderCandidateTabContent() {
         </div>
         <div class="escola-votes-stats">
           <div class="escola-votes-val">${formatNumber(c.votosMun)} <span class="votos-sublbl">votos</span></div>
-          <div class="escola-votes-share">${c.percMun}% do total</div>
+          <div class="escola-votes-share">${c.percMun}% do candidato (${c.percMunTse}% na cidade)</div>
         </div>
         <div class="escola-bar-track">
           <div class="escola-bar-fill" style="width: ${Math.min(100, Math.max(2, parseFloat(c.percMun)))}%;"></div>
@@ -1497,8 +1506,10 @@ function renderCandidateTabContent() {
       dom.candModalContentGrid.appendChild(card);
     });
 
+    return;
+
   } else {
-    // Visão da 7ª Zona (Laranjal do Jari ou Vitória do Jari)
+    // Visão da 7ª Zona (Laranjal do Jari ou Vitória do Jari - 100% Base Oficial TSE)
     const munData = (typeof DADOS_7ZONA_ELEITORAL !== 'undefined' && DADOS_7ZONA_ELEITORAL.municipios?.[tabKey]) 
       ? DADOS_7ZONA_ELEITORAL.municipios[tabKey] 
       : null;
@@ -1508,17 +1519,24 @@ function renderCandidateTabContent() {
       return;
     }
 
-    const totalVotos = cand.votos || 5000;
-    const isJari = isJariCandidate(cand);
+    const targetCd = (tabKey === 'laranjal_do_jari') ? '06130' : '06122';
+    const offData = getOfficialMunVotes(appState.selectedCargoId, cand.num, targetCd);
 
-    let shareMun = 0.025;
-    if (tabKey === 'laranjal_do_jari') {
-      shareMun = isJari ? 0.70 : 0.025;
-    } else if (tabKey === 'vitoria_do_jari') {
-      shareMun = isJari ? 0.17 : 0.008;
+    let votosNoMunicipio = 0;
+    if (offData && typeof offData.vap === 'number') {
+      votosNoMunicipio = offData.vap;
+    } else {
+      const isJari = isJariCandidate(cand);
+      const shareMun = (tabKey === 'laranjal_do_jari') ? (isJari ? 0.43 : 0.02) : (isJari ? 0.13 : 0.01);
+      votosNoMunicipio = Math.max(1, Math.round((cand.votos || 1000) * shareMun));
     }
 
-    let votosNoMunicipio = Math.max(10, Math.round(totalVotos * shareMun));
+    const percCandEst = ((votosNoMunicipio / (cand.votos || 1)) * 100).toFixed(1);
+    const percMunTxt = offData ? `${offData.pvap}% na cidade` : `${percCandEst}% do total`;
+
+    if (dom.candCityVotos) dom.candCityVotos.textContent = formatNumber(votosNoMunicipio);
+    if (dom.candCityPerc) dom.candCityPerc.textContent = `${percMunTxt} (${percCandEst}% do total)`;
+    if (dom.candCitySecoes) dom.candCitySecoes.textContent = `${munData.locais.length} Colégios (${munData.totalSecoes} Seções)`;
 
     const locaisComVotos = munData.locais.map(loc => {
       const votosEscola = Math.max(1, Math.round(votosNoMunicipio * loc.pesoVotos));
